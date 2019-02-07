@@ -1,0 +1,184 @@
+{
+  "frontend": [
+    {
+      "name": "frontend",
+      "desc": "ExplorViz uses dynamic analysis techniques to provide live trace visualization of the communication in large software landscape. It targets system and program comprehension in those landscapes while still providing details on the communication within an application. A landscape perspective enriches current system visualizations with additional abstraction levels for efficient comprehension of communication between hundreds of applications which is often encountered in, for instance, Cloud environments. On the application level perspective, ExplorViz utilizes the 3D city metaphor combined with an interactive concept of showing only details that are in focus of the analysis. For best accessibility, ExplorViz is a web-based tool featuring cutting-edge technologies like WebGL and HTML 5.",
+      "imgUrl": "img/logo-fe.png",
+      "requiredExtensions": [
+        "backend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "frontend-extension-vr",
+      "desc": "This extension adds a WebVR-based Virtual Reality (VR) mode to ExplorViz, which allows collaborative exploration.",
+      "imgUrl": "img/vr.png",
+      "requiredExtensions": [
+        "backend",
+        "frontend",
+        "backend-extension-vr"
+      ],
+      "incompatibleExtensions": [
+        "backend-extension-new-vr"
+      ]
+    },
+    {
+      "name": "frontend-extension-new-vr",
+      "desc": "This extension adds a WebVR-based Virtual Reality (VR) mode to ExplorViz, which allows collaborative exploration.",
+      "imgUrl": "https://static.thenounproject.com/png/123780-200.png",
+      "requiredExtensions": [
+        "backend",
+        "frontend",
+        "backend-extension-new-vr"
+      ],
+      "incompatibleExtensions": [
+        "backend-extension-vr"
+      ]
+    },
+    {
+      "name": "frontend-extension-dummy0",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "img/logo-fe.png",
+      "requiredExtensions": [
+        "frontend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "frontend-extension-dummy1",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "img/logo-fe.png",
+      "requiredExtensions": [
+        "frontend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "frontend-extension-dummy2",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "img/logo-fe.png",
+      "requiredExtensions": [
+        "frontend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "frontend-extension-dummy3",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "img/logo-fe.png",
+      "requiredExtensions": [
+        "frontend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "frontend-extension-dummy4",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "img/logo-fe.png",
+      "requiredExtensions": [
+        "frontend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "frontend-extension-dummy5",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "img/logo-fe.png",
+      "requiredExtensions": [
+        "frontend"
+      ],
+      "incompatibleExtensions": []
+    }
+  ],
+  "backend": [
+    {
+      "name": "backend",
+      "desc": "ExplorViz uses dynamic analysis techniques to provide live trace visualization of the communication in large software landscape. It targets system and program comprehension in those landscapes while still providing details on the communication within an application. A landscape perspective enriches current system visualizations with additional abstraction levels for efficient comprehension of communication between hundreds of applications which is often encountered in, for instance, Cloud environments. On the application level perspective, ExplorViz utilizes the 3D city metaphor combined with an interactive concept of showing only details that are in focus of the analysis. For best accessibility, ExplorViz is a web-based tool featuring cutting-edge technologies like WebGL and HTML 5.",
+      "imgUrl": "img/logo-be.png",
+      "requiredExtensions": [
+        "frontend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "backend-extension-vr",
+      "desc": "This extension adds features to the backend of ExplorViz to enable a multi-user VR-experience. The related frontend extension is explorviz-frontend-extension-vr.",
+      "imgUrl": "img/vr.png",
+      "requiredExtensions": [
+        "backend",
+        "frontend",
+        "frontend-extension-vr"
+      ],
+      "incompatibleExtensions": [
+        "frontend-extension-new-vr"
+      ]
+    },
+    {
+      "name": "backend-extension-new-vr",
+      "desc": "This extension adds features to the backend of ExplorViz to enable a multi-user VR-experience. The related frontend extension is explorviz-frontend-extension-vr.",
+      "imgUrl": "img/vr.png",
+      "requiredExtensions": [
+        "backend",
+        "frontend",
+        "frontend-extension-new-vr"
+      ],
+      "incompatibleExtensions": [
+        "frontend-extension-vr"
+      ]
+    },
+    {
+      "name": "backend-extension-dummy0",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "img/logo-be.png",
+      "requiredExtensions": [
+        "backend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "backend-extension-dummy1",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "img/logo-be.png",
+      "requiredExtensions": [
+        "backend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "backend-extension-dummy2",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "img/logo-be.png",
+      "requiredExtensions": [
+        "backend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "backend-extension-dummy3",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "img/logo-be.png",
+      "requiredExtensions": [
+        "backend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "backend-extension-dummy4",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "img/logo-be.png",
+      "requiredExtensions": [
+        "backend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "backend-extension-dummy5",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "img/logo-be.png",
+      "requiredExtensions": [
+        "backend"
+      ],
+      "incompatibleExtensions": []
+    }
+  ]
+}
