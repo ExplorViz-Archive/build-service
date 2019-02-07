@@ -17,6 +17,14 @@ app.get('/config', (req, res) => {
   res.render('config');
 });
 
+app.get('/config_1', (req, res) => {
+  res.render('config_1');
+});
+
+app.get('/config_2', (req, res) => {
+  res.render('config_2');
+});
+
 app.get('/about', (req, res) => {
   res.render('about');
 });

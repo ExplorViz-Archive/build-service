@@ -51,6 +51,11 @@ body {
   border: 2px solid  rgb(32, 197, 17);
 }
 
+.incompatible.selected.hovered {
+  box-shadow: 4px 4px rgb(226, 8, 8);
+  border: 2px solid  rgba(44, 127, 250, 0.966);
+}
+
 .hovered{
   border: 2px solid  rgba(44, 127, 250, 0.966);
 }

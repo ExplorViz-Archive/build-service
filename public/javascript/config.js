@@ -41,6 +41,10 @@ function loadConfig() {
     });
 }
 
+function removeElementFromBuildList(element) {
+
+}
+
 function updateColumn(colName, extensions) {
   let column = document.getElementById(colName);
   let i;
