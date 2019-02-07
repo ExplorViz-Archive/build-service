@@ -7,17 +7,7 @@ var configuration = [];
 function loadConfig() {
   const removeButton = document.getElementById('removeButton');
   removeButton.addEventListener("click", () => {
-    let child = getFirstActiveListItem();
-    if (child !== null) {
-      let list = document.getElementById("currentBuildList");
-      let imgId = child.id.substring(5);
-      removeClassFromElement(document.getElementById(imgId), "selected");
-      list.removeChild(child);
-      if (list.childElementCount > 0){
-        activateListItemById(list.children[list.childElementCount-1].id);
-      }
-      validateConfig();
-    } 
+    removeListItem(getFirstActiveListItem().id);
   });
 
   fetch('/get/extensions')
@@ -41,10 +31,12 @@ function loadConfig() {
     });
 }
 
-function removeElementFromBuildList(element) {
 
-}
-
+/**
+ * TODO: comment
+ * @param {String} colName 
+ * @param {Array} extensions 
+ */
 function updateColumn(colName, extensions) {
   let column = document.getElementById(colName);
   let i;
@@ -61,7 +53,7 @@ function updateColumn(colName, extensions) {
     img.addEventListener("click", () => {
       if (img.classList.contains('selected')) {
         removeClassFromElement(img, "selected");
-        removeListItem(name);
+        removeListItem("list-" + name);
       } else {
         addClassToElement(img, "selected");
         addListItem(name);
@@ -113,7 +105,9 @@ function addListItem(id) {
 function activateListItemById(id) {
   let item = document.getElementById(id);
   if (item !== null) {
-    item.classList.add('active');
+    addClassToElement(item, "active");
+    let removeButton = document.getElementById("removeButton");
+    removeClassFromElement(removeButton, "invisible");
     if (item.parentElement === document.getElementById("currentBuildList")){
       selectExtensionById(id.substring(5));
     }
@@ -129,7 +123,6 @@ function selectExtensionById(id) {
   if (id !== null) {
     let extension = getExtensionById(id);
     if (extension !== null) {
-      
       setInfoBoxHeading(extension["name"]);
       let body = document.getElementById("info-box-body");
       let descContent = document.createElement("p");
@@ -195,13 +188,21 @@ function clearSelection(){
  */
 function removeListItem(id) {
   let list = document.getElementById("currentBuildList");
-  if (list.hasChildNodes()) {
-    child = document.getElementById("list-" + id);
-    if (child.classList.contains("active") && list.childElementCount > 1){
-      activateListItemById(list.children[list.childElementCount-2].id);
-    }
+  let child = document.getElementById(id);
+  if (child !== null) {
+    let imgId = child.id.substring(5);
+    removeClassFromElement(document.getElementById(imgId), "selected");
     list.removeChild(child);
+    if (list.childElementCount !== 0) {
+      if(child.classList.contains("active")){
+      activateListItemById(list.children[list.childElementCount-1].id);
+      } 
+    } else {
+      let removeButton = document.getElementById("removeButton");
+      addClassToElement(removeButton, "invisible");
+    }
   }
+  validateConfig();
 }
 
 /**
@@ -342,6 +343,7 @@ function validateConfig(){
         let element = document.getElementById(incompatibleExtension);
         if (element.classList.contains("selected")){
           addClassToElement(element, "incompatible");
+          addClassToElement($(`#${childId}`).get(0), "incompatible");
           if (status.incompatible.indexOf(incompatibleExtension) === -1 ){
             status.incompatible.push({childId, incompatibleExtension});
           }

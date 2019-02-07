@@ -23,14 +23,14 @@ const ext1 = new Extension("backend-extension-vr",
                             beDesc,
                             "img/vr.png", 
                             ["backend", "frontend", "frontend-extension-vr"], 
-                            ["frontend-extension-new-vr"]
+                            []
 );
 
 const ext3 = new Extension("backend-extension-new-vr", 
                             beDesc,
-                            "img/vr.png", 
+                            "https://static.thenounproject.com/png/123780-200.png", 
                             ["backend", "frontend", "frontend-extension-new-vr"], 
-                            ["frontend-extension-vr"]
+                            ["backend-extension-vr"]
 );
 
 const ext5 = new Extension("backend", 
@@ -44,18 +44,25 @@ const ext2 = new Extension("frontend-extension-vr",
                             feDesc,
                             "img/vr.png", 
                             ["backend", "frontend", "backend-extension-vr"], 
-                            ["backend-extension-new-vr"]
+                            []
 );  
 const ext4 = new Extension("frontend-extension-new-vr", 
                             feDesc, 
-                            "img/vr.png",
+                            "https://static.thenounproject.com/png/123780-200.png",
                             ["backend", "frontend", "backend-extension-new-vr"], 
-                            ["backend-extension-vr"]
+                            ["frontend-extension-vr"]
 );
 
 const ext6 = new Extension("frontend", 
                             evDesc, 
                             "img/logo-fe.png",
+                            ["backend"], 
+                            []
+);
+
+const ext7 = new Extension("missing-image-dummy", 
+                            lorIp, 
+                            "",
                             ["backend"], 
                             []
 );
@@ -72,20 +79,22 @@ front.push(ext4);
 
 for (let i = 0; i<6; i++) {
     let fd = new Extension("frontend-extension-dummy" + i,
-                            lorIp,
-                            "img/logo-fe.png",
-                            ["frontend"],
-                            []
+    lorIp,
+    "img/logo-fe.png",
+    ["frontend"],
+    []
     );
     let bd = new Extension("backend-extension-dummy" + i,
-                            lorIp,
-                            "img/logo-be.png",
-                            ["backend"],
-                            []
+    lorIp,
+    "img/logo-be.png",
+    ["backend"],
+    []
     );  
     front.push(fd)
     back.push(bd)
 }
+
+back.push(ext7);
 
 var newJson = {
     frontend : front,

@@ -18,9 +18,7 @@
         "frontend",
         "backend-extension-vr"
       ],
-      "incompatibleExtensions": [
-        "backend-extension-new-vr"
-      ]
+      "incompatibleExtensions": []
     },
     {
       "name": "frontend-extension-new-vr",
@@ -32,7 +30,7 @@
         "backend-extension-new-vr"
       ],
       "incompatibleExtensions": [
-        "backend-extension-vr"
+        "frontend-extension-vr"
       ]
     },
     {
@@ -109,21 +107,19 @@
         "frontend",
         "frontend-extension-vr"
       ],
-      "incompatibleExtensions": [
-        "frontend-extension-new-vr"
-      ]
+      "incompatibleExtensions": []
     },
     {
       "name": "backend-extension-new-vr",
       "desc": "This extension adds features to the backend of ExplorViz to enable a multi-user VR-experience. The related frontend extension is explorviz-frontend-extension-vr.",
-      "imgUrl": "img/vr.png",
+      "imgUrl": "https://static.thenounproject.com/png/123780-200.png",
       "requiredExtensions": [
         "backend",
         "frontend",
         "frontend-extension-new-vr"
       ],
       "incompatibleExtensions": [
-        "frontend-extension-vr"
+        "backend-extension-vr"
       ]
     },
     {
@@ -175,6 +171,15 @@
       "name": "backend-extension-dummy5",
       "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
       "imgUrl": "img/logo-be.png",
+      "requiredExtensions": [
+        "backend"
+      ],
+      "incompatibleExtensions": []
+    },
+    {
+      "name": "missing-image-dummy",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "",
       "requiredExtensions": [
         "backend"
       ],
