@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
+const path = require('path');
 const https = require('https');
 const app = express()
 
@@ -14,11 +15,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/config', (req, res) => {
-  res.render('config');
+  res.render('config_1');
 });
 
 app.get('/config_1', (req, res) => {
-  res.render('config_1');
+  res.render('config');
 });
 
 app.get('/config_2', (req, res) => {
@@ -37,9 +38,13 @@ app.get('/confirmation', (req, res) => {
   res.render('confirmation');
 });
 
-app.get('/get/extensions', (req, res) => {
+app.get('/static/extensions', (req, res) => {
   extensions = JSON.parse(fs.readFileSync('extensions.json'));
   res.send(extensions);
+});
+
+app.get('/static/img/:imgUrl', (req, res) => {
+  res.sendFile(path.join(__dirname, `public/img/${req.params.imgUrl}`));
 });
 
 const server = app.listen(8080, () => {

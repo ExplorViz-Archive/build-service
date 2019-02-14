@@ -10,7 +10,7 @@ function loadConfig() {
     removeListItem(getFirstActiveListItem().id);
   });
 
-  fetch('/get/extensions')
+  fetch('/static/extensions')
     .then(data => {
       return data.json()
     })
@@ -31,7 +31,6 @@ function loadConfig() {
     });
 }
 
-
 /**
  * TODO: comment
  * @param {String} colName 
@@ -46,12 +45,19 @@ function updateColumn(colName, extensions) {
     let img = document.createElement("img");
     img.classList.add('extension-img');
     img.id = name;
-    img.src = element["imgUrl"];
-    img.alt = "Missing Image";
-    column.appendChild(img);
-    // let required = element["requiredExtensions"];
-    img.addEventListener("click", () => {
-      if (img.classList.contains('selected')) {
+    getImageSource(element["imgUrl"])
+      .then(success => {
+        img.src = element["imgUrl"];
+      }, error => {
+        if (colName.slice(0,2) === "be") {
+          img.src = "img/logo-default.png";
+        } else {
+          img.src = "img/logo-default.png";
+        }
+      })
+      column.appendChild(img);
+      img.addEventListener("click", () => {
+        if (img.classList.contains('selected')) {
         removeClassFromElement(img, "selected");
         removeListItem("list-" + name);
       } else {
@@ -71,6 +77,15 @@ function updateColumn(colName, extensions) {
     });
     getExtensionById(name);
   }
+}
+
+function getImageSource(imgUrl) {
+  return Promise.resolve(
+    $.ajax({
+      type:'GET',
+      url: '/static/' + imgUrl
+    })
+  )
 }
 
 /**
@@ -359,5 +374,5 @@ function validateConfig(){
   } else {
     deactivateContinueButton();
   }
-  console.log(status);
+  // console.log(status);
 }

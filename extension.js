@@ -28,7 +28,7 @@ const ext1 = new Extension("backend-extension-vr",
 
 const ext3 = new Extension("backend-extension-new-vr", 
                             beDesc,
-                            "https://static.thenounproject.com/png/123780-200.png", 
+                            "img/vr.png", 
                             ["backend", "frontend", "frontend-extension-new-vr"], 
                             ["backend-extension-vr"]
 );
@@ -48,7 +48,7 @@ const ext2 = new Extension("frontend-extension-vr",
 );  
 const ext4 = new Extension("frontend-extension-new-vr", 
                             feDesc, 
-                            "https://static.thenounproject.com/png/123780-200.png",
+                            "img/vr.png",
                             ["backend", "frontend", "backend-extension-new-vr"], 
                             ["frontend-extension-vr"]
 );
@@ -60,10 +60,17 @@ const ext6 = new Extension("frontend",
                             []
 );
 
-const ext7 = new Extension("missing-image-dummy", 
+const ext7 = new Extension("backend-missing-image-dummy", 
                             lorIp, 
                             "",
                             ["backend"], 
+                            []
+);
+
+const ext8 = new Extension("frontend-missing-image-dummy", 
+                            lorIp, 
+                            "",
+                            ["frontend"], 
                             []
 );
 
@@ -95,6 +102,7 @@ for (let i = 0; i<6; i++) {
 }
 
 back.push(ext7);
+front.push(ext8);
 
 var newJson = {
     frontend : front,

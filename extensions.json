@@ -23,7 +23,7 @@
     {
       "name": "frontend-extension-new-vr",
       "desc": "This extension adds a WebVR-based Virtual Reality (VR) mode to ExplorViz, which allows collaborative exploration.",
-      "imgUrl": "https://static.thenounproject.com/png/123780-200.png",
+      "imgUrl": "img/vr.png",
       "requiredExtensions": [
         "backend",
         "frontend",
@@ -86,6 +86,15 @@
         "frontend"
       ],
       "incompatibleExtensions": []
+    },
+    {
+      "name": "frontend-missing-image-dummy",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "",
+      "requiredExtensions": [
+        "frontend"
+      ],
+      "incompatibleExtensions": []
     }
   ],
   "backend": [
@@ -112,7 +121,7 @@
     {
       "name": "backend-extension-new-vr",
       "desc": "This extension adds features to the backend of ExplorViz to enable a multi-user VR-experience. The related frontend extension is explorviz-frontend-extension-vr.",
-      "imgUrl": "https://static.thenounproject.com/png/123780-200.png",
+      "imgUrl": "img/vr.png",
       "requiredExtensions": [
         "backend",
         "frontend",
@@ -177,7 +186,7 @@
       "incompatibleExtensions": []
     },
     {
-      "name": "missing-image-dummy",
+      "name": "backend-missing-image-dummy",
       "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
       "imgUrl": "",
       "requiredExtensions": [
