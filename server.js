@@ -15,11 +15,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/config', (req, res) => {
-  res.render('config_1');
+  res.render('config');
 });
 
 app.get('/config_1', (req, res) => {
-  res.render('config');
+  res.render('config_1');
 });
 
 app.get('/config_2', (req, res) => {
@@ -51,3 +51,6 @@ const server = app.listen(8080, () => {
   console.log(`Express running → PORT ${server.address().port}`);
 });
 
+// const server = app.listen(8080, "192.168.178.52", () => {
+//   console.log(`Express running → PORT ${server.address().port}`);
+// });

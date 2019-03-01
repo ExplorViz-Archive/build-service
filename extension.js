@@ -84,9 +84,9 @@ front.push(ext2);
 back.push(ext3);
 front.push(ext4);
 
-for (let i = 0; i<6; i++) {
+for (let i = 0; i<15; i++) {
     let fd = new Extension("frontend-extension-dummy" + i,
-    lorIp,
+    lorIp+lorIp+lorIp+lorIp,
     "img/logo-fe.png",
     ["frontend"],
     []

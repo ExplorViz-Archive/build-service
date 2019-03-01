@@ -35,13 +35,7 @@
          
     <div class="container">
       <div class="row">
-        <div class="col-md-3">
-          <h3>Current build:</h3>
-          <div id="currentBuildList" class="list-group">
-          </div>
-          <button id="removeButton" type="button" class="btn btn-s btn-default invisible">Remove</button>
-        </div>
-        <div class="col-md-5">
+        <div class="col-md-7">
           <div id="fe-column">
             <h4>Frontend Extensions</h4> 
           </div>
@@ -49,19 +43,24 @@
             <h4>Backend Extensions</h4> 
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
           <a id="contButton" class="btn btn-s btn-danger">Continue <span class="glyphicon glyphicon-menu-right"></span></a>
           <div id="info-box" class="panel panel-info" style="margin-top:10px">
-            <div id="info-box-heading" class="panel-heading">
-              <h2 class="panel-title"><b>Selected extension</b></h2>
+              <div id="info-box-heading" class="panel-heading">
+                <h2 class="panel-title"><b>Selected extension</b></h2>
+              </div>
+              <div id="info-box-body" class="panel-body" id="extensions-panel" >
+              </div>
             </div>
-            <div id="info-box-body" class="panel-body" id="extensions-panel" >
+            <h3>Current build:</h3>
+            <div id="currentBuildList" class="list-group">
             </div>
-          </div>
+            <button id="removeButton" type="button" class="btn btn-s btn-default">Remove</button>
         </div>
       </div>
     </div>
   </div>
+
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src='javascript/config.js'></script>
