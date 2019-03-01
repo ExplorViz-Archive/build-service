@@ -10,6 +10,20 @@ function loadConfig() {
     removeListItem(getFirstActiveListItem().id);
   });
 
+  const removeAllButton = document.getElementById('removeAllButton');
+  removeAllButton.addEventListener("click", () => {
+    let item = getFirstActiveListItem();
+     while (item !== null) {
+      removeListItem(item.id);
+      item = getFirstActiveListItem();
+     }
+  });
+
+  const dependenciesButton = document.getElementById('dependenciesButton');
+  dependenciesButton.addEventListener("click", () => {
+    addAllDependencies();
+  });
+
   fetch('/static/extensions')
     .then(data => {
       return data.json()
@@ -58,13 +72,12 @@ function updateColumn(colName, extensions) {
       column.appendChild(img);
       img.addEventListener("click", () => {
         if (img.classList.contains('selected')) {
-        removeClassFromElement(img, "selected");
-        removeListItem("list-" + name);
-      } else {
-        addClassToElement(img, "selected");
-        addListItem(name);
-      }
-      validateConfig();
+          removeClassFromElement(img, "selected");
+          removeListItem("list-" + name);
+        } else {
+          addClassToElement(img, "selected");
+          addListItem(name);
+        }
     });
     img.addEventListener("mouseover", () => {
       addClassToElement(img, "hovered");
@@ -79,6 +92,10 @@ function updateColumn(colName, extensions) {
   }
 }
 
+/**
+ * Check if the image is a static resource.
+ * @param {String} imgUrl 
+ */
 function getImageSource(imgUrl) {
   return Promise.resolve(
     $.ajax({
@@ -94,7 +111,7 @@ function getImageSource(imgUrl) {
  * @param {String} id 
  */
 function addListItem(id) {
-  let list = document.getElementById("currentBuildList");
+  // let list = document.getElementById("currentBuildList");
   deactivateActiveListItems();
   let item = document.createElement("a");
   item.id = "list-" + id;
@@ -109,8 +126,10 @@ function addListItem(id) {
       activateListItemById("list-"+ id)
     }
   });
-  list.appendChild(item);
+  // list.appendChild(item);
+  $(`#currentBuildList`).append(item);
   activateListItemById("list-"+ id);
+  validateConfig();
 }
 
 /**
@@ -121,8 +140,8 @@ function activateListItemById(id) {
   let item = document.getElementById(id);
   if (item !== null) {
     addClassToElement(item, "active");
-    let removeButton = document.getElementById("removeButton");
-    removeClassFromElement(removeButton, "invisible");
+    $(`#removeButton`).removeClass("invisible");
+    $(`#removeAllButton`).removeClass("invisible");
     if (item.parentElement === document.getElementById("currentBuildList")){
       selectExtensionById(id.substring(5));
     }
@@ -213,8 +232,8 @@ function removeListItem(id) {
       activateListItemById(list.children[list.childElementCount-1].id);
       } 
     } else {
-      let removeButton = document.getElementById("removeButton");
-      addClassToElement(removeButton, "invisible");
+      $("#removeButton").addClass("invisible");
+      $("#removeAllButton").addClass("invisible");
     }
   }
   validateConfig();
@@ -375,4 +394,42 @@ function validateConfig(){
     deactivateContinueButton();
   }
   // console.log(status);
+}
+
+/**
+ * Add all dependencies of selected extensions to the current build list.
+ */
+function addAllDependencies(){
+  let list = document.getElementById("currentBuildList");
+  if(list.childElementCount > 0){
+    for (let i = 0; i < list.childElementCount; i++) {
+      let childId = list.children[i].id.substring(5);
+      let extensions = getExtensionById(childId);
+      extensions["requiredExtensions"].forEach(requiredExtension => {
+        if (!buildListHasExtension(requiredExtension)){
+          let img = $(`#${requiredExtension}`);
+          img.addClass("selected");
+          addListItem(requiredExtension);
+        }
+      });
+    }
+  }
+}
+
+/**
+ * Check if an extension with the id is present in the build list.
+ * @param {String} id 
+ */
+function buildListHasExtension(id) {
+  let hasExtension = false;
+  let list = document.getElementById("currentBuildList");
+  if(list.childElementCount > 0){
+    for (let i = 0; i < list.childElementCount; i++) {
+      let childId = list.children[i].id.substring(5);
+      if (childId === id) {
+        hasExtension = true;
+      }
+    }
+  } 
+  return hasExtension;
 }
