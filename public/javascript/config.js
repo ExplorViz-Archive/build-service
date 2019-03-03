@@ -13,10 +13,10 @@ function loadConfig() {
   const removeAllButton = document.getElementById('removeAllButton');
   removeAllButton.addEventListener("click", () => {
     let item = getFirstActiveListItem();
-     while (item !== null) {
+    while (item !== null) {
       removeListItem(item.id);
       item = getFirstActiveListItem();
-     }
+    }
   });
 
   const dependenciesButton = document.getElementById('dependenciesButton');
@@ -81,12 +81,12 @@ function updateColumn(colName, extensions) {
     });
     img.addEventListener("mouseover", () => {
       addClassToElement(img, "hovered");
-      selectExtensionById(name);
+      showSelectedExtensionById(name);
       clearTimeout(timeout);
     });
     img.addEventListener("mouseout", () => {
       removeClassFromElement(img, "hovered");
-      timeout = setTimeout(() => {selectExtensionById(null)}, 100);
+      timeout = setTimeout(() => {showSelectedExtensionById(null)}, 100);
     });
     getExtensionById(name);
   }
@@ -111,7 +111,6 @@ function getImageSource(imgUrl) {
  * @param {String} id 
  */
 function addListItem(id) {
-  // let list = document.getElementById("currentBuildList");
   deactivateActiveListItems();
   let item = document.createElement("a");
   item.id = "list-" + id;
@@ -126,7 +125,6 @@ function addListItem(id) {
       activateListItemById("list-"+ id)
     }
   });
-  // list.appendChild(item);
   $(`#currentBuildList`).append(item);
   activateListItemById("list-"+ id);
   validateConfig();
@@ -143,7 +141,7 @@ function activateListItemById(id) {
     $(`#removeButton`).removeClass("invisible");
     $(`#removeAllButton`).removeClass("invisible");
     if (item.parentElement === document.getElementById("currentBuildList")){
-      selectExtensionById(id.substring(5));
+      showSelectedExtensionById(id.substring(5));
     }
   }
 }
@@ -152,7 +150,7 @@ function activateListItemById(id) {
  * Updates the info-box with information about an extension defined by id.
  * @param {String} id 
  */
-function selectExtensionById(id) {
+function showSelectedExtensionById(id) {
   clearSelection();
   if (id !== null) {
     let extension = getExtensionById(id);
@@ -163,10 +161,10 @@ function selectExtensionById(id) {
       let reqContent = document.createElement("p");
       let reqHead = document.createElement("h4");
       descContent.textContent = extension["desc"];
-      body.appendChild(descContent);
       reqHead.textContent = "Requires:";
-      body.appendChild(reqHead);
       reqContent.textContent = extension["requiredExtensions"].toString();
+      body.appendChild(descContent);
+      body.appendChild(reqHead);
       body.appendChild(reqContent);
       if (extension["incompatibleExtensions"].length > 0) {
         let incHead = document.createElement("h4");
@@ -176,13 +174,21 @@ function selectExtensionById(id) {
         incContent.textContent = extension["incompatibleExtensions"].toString();
         body.appendChild(incContent);
       }
+      let urlHead = document.createElement("h4");
+      urlHead.textContent = "Link to repository:";
+      let urlContent = document.createElement("a");
+      urlContent.textContent = extension["url"];
+      urlContent.href = extension["url"];
+      urlContent.target = "_blank";
+      body.appendChild(urlHead);
+      body.appendChild(urlContent);
     }
   } else {
     let firstListItem = getFirstActiveListItem();
     if (firstListItem !== null) {
-      selectExtensionById(firstListItem.id.substring(5));
+      showSelectedExtensionById(firstListItem.id.substring(5));
     } else {
-      setInfoBoxHeading("Please select an extension")
+      setInfoBoxHeading("Please select an extension.")
     }
   }
 }
@@ -393,7 +399,6 @@ function validateConfig(){
   } else {
     deactivateContinueButton();
   }
-  // console.log(status);
 }
 
 /**
@@ -406,7 +411,8 @@ function addAllDependencies(){
       let childId = list.children[i].id.substring(5);
       let extensions = getExtensionById(childId);
       extensions["requiredExtensions"].forEach(requiredExtension => {
-        if (!buildListHasExtension(requiredExtension)){
+        if (!buildListHasExtension(requiredExtension) 
+            && getExtensionById(requiredExtension) !== null){
           let img = $(`#${requiredExtension}`);
           img.addClass("selected");
           addListItem(requiredExtension);

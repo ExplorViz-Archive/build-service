@@ -7,7 +7,9 @@
       "requiredExtensions": [
         "backend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://github.com/ExplorViz/explorviz-frontend",
+      "version": "1.0"
     },
     {
       "name": "frontend-extension-vr",
@@ -18,7 +20,9 @@
         "frontend",
         "backend-extension-vr"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
+      "version": "1.0"
     },
     {
       "name": "frontend-extension-new-vr",
@@ -31,7 +35,9 @@
       ],
       "incompatibleExtensions": [
         "frontend-extension-vr"
-      ]
+      ],
+      "url": "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
+      "version": "1.1"
     },
     {
       "name": "frontend-extension-dummy0",
@@ -40,7 +46,9 @@
       "requiredExtensions": [
         "frontend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "frontend-extension-dummy1",
@@ -49,7 +57,9 @@
       "requiredExtensions": [
         "frontend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "frontend-extension-dummy2",
@@ -58,7 +68,9 @@
       "requiredExtensions": [
         "frontend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "frontend-extension-dummy3",
@@ -67,7 +79,9 @@
       "requiredExtensions": [
         "frontend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "frontend-extension-dummy4",
@@ -76,7 +90,9 @@
       "requiredExtensions": [
         "frontend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "frontend-extension-dummy5",
@@ -85,7 +101,9 @@
       "requiredExtensions": [
         "frontend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "frontend-extension-dummy6",
@@ -94,7 +112,9 @@
       "requiredExtensions": [
         "frontend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "frontend-extension-dummy7",
@@ -103,70 +123,9 @@
       "requiredExtensions": [
         "frontend"
       ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "frontend-extension-dummy8",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-fe.png",
-      "requiredExtensions": [
-        "frontend"
-      ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "frontend-extension-dummy9",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-fe.png",
-      "requiredExtensions": [
-        "frontend"
-      ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "frontend-extension-dummy10",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-fe.png",
-      "requiredExtensions": [
-        "frontend"
-      ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "frontend-extension-dummy11",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-fe.png",
-      "requiredExtensions": [
-        "frontend"
-      ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "frontend-extension-dummy12",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-fe.png",
-      "requiredExtensions": [
-        "frontend"
-      ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "frontend-extension-dummy13",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-fe.png",
-      "requiredExtensions": [
-        "frontend"
-      ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "frontend-extension-dummy14",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-fe.png",
-      "requiredExtensions": [
-        "frontend"
-      ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "frontend-missing-image-dummy",
@@ -175,7 +134,9 @@
       "requiredExtensions": [
         "frontend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     }
   ],
   "backend": [
@@ -186,7 +147,9 @@
       "requiredExtensions": [
         "frontend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://github.com/ExplorViz/explorviz-backend",
+      "version": "1.0"
     },
     {
       "name": "backend-extension-vr",
@@ -197,7 +160,9 @@
         "frontend",
         "frontend-extension-vr"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://github.com/ExplorViz/explorviz-backend-extension-vr",
+      "version": "1.0"
     },
     {
       "name": "backend-extension-new-vr",
@@ -210,7 +175,9 @@
       ],
       "incompatibleExtensions": [
         "backend-extension-vr"
-      ]
+      ],
+      "url": "https://github.com/ExplorViz/explorviz-backend-extension-vr",
+      "version": "1.1"
     },
     {
       "name": "backend-extension-dummy0",
@@ -219,7 +186,9 @@
       "requiredExtensions": [
         "backend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "backend-extension-dummy1",
@@ -228,7 +197,9 @@
       "requiredExtensions": [
         "backend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "backend-extension-dummy2",
@@ -237,7 +208,9 @@
       "requiredExtensions": [
         "backend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "backend-extension-dummy3",
@@ -246,7 +219,9 @@
       "requiredExtensions": [
         "backend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "backend-extension-dummy4",
@@ -255,7 +230,9 @@
       "requiredExtensions": [
         "backend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "backend-extension-dummy5",
@@ -264,7 +241,9 @@
       "requiredExtensions": [
         "backend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "backend-extension-dummy6",
@@ -273,7 +252,9 @@
       "requiredExtensions": [
         "backend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "backend-extension-dummy7",
@@ -282,70 +263,9 @@
       "requiredExtensions": [
         "backend"
       ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "backend-extension-dummy8",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-be.png",
-      "requiredExtensions": [
-        "backend"
-      ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "backend-extension-dummy9",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-be.png",
-      "requiredExtensions": [
-        "backend"
-      ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "backend-extension-dummy10",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-be.png",
-      "requiredExtensions": [
-        "backend"
-      ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "backend-extension-dummy11",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-be.png",
-      "requiredExtensions": [
-        "backend"
-      ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "backend-extension-dummy12",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-be.png",
-      "requiredExtensions": [
-        "backend"
-      ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "backend-extension-dummy13",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-be.png",
-      "requiredExtensions": [
-        "backend"
-      ],
-      "incompatibleExtensions": []
-    },
-    {
-      "name": "backend-extension-dummy14",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgUrl": "img/logo-be.png",
-      "requiredExtensions": [
-        "backend"
-      ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     },
     {
       "name": "backend-missing-image-dummy",
@@ -354,7 +274,9 @@
       "requiredExtensions": [
         "backend"
       ],
-      "incompatibleExtensions": []
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
     }
   ]
 }

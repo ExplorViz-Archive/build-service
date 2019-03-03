@@ -3,7 +3,10 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
-const app = express()
+const extensionBuilder = require('./extension.js');
+
+const app = express();
+
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,6 +48,17 @@ app.get('/static/extensions', (req, res) => {
 
 app.get('/static/img/:imgUrl', (req, res) => {
   res.sendFile(path.join(__dirname, `public/img/${req.params.imgUrl}`));
+});
+
+app.get('/description/:reponame/:branch', (req, res) => {
+  extensionBuilder.getRepositoryDescription(`${req.params.reponame}`, `${req.params.branch}`)
+  .then((
+    data => {
+    res.send(data);
+    }), 
+    err => {
+    res.send("Error: " + err.message);
+  });
 });
 
 const server = app.listen(8080, () => {
