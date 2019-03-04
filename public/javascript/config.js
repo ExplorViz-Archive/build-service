@@ -302,13 +302,13 @@ function addClassToElement(element, cl) {
  */
 function getExtensionById(id){
   let extension = null;
-  if (id.substring(0,7) === "backend") {
+  if (id.includes("backend")) {
     for (let i = 0; i<backend.length; i++) {
       if (backend[i]["name"] === id) {
         extension = backend[i];
       }
     }
-  } else if ((id.substring(0,8) === "frontend")) {
+  } else if (id.includes("frontend")) {
     for (let i = 0; i<frontend.length; i++) {
       if (frontend[i]["name"] === id) {
         extension = frontend[i];
