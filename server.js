@@ -67,31 +67,25 @@ app.get('/description/:reponame/', (req, res) => {
 
 app.get('/update', (req, res) => {
   extensionBuilder.updateExtensionsJSON()
-  .then(() => res.send("update complete."));
-});
-
-const server = app.listen(8080, () => {
-  console.log(`ExplorViz-build-service running at [${new Date().toUTCString()}] → PORT ${server.address().port}`);
-
-  var rule = new schedule.RecurrenceRule();
-  rule.minute = 30;
-  var repeat = schedule.scheduleJob(rule, () => {
-    let date = new Date();
-    console.log(`Updating extensions.json at ${date.toUTCString()} ...`)
-    extensionBuilder.updateExtensionsJSON()
-    .then(() => console.log("Update of extensions.json complete."))
-  })
+  .then(() => res.send("Update complete."));
 });
 
 // const server = app.listen(8080, `${ipAdress}`, () => {
-//   console.log(`ExplorViz-build-service running at [${new Date().toUTCString()}] → PORT ${ipAdress}:${server.address().port}`);
-
-//   var rule = new schedule.RecurrenceRule();
-//   rule.minute = 30;
-//   var repeat = schedule.scheduleJob(rule, () => {
-//     let date = new Date();
-//     console.log(`Updating extensions.json at ${date.toUTCString()} ...`)
-//     extensionBuilder.updateExtensionsJSON()
-//     .then(() => console.log("Update of extensions.json complete."))
-//   })
-// });
+const server = app.listen(8080, () => {
+  // extensionBuilder.updateExtensionsJSON(true)
+  // .then((status) => { 
+  //   console.log(status + "Update of extensions.json complete.");
+  //   console.log(`ExplorViz-build-service running at [${new Date().toUTCString()}] → PORT ${ipAdress}:${server.address().port}`);
+    console.log(`ExplorViz-build-service running at [${new Date().toUTCString()}] → PORT ${server.address().port}`);
+    console.log('Updating extensionList.json every full hour.');
+    // });
+    
+  var rule = new schedule.RecurrenceRule();
+  rule.minute = 0;
+  var repeat = schedule.scheduleJob(rule, () => {
+    let date = new Date();
+    console.log(`Updating extensions.json at ${date.toUTCString()} ...`)
+    extensionBuilder.updateExtensionsJSON(true)
+    .then((status) => console.log(status + "Update of extensions.json complete."))
+  })
+});

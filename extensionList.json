@@ -33,28 +33,6 @@
       "desc": "This frontend extension adds an architecture model editor to ExplorViz (Work-In-Progress)"
     },
     {
-      "name": "frontend-extension-colorpicker",
-      "url": "https://github.com/ExplorViz/explorviz-frontend-extension-colorpicker",
-      "version": "1.0",
-      "requiredExtensions": [
-        "frontend"
-      ],
-      "incompatibleExtensions": [],
-      "imgUrl": "img/vr.png",
-      "desc": "This extension provides a color-picker for ExplorViz's landscape-view."
-    },
-    {
-      "name": "frontend-extension-tutorial",
-      "url": "https://github.com/ExplorViz/explorviz-frontend-extension-tutorial",
-      "version": "1.0",
-      "requiredExtensions": [
-        "frontend"
-      ],
-      "incompatibleExtensions": [],
-      "imgUrl": "img/vr.png",
-      "desc": "[Short description of the addon.]"
-    },
-    {
       "name": "frontend-extension-comparison",
       "url": "https://github.com/ExplorViz/explorviz-frontend-extension-comparison",
       "version": "1.0",
@@ -79,6 +57,54 @@
       "incompatibleExtensions": [],
       "imgUrl": "img/vr.png",
       "desc": "This extension adds a WebVR-based Virtual Reality (VR) mode to ExplorViz, which allows collaborative exploration."
+    },
+    {
+      "name": "frontend-extension-colorpicker",
+      "url": "https://github.com/ExplorViz/explorviz-frontend-extension-colorpicker",
+      "version": "1.0",
+      "requiredExtensions": [
+        "frontend"
+      ],
+      "incompatibleExtensions": [],
+      "imgUrl": "img/vr.png",
+      "desc": "This extension provides a color-picker for ExplorViz's landscape-view."
+    },
+    {
+      "name": "frontend-extension-tutorial",
+      "url": "https://github.com/ExplorViz/explorviz-frontend-extension-tutorial",
+      "version": "1.0",
+      "requiredExtensions": [
+        "frontend"
+      ],
+      "incompatibleExtensions": [],
+      "imgUrl": "img/vr.png",
+      "desc": "[Short description of the addon.]"
+    },
+    {
+      "name": "frontend-missing-image-dummy",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "",
+      "requiredExtensions": [
+        "frontend"
+      ],
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
+    },
+    {
+      "name": "frontend-extension-new-vr",
+      "desc": "This extension adds a WebVR-based Virtual Reality (VR) mode to ExplorViz, which allows collaborative exploration.",
+      "imgUrl": "img/vr.png",
+      "requiredExtensions": [
+        "backend",
+        "frontend",
+        "backend-extension-new-vr"
+      ],
+      "incompatibleExtensions": [
+        "frontend-extension-vr"
+      ],
+      "url": "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
+      "version": "1.1"
     }
   ],
   "backend": [
@@ -111,7 +137,7 @@
       "version": "1.0",
       "requiredExtensions": [
         "backend",
-        "frontend-extension-modelleditor"
+        "frontend-extension-modeleditor"
       ],
       "incompatibleExtensions": [],
       "imgUrl": "img/vr.png",
@@ -162,6 +188,32 @@
       "incompatibleExtensions": [],
       "imgUrl": "img/vr.png",
       "desc": "This backend extension adds an architecture model editor to ExplorViz (Work-In-Progress)"
+    },
+    {
+      "name": "backend-missing-image-dummy",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
+      "imgUrl": "",
+      "requiredExtensions": [
+        "backend"
+      ],
+      "incompatibleExtensions": [],
+      "url": "https://www.google.com",
+      "version": "1.0"
+    },
+    {
+      "name": "backend-extension-new-vr",
+      "desc": "This extension adds features to the backend of ExplorViz to enable a multi-user VR-experience. The related frontend extension is explorviz-frontend-extension-vr.",
+      "imgUrl": "img/vr.png",
+      "requiredExtensions": [
+        "backend",
+        "frontend",
+        "frontend-extension-new-vr"
+      ],
+      "incompatibleExtensions": [
+        "backend-extension-vr"
+      ],
+      "url": "https://github.com/ExplorViz/explorviz-backend-extension-vr",
+      "version": "1.1"
     }
   ]
 }

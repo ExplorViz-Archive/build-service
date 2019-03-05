@@ -161,8 +161,8 @@ function showSelectedExtensionById(id) {
       let reqContent = document.createElement("p");
       let reqHead = document.createElement("h4");
       descContent.textContent = extension["desc"];
-      reqHead.textContent = "Requires:";
-      reqContent.textContent = extension["requiredExtensions"].toString();
+      reqHead.textContent = "Required extensions:";
+      reqContent.textContent = extension["requiredExtensions"].toString().replace(/,/g, ", ");
       body.appendChild(descContent);
       body.appendChild(reqHead);
       body.appendChild(reqContent);
@@ -174,13 +174,10 @@ function showSelectedExtensionById(id) {
         incContent.textContent = extension["incompatibleExtensions"].toString();
         body.appendChild(incContent);
       }
-      let urlHead = document.createElement("h4");
-      urlHead.textContent = "Link to repository:";
       let urlContent = document.createElement("a");
-      urlContent.textContent = extension["url"];
+      urlContent.textContent = "Visit GitHub repository";
       urlContent.href = extension["url"];
       urlContent.target = "_blank";
-      body.appendChild(urlHead);
       body.appendChild(urlContent);
     }
   } else {
@@ -372,11 +369,18 @@ function validateConfig(){
       status.wanted.push(childId);
       extensions["requiredExtensions"].forEach(requiredExtension => {
         let element = document.getElementById(requiredExtension);
-        if (!element.classList.contains("selected")) {
-          addClassToElement(element, "required");
-          if (status.required.indexOf(requiredExtension) === -1 ){
-            status.required.push(requiredExtension);
+        try {
+          if (!element.classList.contains("selected")) {
+            addClassToElement(element, "required");
+            if (status.required.indexOf(requiredExtension) === -1 ){
+              status.required.push(requiredExtension);
+            }
           }
+        } catch (error) {
+          $(`#${childId}`).addClass("incompatible");
+          console.log("Required extension: " + requiredExtension + " for " + childId + " not found: " + error.message);
+          alert("Required extension: " + requiredExtension + " for " + childId + " not found.");
+          status.incompatible.push(childId);
         }
       });
       extensions["incompatibleExtensions"].forEach(incompatibleExtension => {
