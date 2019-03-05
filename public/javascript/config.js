@@ -116,7 +116,7 @@ function addListItem(id) {
   item.id = "list-" + id;
   item.classList.add("list-group-item");
   let content = document.createElement("h4");
-  content.textContent = id;
+  content.textContent = id.replace("extension-", "");
   content.classList.add("list-group-item-heading");
   item.appendChild(content);
   item.addEventListener("click", () => {
@@ -155,7 +155,7 @@ function showSelectedExtensionById(id) {
   if (id !== null) {
     let extension = getExtensionById(id);
     if (extension !== null) {
-      setInfoBoxHeading(extension["name"]);
+      setInfoBoxHeading(extension["name"].replace("extension-", ""));
       let body = document.getElementById("info-box-body");
       let descContent = document.createElement("p");
       let reqContent = document.createElement("p");

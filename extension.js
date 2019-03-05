@@ -41,15 +41,13 @@ async function updateExtensionsJSON(){
         try {
             tmp = await getExtensionInformation(tmpList.front[i]);
             tmp.desc = await getRepositoryDescription(tmpList.front[i].name, defaultBranch);
-            console.log(i);
         } catch (error) {
             console.log("Error processing " + tmpList.front[i].name + 
                 ": Could not parse extensions extension information. Using default values instead.")
             tmp = getDefaultExtensionInformation(tmpList.front[i], "frontend");
-            console.log(i + "*");
         }
         tmp.name = tmp.name.substring(10);
-        console.log(tmp.name);
+        console.log(i + ": " + tmp.name);
         frontend.push(tmp) 
     }
     backend = [];
@@ -58,15 +56,13 @@ async function updateExtensionsJSON(){
         try {
             tmp = await getExtensionInformation(tmpList.back[i]);
             tmp.desc = await getRepositoryDescription(tmpList.back[i].name, defaultBranch);
-            console.log(i);
         } catch (error) {
             console.log("Error processing " + tmpList.back[i].name + 
-                ": Could not parse extensions extension information. Using default values instead.")
+                `: Could not parse extensions extension information (${error.message}). Using default values instead.`)
             tmp = getDefaultExtensionInformation(tmpList.back[i], "backend");
-            console.log(i + "*");
         }
         tmp.name = tmp.name.substring(10);
-        console.log(tmp.name);
+        console.log(i + ": " + tmp.name);
         backend.push(tmp);
     }
     
@@ -80,8 +76,7 @@ async function updateExtensionsJSON(){
             console.log(err);
         }
     });
-
-    console.log("Finished updating extensions.json.")
+    // console.log("Finished updating extensions.json.")
     return;
 }
 
@@ -163,7 +158,7 @@ function getExtensionInformation(extension) {
             }
             resolve(extension);
         }, err => {
-            console.log("Error processing: " + extension.name+ ": " + err.message);
+            // console.log("Error processing: " + extension.name+ ": " + err.message);
             reject(err);
         });
     });

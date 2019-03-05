@@ -4,11 +4,11 @@
       "name": "frontend",
       "url": "https://github.com/ExplorViz/explorviz-frontend",
       "requiredExtensions": [
-        "frontend"
+        "backend"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/logo-fe.png",
+      "desc": "ExplorViz uses dynamic analysis techniques to provide live trace visualization of the communication in large software landscape. It targets system and program comprehension in those landscapes while still providing details on the communication within an application. A landscape perspective enriches current system visualizations with additional abstraction levels for efficient comprehension of communication between hundreds of applications which is often encountered in, for instance, Cloud environments. On the application level perspective, ExplorViz utilizes the 3D city metaphor combined with an interactive concept of showing only details that are in focus of the analysis. For best accessibility, ExplorViz is a web-based tool featuring cutting-edge technologies like WebGL and HTML 5.\n\nGiven the 3D city metaphor visualization of an application, we investigate new interaction styles and higher immersion for a more effective and efficient program comprehension process. For this purpose, we utilize uprising technologies and evaluate developed approaches in experiments with real test subjects.\n\nThe usability and effectiveness of ExplorViz has been investigated in controlled experiments which resulted in increased efficiency and effectiveness over competing approaches.\n\nThis project is a WIP replica of ExplorViz's visualization component. It substitutes GWT client-code with EmberJS. This is only the frontend, you will need the backend as well for production. However, you can mock the backend as shown in the development section below."
     },
     {
       "name": "frontend-extension-archconfcheck",
@@ -18,8 +18,8 @@
         "frontend"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/vr.png",
+      "desc": "This frontend extension adds an architecture conformance check mode to ExplorViz (Work-In-Progress)"
     },
     {
       "name": "frontend-extension-modeleditor",
@@ -29,8 +29,8 @@
         "frontend"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/vr.png",
+      "desc": "This frontend extension adds an architecture model editor to ExplorViz (Work-In-Progress)"
     },
     {
       "name": "frontend-extension-colorpicker",
@@ -40,8 +40,8 @@
         "frontend"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/vr.png",
+      "desc": "This extension provides a color-picker for ExplorViz's landscape-view."
     },
     {
       "name": "frontend-extension-tutorial",
@@ -51,30 +51,34 @@
         "frontend"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/vr.png",
+      "desc": "[Short description of the addon.]"
     },
     {
       "name": "frontend-extension-comparison",
       "url": "https://github.com/ExplorViz/explorviz-frontend-extension-comparison",
       "version": "1.0",
       "requiredExtensions": [
-        "frontend"
+        "frontend",
+        "backend",
+        "backend-extension-comparison"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/vr.png",
+      "desc": "This repository holds an extension for ExplorViz Frontend that enables the user to compare two application models. (Work-In-Progress)\n\nThe related backend extension is explorviz-backend-extension-comparison."
     },
     {
       "name": "frontend-extension-vr",
       "url": "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
       "version": "1.0",
       "requiredExtensions": [
-        "frontend"
+        "frontend",
+        "backend",
+        "backend-extension-vr"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/vr.png",
+      "desc": "This extension adds a WebVR-based Virtual Reality (VR) mode to ExplorViz, which allows collaborative exploration."
     }
   ],
   "backend": [
@@ -82,44 +86,49 @@
       "name": "backend",
       "url": "https://github.com/ExplorViz/explorviz-backend",
       "requiredExtensions": [
-        "backend"
+        "frontend"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/logo-be.png",
+      "desc": "ExplorViz uses dynamic analysis techniques to provide live trace visualization of the communication in large software landscape. It targets system and program comprehension in those landscapes while still providing details on the communication within an application. A landscape perspective enriches current system visualizations with additional abstraction levels for efficient comprehension of communication between hundreds of applications which is often encountered in, for instance, Cloud environments. On the application level perspective, ExplorViz utilizes the 3D city metaphor combined with an interactive concept of showing only details that are in focus of the analysis. For best accessibility, ExplorViz is a web-based tool featuring cutting-edge technologies like WebGL and HTML 5.\n\nGiven the 3D city metaphor visualization of an application, we investigate new interaction styles and higher immersion for a more effective and efficient program comprehension process. For this purpose, we utilize uprising technologies and evaluate developed approaches in experiments with real test subjects.\n\nThe usability and effectiveness of ExplorViz has been investigated in controlled experiments which resulted in increased efficiency and effectiveness over competing approaches.\n\nThis project contains the modernized version of ExplorViz.\n\nIt substitutes GWT and it's (asynchronous) RPC framework with Jersey for creating a RESTful API.\nThis is only the backend, you will need the explorviz-frontend as well.\n\nThis gradle project includes or installs every necessary dependency."
     },
     {
       "name": "backend-extension-vr",
       "url": "https://github.com/ExplorViz/explorviz-backend-extension-vr",
       "version": "1.0",
       "requiredExtensions": [
-        "backend"
+        "backend",
+        "frontend",
+        "frontend-extension-vr"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/vr.png",
+      "desc": "This extension adds features to the backend of ExplorViz to enable a multi-user VR-experience.\nThe related frontend extension is explorviz-frontend-extension-vr."
     },
     {
       "name": "backend-extension-archconfcheck",
       "url": "https://github.com/ExplorViz/explorviz-backend-extension-archconfcheck",
       "version": "1.0",
       "requiredExtensions": [
-        "backend"
+        "backend",
+        "frontend-extension-modelleditor"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/vr.png",
+      "desc": "This backend extension adds an architecture conformance check mode to ExplorViz (Work-In-Progress)"
     },
     {
       "name": "backend-extension-comparison",
       "url": "https://github.com/ExplorViz/explorviz-backend-extension-comparison",
       "version": "1.0",
       "requiredExtensions": [
-        "backend"
+        "backend",
+        "frontend",
+        "frontend-extension-comparison"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/vr.png",
+      "desc": "This repository holds an extension for ExplorViz Backend that enables the user to compare two application models. (Work-In-Progress)\n\nThe related frontend extension is explorviz-frontend-extension-comparison."
     },
     {
       "name": "backend-extension-dummy",
@@ -140,8 +149,8 @@
         "backend"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/vr.png",
+      "desc": "This is the backend of the ExplorViz tutorial extension."
     },
     {
       "name": "backend-extension-modeleditor",
@@ -151,8 +160,8 @@
         "backend"
       ],
       "incompatibleExtensions": [],
-      "imgUrl": "img/logo-default.png",
-      "desc": "This is an extension for ExplorViz"
+      "imgUrl": "img/vr.png",
+      "desc": "This backend extension adds an architecture model editor to ExplorViz (Work-In-Progress)"
     }
   ]
 }

@@ -2,12 +2,12 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const https = require('https');
+const schedule = require('node-schedule');
 const extensionBuilder = require('./extension.js');
 
 const app = express();
 
-const ipAdress = "192.168.178.52";
+// const ipAdress = "192.168.178.52";
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,13 +22,13 @@ app.get('/config', (req, res) => {
   res.render('config');
 });
 
-app.get('/config_1', (req, res) => {
-  res.render('config_1');
-});
+// app.get('/config_1', (req, res) => {
+//   res.render('config_1');
+// });
 
-app.get('/config_2', (req, res) => {
-  res.render('config_2');
-});
+// app.get('/config_2', (req, res) => {
+//   res.render('config_2');
+// });
 
 app.get('/about', (req, res) => {
   res.render('about');
@@ -71,9 +71,27 @@ app.get('/update', (req, res) => {
 });
 
 const server = app.listen(8080, () => {
-  console.log(`Express running → PORT ${server.address().port}`);
+  console.log(`ExplorViz-build-service running at [${new Date().toUTCString()}] → PORT ${server.address().port}`);
+
+  var rule = new schedule.RecurrenceRule();
+  rule.minute = 30;
+  var repeat = schedule.scheduleJob(rule, () => {
+    let date = new Date();
+    console.log(`Updating extensions.json at ${date.toUTCString()} ...`)
+    extensionBuilder.updateExtensionsJSON()
+    .then(() => console.log("Update of extensions.json complete."))
+  })
 });
 
 // const server = app.listen(8080, `${ipAdress}`, () => {
-//   console.log(`Express running → PORT ${ipAdress}:${server.address().port}`);
+//   console.log(`ExplorViz-build-service running at [${new Date().toUTCString()}] → PORT ${ipAdress}:${server.address().port}`);
+
+//   var rule = new schedule.RecurrenceRule();
+//   rule.minute = 30;
+//   var repeat = schedule.scheduleJob(rule, () => {
+//     let date = new Date();
+//     console.log(`Updating extensions.json at ${date.toUTCString()} ...`)
+//     extensionBuilder.updateExtensionsJSON()
+//     .then(() => console.log("Update of extensions.json complete."))
+//   })
 // });
