@@ -288,3 +288,22 @@ export function getRepositoryDescription(reponame, branch = "master") {
         req.end();
     });
 }
+
+export enum ExtensionType
+{
+    FRONTEND,
+    BACKEND
+}
+
+export class Extension {
+    name: string;
+    version: string;
+    extensionType: ExtensionType;
+    repository: string;
+    constructor(name: string, version: string, type : ExtensionType, repository: string) {
+        this.name = name;
+        this.version = version;
+        this.extensionType = type;
+        this.repository = repository;
+    }
+}

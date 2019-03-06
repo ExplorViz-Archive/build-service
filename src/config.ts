@@ -1,0 +1,34 @@
+export interface Config
+{
+    /**
+     * Host to bind the webserver to
+     * use 0.0.0.0 to bind to everything
+     */
+    host: string;   
+    /**
+     * Port to bind to
+     */
+    port: number;   
+    /**
+     * Tempoary file path for constructing packages
+     * This should not be used by any other program
+     */
+    tmppath: string;
+    /**
+     * Storage path for caching of built package
+     * configurations
+     */
+    cachePath: string;
+    /**
+     * Explorviz Frontend repository
+     * This should usually be 
+     * https://github.com/ExplorViz/explorviz-frontend.git
+     */
+    frontendrepo: string;
+    /**
+     * Explorviz Backend repository
+     * This should usually be 
+     * https://github.com/ExplorViz/explorviz-backend.git
+     */
+    backendrepo: string;
+}

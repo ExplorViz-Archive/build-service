@@ -5,8 +5,12 @@ import * as fs from "fs-extra";
 import * as schedule from "node-schedule";
 import * as path from "path";
 import * as extensionBuilder from "./extension";
+import {Config} from "./config"
+import { Extension, ExtensionType } from './extension';
+import { Task } from './task';
 
 const app = express();
+const config: Config = require('../config.json');
 
 // const ipAdress = "192.168.178.52";
 
@@ -23,6 +27,29 @@ app.get("/", (req, res) => {
 app.get("/config", (req, res) => {
   res.render("config");
 });
+
+let tasks = {};
+app.post('/',function(req,res){
+  const token = Math.random().toString(36).substring(2);
+  let extensions: Array<Extension> = [];
+  if(req.body.extension1 !== undefined && req.body.extension1 !== "")
+      extensions.push(new Extension(req.body.extension1, "master", ExtensionType.FRONTEND, req.body.extension1));
+  if(req.body.extension2 !== undefined && req.body.extension2 !== "")
+      extensions.push(new Extension(req.body.extension2, "master", ExtensionType.BACKEND, req.body.extension2));
+  tasks[token] = new Task(extensions);
+  res.end(token);
+});
+
+app.get("/token/:token", (req, res) => 
+{
+  let { token } = req.params;
+  const task = tasks[token];
+  if(task === undefined)
+      res.end("notfound");
+  else 
+      res.end(task.getStatus());
+});
+
 
 // app.get('/config_1', (req, res) => {
 //   res.render('config_1');
@@ -76,7 +103,7 @@ app.get("/update", (req, res) => {
 });
 
 // const server = app.listen(8080, `${ipAdress}`, () => {
-const server = app.listen(8080, () => {
+const server = app.listen(config.port, config.host, () => {
   // extensionBuilder.updateExtensionsJSON(true);
   // .then((status) => {
   //   console.log(status + "Update of extensions.json complete.");
