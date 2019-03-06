@@ -1,14 +1,13 @@
-export interface Config
-{
+export interface Config {
     /**
      * Host to bind the webserver to
      * use 0.0.0.0 to bind to everything
      */
-    host: string;   
+    host: string;
     /**
      * Port to bind to
      */
-    port: number;   
+    port: number;
     /**
      * Tempoary file path for constructing packages
      * This should not be used by any other program
@@ -21,14 +20,29 @@ export interface Config
     cachePath: string;
     /**
      * Explorviz Frontend repository
-     * This should usually be 
+     * This should usually be
      * https://github.com/ExplorViz/explorviz-frontend.git
      */
     frontendrepo: string;
     /**
      * Explorviz Backend repository
-     * This should usually be 
+     * This should usually be
      * https://github.com/ExplorViz/explorviz-backend.git
      */
     backendrepo: string;
+}
+
+/**
+ * Create the default Config object.
+ */
+export function createDefaultConfig() {
+    const config: Config = {
+        backendrepo: "https://github.com/ExplorViz/explorviz-backend.git",
+        cachePath: "./cache",
+        frontendrepo: "https://github.com/ExplorViz/explorviz-frontend.git",
+        host: "0.0.0.0",
+        port: 8080,
+        tmppath: "./tmp"
+    };
+    return config;
 }

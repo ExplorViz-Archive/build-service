@@ -1,25 +1,24 @@
 
-import {getConfiguration} from './artifact_builder'
-import { Extension, ExtensionType } from './extension';
+import {getConfiguration} from "./artifact_builder";
+import { Extension, ExtensionType } from "./extension";
 
 export class Task {
-    promise: Promise<String>;
-    status: String = "";
-    hash: string = "";
-    url: String = "";
-    constructor(extensions: Array<Extension>) {
+    public promise: Promise<string>;
+    public status: string = "";
+    public hash: string = "";
+    public url: string = "";
+    constructor(extensions: Extension[]) {
         const self = this;
         [this.hash, this.promise] = getConfiguration(this, extensions);
-        this.promise.then((downloadUrl : String) => 
-        {
+        this.promise.then((downloadUrl: string) => {
             this.url = downloadUrl;
             this.status = "ready";
         });
     }
 
-    getPromise() { return this.promise; }
-    getStatus() { return this.status; }
-    getToken() { return this.hash; }
-    setStatus(newstatus: String) { this.status = newstatus; }
-    getDownload() { return this.url; }
+    public getPromise() { return this.promise; }
+    public getStatus() { return this.status; }
+    public getToken() { return this.hash; }
+    public setStatus(newstatus: string) { this.status = newstatus; }
+    public getDownload() { return this.url; }
 }

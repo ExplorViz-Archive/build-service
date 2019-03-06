@@ -24,7 +24,7 @@ const lorIp = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
 + " sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia"
 + " odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.";
 
-export class ExtensionObject {
+class ExtensionObject {
     public desc: string;
     public imgUrl: string;
     public incompatibleExtensions: string[];

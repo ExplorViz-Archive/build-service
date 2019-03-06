@@ -1,28 +1,29 @@
-
-/**
- * Generate new dummy extensions
- */
-
-// const fs = require("fs");
-// const https = require("https");
-// const removeMd = require("remove-markdown");
-// const status = require("http-status");
-// const exampleExtensions = require("./exampleExtension.js");
-
 import * as fs from "fs-extra";
 import * as status from "http-status";
 import * as https from "https";
 import removeMd = require("remove-markdown");
 import * as exampleExtensions from "./exampleExtension";
 
-class ExtensionObject {
+export enum ExtensionType {
+    FRONTEND,
+    BACKEND
+}
+
+export class Extension {
     public desc: string;
+    public extensionType: ExtensionType;
     public imgUrl: string;
     public incompatibleExtensions: string[];
     public name: string;
+    public repository: string;
     public requiredExtensions: string[];
-    public url: string;
     public version: string;
+    constructor(name?: string, version?: string, type?: ExtensionType, repository?: string) {
+        this.name = name;
+        this.version = version;
+        this.extensionType = type;
+        this.repository = repository;
+    }
 }
 
 interface ExtensionJSONObject {
@@ -149,9 +150,9 @@ function getExtensionLists() {
                 for (let i = 0; i < data.length; i++) {
                     const extension = data[i];
                     const name = (extension as any).name;
-                    const temp: ExtensionObject = new ExtensionObject();
+                    const temp: Extension = new Extension();
                     temp.name = name;
-                    temp.url = (extension as any).html_url;
+                    temp.repository = (extension as any).html_url;
                     temp.version = "1.0";
                     if (name.includes("frontend")) {
                         out.front.push(temp);
@@ -175,7 +176,7 @@ function getExtensionLists() {
  * TODO: add descr & version; error handling
  * @param {Object()} extension
  */
-function getExtensionInformation(extension: ExtensionObject) {
+function getExtensionInformation(extension: Extension) {
     return new Promise((resolve, reject) => {
         getExtensionJSON(extension.name, "build-service-test")
         .then((succ) => {
@@ -287,23 +288,4 @@ export function getRepositoryDescription(reponame, branch = "master") {
         });
         req.end();
     });
-}
-
-export enum ExtensionType
-{
-    FRONTEND,
-    BACKEND
-}
-
-export class Extension {
-    name: string;
-    version: string;
-    extensionType: ExtensionType;
-    repository: string;
-    constructor(name: string, version: string, type : ExtensionType, repository: string) {
-        this.name = name;
-        this.version = version;
-        this.extensionType = type;
-        this.repository = repository;
-    }
 }
