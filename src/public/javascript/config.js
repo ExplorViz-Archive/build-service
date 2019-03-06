@@ -5,12 +5,12 @@ var timeout;
 var configuration = [];
 
 function loadConfig() {
-  const removeButton = document.getElementById('removeButton');
+  const removeButton = document.getElementById("removeButton");
   removeButton.addEventListener("click", () => {
     removeListItem(getFirstActiveListItem().id);
   });
 
-  const removeAllButton = document.getElementById('removeAllButton');
+  const removeAllButton = document.getElementById("removeAllButton");
   removeAllButton.addEventListener("click", () => {
     let item = getFirstActiveListItem();
     while (item !== null) {
@@ -19,25 +19,25 @@ function loadConfig() {
     }
   });
 
-  const dependenciesButton = document.getElementById('dependenciesButton');
+  const dependenciesButton = document.getElementById("dependenciesButton");
   dependenciesButton.addEventListener("click", () => {
     addAllDependencies();
   });
 
-  fetch('/static/extensions')
+  fetch("/static/extensions")
     .then(data => {
-      return data.json()
+      return data.json();
     })
-    .then((response)=>{
-      frontend = response["frontend"];
-      backend = response["backend"];
-      let front = response["frontend"];
-      let back = response["backend"];
+    .then((response) => {
+      frontend = response.frontend;
+      backend = response.backend;
+      let front = response.frontend;
+      let back = response.backend;
       /**
        * Update the coumn of frontend extensions.
        */
       updateColumn("fe-column", front);
-      
+
       /**
        * Update the column for backend extensions.
        */
@@ -47,31 +47,31 @@ function loadConfig() {
 
 /**
  * TODO: comment
- * @param {String} colName 
- * @param {Array} extensions 
+ * @param {String} colName
+ * @param {Array} extensions
  */
 function updateColumn(colName, extensions) {
   let column = document.getElementById(colName);
   let i;
-  for (i = 0; i < extensions.length; i ++){
+  for (i = 0; i < extensions.length; i ++) {
     let element = extensions[i];
-    let name = element["name"];
+    let name = element.name;
     let img = document.createElement("img");
-    img.classList.add('extension-img');
+    img.classList.add("extension-img");
     img.id = name;
-    getImageSource(element["imgUrl"])
+    getImageSource(element.imgUrl)
       .then(success => {
-        img.src = element["imgUrl"];
+        img.src = element.imgUrl;
       }, error => {
-        if (colName.slice(0,2) === "be") {
+        if (colName.slice(0, 2) === "be") {
           img.src = "img/logo-default.png";
         } else {
           img.src = "img/logo-default.png";
         }
-      })
-      column.appendChild(img);
-      img.addEventListener("click", () => {
-        if (img.classList.contains('selected')) {
+      });
+    column.appendChild(img);
+    img.addEventListener("click", () => {
+        if (img.classList.contains("selected")) {
           removeClassFromElement(img, "selected");
           removeListItem("list-" + name);
         } else {
@@ -86,7 +86,7 @@ function updateColumn(colName, extensions) {
     });
     img.addEventListener("mouseout", () => {
       removeClassFromElement(img, "hovered");
-      timeout = setTimeout(() => {showSelectedExtensionById(null)}, 100);
+      timeout = setTimeout(() => {showSelectedExtensionById(null); }, 100);
     });
     getExtensionById(name);
   }
@@ -94,21 +94,21 @@ function updateColumn(colName, extensions) {
 
 /**
  * Check if the image is a static resource.
- * @param {String} imgUrl 
+ * @param {String} imgUrl
  */
 function getImageSource(imgUrl) {
   return Promise.resolve(
     $.ajax({
-      type:'GET',
-      url: '/static/' + imgUrl
-    })
-  )
+      type: "GET",
+      url: "/static/" + imgUrl,
+    }),
+  );
 }
 
 /**
  * Add one item to the currentBuildList and link it to the
  * corresponding image via id.
- * @param {String} id 
+ * @param {String} id
  */
 function addListItem(id) {
   deactivateActiveListItems();
@@ -122,17 +122,17 @@ function addListItem(id) {
   item.addEventListener("click", () => {
     if (!item.classList.contains("active")) {
       deactivateActiveListItems();
-      activateListItemById("list-"+ id)
+      activateListItemById("list-" + id);
     }
   });
   $(`#currentBuildList`).append(item);
-  activateListItemById("list-"+ id);
+  activateListItemById("list-" + id);
   validateConfig();
 }
 
 /**
  * Add the "active" class to an element determined by id.
- * @param {String} id 
+ * @param {String} id
  */
 function activateListItemById(id) {
   let item = document.getElementById(id);
@@ -140,7 +140,7 @@ function activateListItemById(id) {
     addClassToElement(item, "active");
     $(`#removeButton`).removeClass("invisible");
     $(`#removeAllButton`).removeClass("invisible");
-    if (item.parentElement === document.getElementById("currentBuildList")){
+    if (item.parentElement === document.getElementById("currentBuildList")) {
       showSelectedExtensionById(id.substring(5));
     }
   }
@@ -148,35 +148,35 @@ function activateListItemById(id) {
 
 /**
  * Updates the info-box with information about an extension defined by id.
- * @param {String} id 
+ * @param {String} id
  */
 function showSelectedExtensionById(id) {
   clearSelection();
   if (id !== null) {
     let extension = getExtensionById(id);
     if (extension !== null) {
-      setInfoBoxHeading(extension["name"].replace("extension-", ""));
+      setInfoBoxHeading(extension.name.replace("extension-", ""));
       let body = document.getElementById("info-box-body");
       let descContent = document.createElement("p");
       let reqContent = document.createElement("p");
       let reqHead = document.createElement("h4");
-      descContent.textContent = extension["desc"];
+      descContent.textContent = extension.desc;
       reqHead.textContent = "Required extensions:";
-      reqContent.textContent = extension["requiredExtensions"].toString().replace(/,/g, ", ");
+      reqContent.textContent = extension.requiredExtensions.toString().replace(/,/g, ", ");
       body.appendChild(descContent);
       body.appendChild(reqHead);
       body.appendChild(reqContent);
-      if (extension["incompatibleExtensions"].length > 0) {
+      if (extension.incompatibleExtensions.length > 0) {
         let incHead = document.createElement("h4");
         incHead.textContent = "Incompatible with:";
         body.appendChild(incHead);
         let incContent = document.createElement("p");
-        incContent.textContent = extension["incompatibleExtensions"].toString();
+        incContent.textContent = extension.incompatibleExtensions.toString();
         body.appendChild(incContent);
       }
       let urlContent = document.createElement("a");
       urlContent.textContent = "Visit GitHub repository";
-      urlContent.href = extension["url"];
+      urlContent.href = extension.url;
       urlContent.target = "_blank";
       body.appendChild(urlContent);
     }
@@ -185,16 +185,16 @@ function showSelectedExtensionById(id) {
     if (firstListItem !== null) {
       showSelectedExtensionById(firstListItem.id.substring(5));
     } else {
-      setInfoBoxHeading("Please select an extension.")
+      setInfoBoxHeading("Please select an extension.");
     }
   }
 }
 
 /**
  * Set the infoBoxHeading to heading.
- * @param {String} heading 
+ * @param {String} heading
  */
-function setInfoBoxHeading(heading){
+function setInfoBoxHeading(heading) {
   let header = document.getElementById("info-box-heading");
   let title = document.createElement("h3");
   let titleText = document.createElement("b");
@@ -208,7 +208,7 @@ function setInfoBoxHeading(heading){
 /**
  * Clears all content from the info-box.
  */
-function clearSelection(){
+function clearSelection() {
   let heading = document.getElementById("info-box-heading");
   let body = document.getElementById("info-box-body");
   while (heading.firstChild) {
@@ -221,7 +221,7 @@ function clearSelection(){
 
 /**
  * Remove one item by id from the currentBuildList.
- * @param {String} id 
+ * @param {String} id
  */
 function removeListItem(id) {
   let list = document.getElementById("currentBuildList");
@@ -231,9 +231,9 @@ function removeListItem(id) {
     removeClassFromElement(document.getElementById(imgId), "selected");
     list.removeChild(child);
     if (list.childElementCount !== 0) {
-      if(child.classList.contains("active")){
-      activateListItemById(list.children[list.childElementCount-1].id);
-      } 
+      if (child.classList.contains("active")) {
+      activateListItemById(list.children[list.childElementCount - 1].id);
+      }
     } else {
       $("#removeButton").addClass("invisible");
       $("#removeAllButton").addClass("invisible");
@@ -260,7 +260,7 @@ function getFirstActiveListItem() {
   let list = document.getElementById("currentBuildList");
   let listItem = null;
   if (list.hasChildNodes) {
-    for (let i = 0; i<list.childElementCount; i++) {
+    for (let i = 0; i < list.childElementCount; i++) {
       let child = list.children[i];
       if (child.classList.contains("active")) {
         listItem = child;
@@ -268,46 +268,46 @@ function getFirstActiveListItem() {
       }
     }
   }
-  return listItem; 
+  return listItem;
 }
 
 /**
  * Removes a class from an Element if present.
- * @param {Element} element 
- * @param {String} cl 
+ * @param {Element} element
+ * @param {String} cl
  */
 function removeClassFromElement(element, cl) {
-  if (element !== null && element.classList.contains(cl)){
+  if (element !== null && element.classList.contains(cl)) {
     element.classList.remove(cl);
   }
 }
 
 /**
  * Adds a class to an Element if not present.
- * @param {Element} element 
- * @param {String} cl 
+ * @param {Element} element
+ * @param {String} cl
  */
 function addClassToElement(element, cl) {
-  if (element !== null && !element.classList.contains(cl)){
+  if (element !== null && !element.classList.contains(cl)) {
     element.classList.add(cl);
   }
 }
 
 /**
  * Search for an entry with id
- * @param {String} id 
+ * @param {String} id
  */
-function getExtensionById(id){
+function getExtensionById(id) {
   let extension = null;
   if (id.includes("backend")) {
-    for (let i = 0; i<backend.length; i++) {
-      if (backend[i]["name"] === id) {
+    for (let i = 0; i < backend.length; i++) {
+      if (backend[i].name === id) {
         extension = backend[i];
       }
     }
   } else if (id.includes("frontend")) {
-    for (let i = 0; i<frontend.length; i++) {
-      if (frontend[i]["name"] === id) {
+    for (let i = 0; i < frontend.length; i++) {
+      if (frontend[i].name === id) {
         extension = frontend[i];
       }
     }
@@ -320,7 +320,7 @@ function getExtensionById(id){
  */
 function removeValitdationMarks() {
   let images = document.getElementsByClassName("extension-img");
-  for (let i = 0; i<images.length; i++) {
+  for (let i = 0; i < images.length; i++) {
     removeClassFromElement(images[i], "required");
     removeClassFromElement(images[i], "incompatible");
   }
@@ -343,7 +343,7 @@ function activateContinueButton() {
  */
 function deactivateContinueButton() {
   let contButton = document.getElementById("contButton");
-  if (contButton.classList.contains("btn-success")){
+  if (contButton.classList.contains("btn-success")) {
     contButton.removeAttribute("href");
     removeClassFromElement(contButton, "btn-success");
     addClassToElement(contButton, "btn-danger");
@@ -354,25 +354,25 @@ function deactivateContinueButton() {
  * Validates the current config by checking the requirements and incompatibilities
  * of all elements corresponding to the children of currentBuildList.
  */
-function validateConfig(){
-  removeValitdationMarks()
+function validateConfig() {
+  removeValitdationMarks();
   const status = {
-    wanted: [],
+    incompatible: [],
     required: [],
-    incompatible: []
+    wanted: [],
   };
   let list = document.getElementById("currentBuildList");
-  if(list.childElementCount > 0){
+  if (list.childElementCount > 0) {
     for (let i = 0; i < list.childElementCount; i++) {
       let childId = list.children[i].id.substring(5);
       let extensions = getExtensionById(childId);
       status.wanted.push(childId);
-      extensions["requiredExtensions"].forEach(requiredExtension => {
+      extensions.requiredExtensions.forEach(requiredExtension => {
         let element = document.getElementById(requiredExtension);
         try {
           if (!element.classList.contains("selected")) {
             addClassToElement(element, "required");
-            if (status.required.indexOf(requiredExtension) === -1 ){
+            if (status.required.indexOf(requiredExtension) === -1 ) {
               status.required.push(requiredExtension);
             }
           }
@@ -383,20 +383,20 @@ function validateConfig(){
           status.incompatible.push(childId);
         }
       });
-      extensions["incompatibleExtensions"].forEach(incompatibleExtension => {
+      extensions.incompatibleExtensions.forEach(incompatibleExtension => {
         let element = document.getElementById(incompatibleExtension);
-        if (element.classList.contains("selected")){
+        if (element.classList.contains("selected")) {
           addClassToElement(element, "incompatible");
           addClassToElement($(`#${childId}`).get(0), "incompatible");
-          if (status.incompatible.indexOf(incompatibleExtension) === -1 ){
+          if (status.incompatible.indexOf(incompatibleExtension) === -1 ) {
             status.incompatible.push({childId, incompatibleExtension});
           }
         }
       });
     }
   }
-  if (status.wanted.length>0 
-        && status.required.length === 0 
+  if (status.wanted.length > 0
+        && status.required.length === 0
         && status.incompatible.length === 0) {
     configuration = status.wanted;
     activateContinueButton();
@@ -408,15 +408,15 @@ function validateConfig(){
 /**
  * Add all dependencies of selected extensions to the current build list.
  */
-function addAllDependencies(){
+function addAllDependencies() {
   let list = document.getElementById("currentBuildList");
-  if(list.childElementCount > 0){
+  if (list.childElementCount > 0) {
     for (let i = 0; i < list.childElementCount; i++) {
       let childId = list.children[i].id.substring(5);
       let extensions = getExtensionById(childId);
-      extensions["requiredExtensions"].forEach(requiredExtension => {
-        if (!buildListHasExtension(requiredExtension) 
-            && getExtensionById(requiredExtension) !== null){
+      extensions.requiredExtensions.forEach(requiredExtension => {
+        if (!buildListHasExtension(requiredExtension)
+            && getExtensionById(requiredExtension) !== null) {
           let img = $(`#${requiredExtension}`);
           img.addClass("selected");
           addListItem(requiredExtension);
@@ -428,18 +428,18 @@ function addAllDependencies(){
 
 /**
  * Check if an extension with the id is present in the build list.
- * @param {String} id 
+ * @param {String} id
  */
 function buildListHasExtension(id) {
   let hasExtension = false;
   let list = document.getElementById("currentBuildList");
-  if(list.childElementCount > 0){
+  if (list.childElementCount > 0) {
     for (let i = 0; i < list.childElementCount; i++) {
       let childId = list.children[i].id.substring(5);
       if (childId === id) {
         hasExtension = true;
       }
     }
-  } 
+  }
   return hasExtension;
 }
