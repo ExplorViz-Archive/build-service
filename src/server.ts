@@ -6,9 +6,7 @@ import * as schedule from "node-schedule";
 import * as path from "path";
 import * as extensionBuilder from "./extension";
 import {Config} from "./config"
-import { Extension, ExtensionType } from './extension';
-import { Task } from './task';
-
+import {ArtifactRouter} from "./artifact_router";
 const app = express();
 const config: Config = require('../config.json');
 
@@ -28,28 +26,7 @@ app.get("/config", (req, res) => {
   res.render("config");
 });
 
-let tasks = {};
-app.post('/',function(req,res){
-  const token = Math.random().toString(36).substring(2);
-  let extensions: Array<Extension> = [];
-  if(req.body.extension1 !== undefined && req.body.extension1 !== "")
-      extensions.push(new Extension(req.body.extension1, "master", ExtensionType.FRONTEND, req.body.extension1));
-  if(req.body.extension2 !== undefined && req.body.extension2 !== "")
-      extensions.push(new Extension(req.body.extension2, "master", ExtensionType.BACKEND, req.body.extension2));
-  tasks[token] = new Task(extensions);
-  res.end(token);
-});
-
-app.get("/token/:token", (req, res) => 
-{
-  let { token } = req.params;
-  const task = tasks[token];
-  if(task === undefined)
-      res.end("notfound");
-  else 
-      res.end(task.getStatus());
-});
-
+app.use("/artifact", ArtifactRouter)
 
 // app.get('/config_1', (req, res) => {
 //   res.render('config_1');

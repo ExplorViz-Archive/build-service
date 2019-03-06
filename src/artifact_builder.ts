@@ -1,27 +1,38 @@
 import {Extension, ExtensionType} from "./extension"
 import {Config} from "./config"
-import {isCached, moveToCache, getFile} from "./artifact_cache"
+import {isCached, moveToCache, getFile, configurationHash} from "./artifact_cache"
 import {Task} from "./task"
 const config: Config = require('../config.json');
 import * as child_process from "ts-process-promises"
 import * as fs from "async-file"
 
-enum BuildType
-{
-    DOCKER,
-    ZIP
-}
+let activeBuilding = {};
 
-async function getConfiguration(task: Task, type: BuildType, extensions: Array<Extension>) 
+export function getConfiguration(task: Task, extensions: Array<Extension>) : [string, Promise<String>]
 {
-    if(!isCached(extensions))
+    const hash = configurationHash(extensions);
+    if(activeBuilding[hash] !== undefined)
     {
-        // Not cached, needs building
-        await buildConfiguration(task, extensions);
+        // Currently compiling, return existing promise
+        return [hash, activeBuilding[hash]]
     }
 
-    // Return from cache
-    return await getFile(extensions);
+    if(isCached(extensions))
+    {    
+       // Return from cache
+       return [hash, Promise.resolve(getFile(extensions))];
+    }        
+
+    
+    // Not cached, needs building
+    const promise = buildConfiguration(task, extensions);
+    
+    activeBuilding[hash] = promise;
+    return [hash, promise.then(() => 
+    {
+        activeBuilding[hash] = undefined;
+        return getFile(extensions);
+    })];
 }
 
 export async function buildConfiguration(task: Task, extensions: Array<Extension>) 

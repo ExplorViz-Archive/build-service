@@ -21,7 +21,7 @@ export async function getFile(extensions: Array<Extension>)
     return config.cachePath + "/" + hash + ".zip";
 }
 
-function configurationHash(extensions: Array<Extension>)
+export function configurationHash(extensions: Array<Extension>)
 {
     extensions.sort((a, b) => a.name.localeCompare(b.name));
     let hash = sha512.create();

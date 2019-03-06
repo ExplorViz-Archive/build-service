@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tsc": "tsc",
-    "dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts"
+    "tsc": "tsc --suppressImplicitAnyIndexErrors",
+    "dev": "ts-node-dev --respawn --suppressImplicitAnyIndexErrors --transpileOnly ./src/server.ts"
   },
   "keywords": [],
   "author": "",
