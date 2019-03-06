@@ -84,7 +84,7 @@ export async function updateExtensionsJSON(insertExampleValues = false) {
         if (insertExampleValues) {
             tmpList = addDummyExtensions(tmpList);
         }
-        fs.writeJSONSync("extensionList.json", tmpList);
+        fs.writeJSONSync("extensionList.json", tmpList, {spaces:2});
         returnStatus = "Success! ";
     } catch (error) {
         console.log("Error: Failed to update the extensionList.json." + error.message);

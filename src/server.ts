@@ -43,8 +43,8 @@ app.use("/artifact", ArtifactRouter);
 //   res.render('config_2');
 // });
 
-app.get("/about", (req, res) => {
-  res.render("about");
+app.get("/imprint", (req, res) => {
+  res.render("imprint");
 });
 
 app.get("/contact", (req, res) => {
