@@ -24,8 +24,8 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.static(path.join( __dirname, "public" )));
 
-app.set('json replacer', null);
-app.set('json spaces', 2);
+app.set("json replacer", null);
+app.set("json spaces", 2);
 
 app.get("/", (req, res) => {
   res.render("index");

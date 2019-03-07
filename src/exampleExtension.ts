@@ -24,7 +24,18 @@ const lorIp = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
 + " sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia"
 + " odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.";
 
-class ExtensionObject {
+export interface ExtensionObject {
+    desc: string;
+    extensionType: ExtensionType;
+    imgUrl: string;
+    incompatibleExtensions: string[];
+    name: string;
+    repository: string;
+    requiredExtensions: string[];
+    version: string;
+}
+
+class ExampleExtension implements ExtensionObject {
     public desc: string;
     public imgUrl: string;
     public incompatibleExtensions: string[];
@@ -32,10 +43,12 @@ class ExtensionObject {
     public requiredExtensions: string[];
     public repository: string;
     public version: string;
+    public extensionType: ExtensionType;
 
     constructor(name: string,
                 desc: string,
                 imgUrl: string,
+                extensionType: ExtensionType,
                 requiredExtensions: string[],
                 incompatibleExtensions: string[],
                 repository: string,
@@ -47,14 +60,21 @@ class ExtensionObject {
         this.incompatibleExtensions = incompatibleExtensions;
         this.repository = repository;
         this.version = version;
+        this.extensionType = extensionType;
     }
 }
 
+enum ExtensionType {
+    FRONTEND,
+    BACKEND
+}
+
 export function getMissingImageDummyBE() {
-    return new ExtensionObject(
+    return new ExampleExtension(
         "backend-missing-image-dummy",
         lorIp,
         "",
+        ExtensionType.BACKEND,
         ["backend"],
         [],
         "https://www.google.com",
@@ -63,10 +83,11 @@ export function getMissingImageDummyBE() {
 }
 
 export function getMissingImageDummyFE() {
-    return new ExtensionObject(
+    return new ExampleExtension(
         "frontend-missing-image-dummy",
         lorIp,
         "",
+        ExtensionType.FRONTEND,
         ["frontend"],
         [],
         "https://www.google.com",
@@ -75,10 +96,11 @@ export function getMissingImageDummyFE() {
 }
 
 export function getNewVrDummyFE() {
-    return new ExtensionObject(
+    return new ExampleExtension(
         "frontend-extension-new-vr",
         feDesc,
         "img/augmented-reality.svg",
+        ExtensionType.FRONTEND,
         ["backend", "frontend", "backend-extension-new-vr"],
         ["frontend-extension-vr"],
         "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
@@ -87,10 +109,11 @@ export function getNewVrDummyFE() {
 }
 
 export function getNewVrDummyBE() {
-    return new ExtensionObject(
+    return new ExampleExtension(
         "backend-extension-new-vr",
         beDesc,
         "img/augmented-reality.svg",
+        ExtensionType.BACKEND,
         ["backend", "frontend", "frontend-extension-new-vr"],
         ["backend-extension-vr"],
         "https://github.com/ExplorViz/explorviz-backend-extension-vr",
@@ -103,71 +126,79 @@ export function getNewVrDummyBE() {
  */
 export function generateExampleExtensionsJSON() {
 
-    const ext1 = new ExtensionObject("backend-extension-vr",
+    const ext1 = new ExampleExtension("backend-extension-vr",
                                 beDesc,
                                 "img/vr.png",
+                                ExtensionType.BACKEND,
                                 ["backend", "frontend", "frontend-extension-vr"],
                                 [],
                                 "https://github.com/ExplorViz/explorviz-backend-extension-vr",
                                 "1.0"
     );
 
-    const ext3 = new ExtensionObject("backend-extension-new-vr",
+    const ext3 = new ExampleExtension("backend-extension-new-vr",
                                 beDesc,
                                 "img/vr.png",
+                                ExtensionType.BACKEND,
                                 ["backend", "frontend", "frontend-extension-new-vr"],
                                 ["backend-extension-vr"],
                                 "https://github.com/ExplorViz/explorviz-backend-extension-vr",
                                 "1.1"
     );
 
-    const ext5 = new ExtensionObject("backend",
+    const ext5 = new ExampleExtension("backend",
                                 evDesc,
                                 "img/logo-be.png",
+                                ExtensionType.BACKEND,
                                 ["frontend"],
                                 [],
                                 "https://github.com/ExplorViz/explorviz-backend",
                                 "1.0"
     );
 
-    const ext2 = new ExtensionObject("frontend-extension-vr",
+    const ext2 = new ExampleExtension("frontend-extension-vr",
                                 feDesc,
                                 "img/vr.png",
+                                ExtensionType.FRONTEND,
                                 ["backend", "frontend", "backend-extension-vr"],
                                 [],
                                 "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
                                 "1.0"
     );
-    const ext4 = new ExtensionObject("frontend-extension-new-vr",
+    const ext4 = new ExampleExtension("frontend-extension-new-vr",
                                 feDesc,
                                 "img/vr.png",
+                                ExtensionType.FRONTEND,
                                 ["backend", "frontend", "backend-extension-new-vr"],
                                 ["frontend-extension-vr"],
                                 "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
                                 "1.1"
     );
 
-    const ext6 = new ExtensionObject("frontend",
+    const ext6 = new ExampleExtension("frontend",
                                 evDesc,
                                 "img/logo-fe.png",
+                                ExtensionType.FRONTEND,
                                 ["backend"],
                                 [],
                                 "https://github.com/ExplorViz/explorviz-frontend",
                                 "1.0"
     );
 
-    const ext7 = new ExtensionObject("backend-missing-image-dummy",
+    const ext7 = new ExampleExtension("backend-missing-image-dummy",
                                 lorIp,
                                 "",
+                                ExtensionType.BACKEND,
                                 ["backend"],
                                 [],
                                 "https://www.google.com",
                                 "1.0"
     );
 
-    const ext8 = new ExtensionObject("frontend-missing-image-dummy",
+    const ext8 = new ExampleExtension("frontend-missing-image-dummy",
                                 lorIp,
                                 "",
+                                ExtensionType.FRONTEND,
                                 ["frontend"],
                                 [],
                                 "https://www.google.com",
@@ -185,17 +216,19 @@ export function generateExampleExtensionsJSON() {
     front.push(ext4);
 
     for (let i = 0; i < 8; i++) {
-        const fd = new ExtensionObject("frontend-extension-dummy" + i,
+        const fd = new ExampleExtension("frontend-extension-dummy" + i,
         lorIp + lorIp + lorIp + lorIp,
         "img/logo-fe.png",
+        ExtensionType.FRONTEND,
         ["frontend"],
         [],
         "https://www.google.com",
         "1.0"
         );
-        const bd = new ExtensionObject("backend-extension-dummy" + i,
+        const bd = new ExampleExtension("backend-extension-dummy" + i,
         lorIp,
         "img/logo-be.png",
+        ExtensionType.BACKEND,
         ["backend"],
         [],
         "https://www.google.com",
