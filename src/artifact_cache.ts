@@ -10,7 +10,7 @@ try {
 } catch (error) {
   console.log("No config.json found. Generating new file.");
   config = createDefaultConfig();
-  fse.writeJSONSync("config.json", config, {spaces:2});
+  fse.writeJSONSync("config.json", config, {spaces: 2});
 }
 
 export async function moveToCache(path: string, extensions: Extension[]) {

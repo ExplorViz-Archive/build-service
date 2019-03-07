@@ -1,7 +1,7 @@
 import * as fs from "fs-extra";
-import * as status from "http-status";
+import status from "http-status";
 import * as https from "https";
-import removeMd = require("remove-markdown");
+import removeMd from "remove-markdown";
 import * as exampleExtensions from "./exampleExtension";
 
 export enum ExtensionType {
@@ -30,6 +30,11 @@ interface ExtensionJSONObject {
     imgUrl: string;
     incompatibleExtensions: string[];
     requiredExtensions: string[];
+}
+
+interface ExtensionLists {
+    back: Extension[];
+    front: Extension[];
 }
 
 const defaultImgUrl = "img/logo-default.png";
@@ -62,7 +67,7 @@ function addDummyExtensions(extensions) {
  * Don't use this function exessively as GitHub API requests are limited to 60/hour.
  * @param {boolean} insertExampleValues Defaults to false.
  */
-export async function updateExtensionsJSON(insertExampleValues = false) {
+export async function updateExtensionsJSON(insertExampleValues: boolean = false) {
     let tmpList = null;
     let returnStatus = "";
     try {
@@ -84,7 +89,7 @@ export async function updateExtensionsJSON(insertExampleValues = false) {
         if (insertExampleValues) {
             tmpList = addDummyExtensions(tmpList);
         }
-        fs.writeJSONSync("extensionList.json", tmpList, {spaces:2});
+        fs.writeJSONSync("extensionList.json", tmpList, {spaces: 2});
         returnStatus = "Success! ";
     } catch (error) {
         console.log("Error: Failed to update the extensionList.json." + error.message);
@@ -93,8 +98,8 @@ export async function updateExtensionsJSON(insertExampleValues = false) {
     return returnStatus;
 }
 
-async function combineExtensionInformation(extensions, listName) {
-    const updatedExtensions = [];
+async function combineExtensionInformation(extensions: Extension[], listName: string) {
+    const updatedExtensions: Extension[] = [];
     for (let i = 0; i < extensions.length; i++) {
         let tmp = null;
         try {
@@ -106,7 +111,7 @@ async function combineExtensionInformation(extensions, listName) {
             tmp = getDefaultExtensionInformation(extensions[i], listName);
         }
         tmp.name = tmp.name.substring(10);
-        console.log(i + ": " + tmp.name);
+        console.log(listName.charAt(0) + i + ": " + tmp.name);
         updatedExtensions.push(tmp);
     }
     return updatedExtensions;
@@ -142,7 +147,7 @@ function getExtensionLists() {
                     reject(e);
                 }
                 data = (data as any).items;
-                const out = {
+                const out: ExtensionLists = {
                     back : [],
                     front : []
                 };
@@ -150,7 +155,7 @@ function getExtensionLists() {
                 for (let i = 0; i < data.length; i++) {
                     const extension = data[i];
                     const name = (extension as any).name;
-                    const temp: Extension = new Extension();
+                    const temp = new Extension();
                     temp.name = name;
                     temp.repository = (extension as any).html_url;
                     temp.version = "1.0";
@@ -173,8 +178,8 @@ function getExtensionLists() {
 /**
  * Assembles the Extension information from different sources and creates a complete
  * extension object.
- * TODO: add descr & version; error handling
- * @param {Object()} extension
+ * TODO: add version
+ * @param {Extension} extension
  */
 function getExtensionInformation(extension: Extension) {
     return new Promise((resolve, reject) => {
@@ -198,11 +203,11 @@ function getExtensionInformation(extension: Extension) {
 
 /**
  * Add default values to an Extension object.
- * @param {Object} extension
- * @param {String} target Either frontend or backend.
+ * @param {Extension} extension
+ * @param {string} listName Either frontend or backend.
  */
-function getDefaultExtensionInformation(extension, target) {
-    extension.requiredExtensions = [target];
+function getDefaultExtensionInformation(extension: Extension, listName: string) {
+    extension.requiredExtensions = [listName];
     extension.incompatibleExtensions = [];
     extension.imgUrl = defaultImgUrl;
     extension.desc = defaultDescr;
@@ -211,10 +216,10 @@ function getDefaultExtensionInformation(extension, target) {
 
 /**
  * Get the exttensions.json file from a certain branch of a repository.
- * @param {String} reponame
- * @param {String} branch
+ * @param {string} reponame
+ * @param {string} branch
  */
-function getExtensionJSON(reponame, branch) {
+function getExtensionJSON(reponame: string, branch: string) {
     const options = {
         headers: {
             "Accept": "application/vnd.github.raw+json",
@@ -248,10 +253,10 @@ function getExtensionJSON(reponame, branch) {
 /**
  * Returns a promise for the project description of a certain branch of an ExplorViz
  * repository.
- * @param {String} reponame
- * @param {String} branch defaults to "master".
+ * @param {string} reponame
+ * @param {string} branch defaults to "master".
  */
-export function getRepositoryDescription(reponame, branch = "master") {
+export function getRepositoryDescription(reponame: string, branch: string = "master") {
     const options = {
         headers: {
             "Accept": "application/vnd.github.raw+json",

@@ -4,7 +4,7 @@ var backend;
 var timeout;
 var configuration = [];
 
-function loadConfig() {
+function loadConfigurator() {
   const removeButton = document.getElementById("removeButton");
   removeButton.addEventListener("click", () => {
     removeListItem(getFirstActiveListItem().id);

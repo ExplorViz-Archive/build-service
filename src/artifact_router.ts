@@ -34,8 +34,9 @@ router.get("/download/:token", (req, res) => {
     const task = tasks[token];
     if (task === undefined) {
         res.end("notfound");
+    } else {
+        res.end(task.getDownload());
     }
-    res.end(task.getDownload());
 });
 
 export const ArtifactRouter: Router = router;

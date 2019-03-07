@@ -12,7 +12,7 @@ try {
 } catch (error) {
   console.log("No config.json found. Generating new file.");
   config = createDefaultConfig();
-  fse.writeJSONSync("config.json", config), {spaces:2};
+  fse.writeJSONSync("config.json", config, {spaces: 2});
 }
 const activeBuilding = {};
 
