@@ -176,7 +176,7 @@ function showSelectedExtensionById(id) {
       }
       let urlContent = document.createElement("a");
       urlContent.textContent = "Visit GitHub repository";
-      urlContent.href = extension.url;
+      urlContent.href = extension.repository;
       urlContent.target = "_blank";
       body.appendChild(urlContent);
     }

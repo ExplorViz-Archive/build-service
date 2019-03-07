@@ -37,10 +37,10 @@ const defaultDescr = "This is an extension for ExplorViz.";
 const defaultBranch = "build-service-test";
 
 const backendInitializer = {name: "explorviz-backend",
-        url: "https://github.com/ExplorViz/explorviz-backend"
+    repository: "https://github.com/ExplorViz/explorviz-backend"
 };
 const frontendInitializer = {name: "explorviz-frontend",
-        url: "https://github.com/ExplorViz/explorviz-frontend"
+    repository: "https://github.com/ExplorViz/explorviz-frontend"
 };
 
 function addDummyExtensions(extensions) {
@@ -102,7 +102,7 @@ async function combineExtensionInformation(extensions, listName) {
             tmp.desc = await getRepositoryDescription(extensions[i].name, defaultBranch);
         } catch (error) {
             console.log("Error processing " + extensions[i].name +
-                ": Could not parse extension information. Using default values instead.");
+                `: Could not parse extension information (${error.message}). Using default values instead.`);
             tmp = getDefaultExtensionInformation(extensions[i], listName);
         }
         tmp.name = tmp.name.substring(10);

@@ -26,6 +26,7 @@ body {
 }
 
 .extension-img {
+  border: 1px solid  rgb(46, 46, 46);
   background: #F1F1F1;
   vertical-align: middle;
   width: 100px;
@@ -52,14 +53,15 @@ body {
   border: 2px solid  rgb(32, 197, 17);
 }
 
+.hovered{
+  border: 2px solid  rgba(44, 127, 250, 0.966);
+}
+
 .incompatible.selected.hovered {
   box-shadow: 4px 4px rgb(226, 8, 8);
   border: 2px solid  rgba(44, 127, 250, 0.966);
 }
 
-.hovered{
-  border: 2px solid  rgba(44, 127, 250, 0.966);
-}
 .footer {
   background-color: #F1F1F1;
   text-align: center;

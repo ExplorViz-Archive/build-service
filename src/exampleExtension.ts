@@ -30,7 +30,7 @@ class ExtensionObject {
     public incompatibleExtensions: string[];
     public name: string;
     public requiredExtensions: string[];
-    public url: string;
+    public repository: string;
     public version: string;
 
     constructor(name: string,
@@ -38,14 +38,14 @@ class ExtensionObject {
                 imgUrl: string,
                 requiredExtensions: string[],
                 incompatibleExtensions: string[],
-                url: string,
+                repository: string,
                 version: string) {
         this.name = name;
         this.desc = desc;
         this.imgUrl = imgUrl;
         this.requiredExtensions = requiredExtensions;
         this.incompatibleExtensions = incompatibleExtensions;
-        this.url = url;
+        this.repository = repository;
         this.version = version;
     }
 }
@@ -78,7 +78,7 @@ export function getNewVrDummyFE() {
     return new ExtensionObject(
         "frontend-extension-new-vr",
         feDesc,
-        "img/vr.png",
+        "img/augmented-reality.svg",
         ["backend", "frontend", "backend-extension-new-vr"],
         ["frontend-extension-vr"],
         "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
@@ -90,7 +90,7 @@ export function getNewVrDummyBE() {
     return new ExtensionObject(
         "backend-extension-new-vr",
         beDesc,
-        "img/vr.png",
+        "img/augmented-reality.svg",
         ["backend", "frontend", "frontend-extension-new-vr"],
         ["backend-extension-vr"],
         "https://github.com/ExplorViz/explorviz-backend-extension-vr",
