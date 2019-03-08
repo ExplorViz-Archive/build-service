@@ -2,7 +2,9 @@ var frontend;
 var backend;
 
 var timeout;
-var configuration = [];
+var configuration = {
+  config : [],
+};
 
 function loadConfigurator() {
   const removeButton = document.getElementById("removeButton");
@@ -326,11 +328,26 @@ function removeValitdationMarks() {
   }
 }
 
+function asd() {
+  console.log(configuration);
+  $.ajax({
+    data: configuration,
+    success: (res) => {
+      console.log(res);
+      window.location = `/show/${res}`;
+    },
+    type: "POST",
+    url: "/show",
+  });
+}
+
 /**
  * Activate the continue button if inactive.
  */
 function activateContinueButton() {
   let contButton = document.getElementById("contButton");
+  let continueButton = document.getElementById("continueButton");
+  continueButton.addEventListener("click", () => asd(configuration));
   if (contButton.classList.contains("btn-danger")) {
     contButton.href = "/confirmation";
     removeClassFromElement(contButton, "btn-danger");
@@ -366,7 +383,7 @@ function validateConfig() {
     for (let i = 0; i < list.childElementCount; i++) {
       let childId = list.children[i].id.substring(5);
       let extensions = getExtensionById(childId);
-      status.wanted.push(childId);
+      status.wanted.push(extensions);
       extensions.requiredExtensions.forEach(requiredExtension => {
         let element = document.getElementById(requiredExtension);
         try {
@@ -385,7 +402,7 @@ function validateConfig() {
       });
       extensions.incompatibleExtensions.forEach(incompatibleExtension => {
         let element = document.getElementById(incompatibleExtension);
-        if (element.classList.contains("selected")) {
+        if (element !== null && element.classList.contains("selected")) {
           addClassToElement(element, "incompatible");
           addClassToElement($(`#${childId}`).get(0), "incompatible");
           if (status.incompatible.indexOf(incompatibleExtension) === -1 ) {
@@ -398,7 +415,7 @@ function validateConfig() {
   if (status.wanted.length > 0
         && status.required.length === 0
         && status.incompatible.length === 0) {
-    configuration = status.wanted;
+    configuration.config = trimConfig(status.wanted);
     activateContinueButton();
   } else {
     deactivateContinueButton();
@@ -442,4 +459,22 @@ function buildListHasExtension(id) {
     }
   }
   return hasExtension;
+}
+
+/**
+ * Trims an array of extensions to contain only build-relevant information.
+ * @param {Extension[]} extensions
+ */
+function trimConfig(extensions) {
+  let config = [];
+  for (const extension of extensions) {
+    const newExtension = {
+      extensionType: extension.extensionType,
+      name: extension.name,
+      repository: extension.repository,
+      version: extension.version,
+    };
+    config.push(newExtension);
+  }
+  return config;
 }

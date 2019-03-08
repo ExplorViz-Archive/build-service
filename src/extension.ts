@@ -18,7 +18,7 @@ export class Extension implements exampleExtensions.ExtensionObject {
     public repository: string;
     public requiredExtensions: string[];
     public version: string;
-    constructor(name?: string, version?: string, type?: ExtensionType, repository?: string) {
+    constructor(name: string, version?: string, type?: ExtensionType, repository?: string) {
         this.name = name;
         this.version = version;
         this.extensionType = type;
@@ -52,17 +52,6 @@ const frontendInitializer: Extension = new Extension("explorviz-frontend",
     "https://github.com/ExplorViz/explorviz-frontend"
 );
 
-function addDummyExtensions(extensions: ExtensionLists) {
-    console.log("Adding dummies to extension list.");
-
-    extensions.frontend.push(exampleExtensions.getMissingImageDummyFE());
-    extensions.frontend.push(exampleExtensions.getNewVrDummyFE());
-    extensions.backend.push(exampleExtensions.getMissingImageDummyBE());
-    extensions.backend.push(exampleExtensions.getNewVrDummyBE());
-
-    return extensions;
-}
-
 /**
  * Initiate automated update of the extensionList.json file.
  *
@@ -82,7 +71,7 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
         console.log("Error assembling extension list: " + error);
         return;
     }
-    console.log("List of extensions gathered.");
+    console.log("List of extensions assemled.");
     try {
         const frontend = await combineExtensionInformation(tmpList.frontend, ExtensionType.FRONTEND);
         const backend = await combineExtensionInformation(tmpList.backend, ExtensionType.BACKEND);
@@ -100,6 +89,27 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
     return returnStatus;
 }
 
+/**
+ * Adds dummy extensions for testing purposes to the extension list.
+ * @param extensions
+ */
+function addDummyExtensions(extensions: ExtensionLists) {
+    console.log("Adding dummies to extension list.");
+
+    extensions.frontend.push(exampleExtensions.getMissingImageDummyFE());
+    extensions.frontend.push(exampleExtensions.getNewVrDummyFE());
+    extensions.backend.push(exampleExtensions.getMissingImageDummyBE());
+    extensions.backend.push(exampleExtensions.getNewVrDummyBE());
+
+    return extensions;
+}
+
+/**
+ * Receives a list of either frontend or backend extensions and returns a list with all
+ * combined information for every extension.
+ * @param extensions
+ * @param extensionType
+ */
 async function combineExtensionInformation(extensions: Extension[], extensionType: ExtensionType) {
     const updatedExtensions: Extension[] = [];
     for (const extension of extensions) {
@@ -107,22 +117,22 @@ async function combineExtensionInformation(extensions: Extension[], extensionTyp
         try {
             tmp = await getExtensionInformation(extension);
             tmp.desc = await getRepositoryDescription(extension.name, defaultBranch);
+            console.log(`${tmp.name.substring(10)}: Processed successfully.`);
         } catch (error) {
-            console.log("Error processing " + extension.name +
-                `: Could not parse extension information (${error.message}). Using default values instead.`);
             tmp = getDefaultExtensionInformation(extension, extensionType);
+            console.log(`${extension.name.substring(10)}: Error while processing. `
+                + `Could not parse extension information (${error.message}). Using default values instead.`);
         }
         tmp.name = tmp.name.substring(10);
         tmp.extensionType = extensionType;
-        console.log(/*tmp.name.charAt(0) + ": " +*/ tmp.name);
         updatedExtensions.push(tmp);
     }
     return updatedExtensions;
 }
 
 /**
- * Returns the current lists of frontend and backend extensions of ExplorViz
- * from GitHub as promise.
+ * Tries to return the current lists of frontend and backend extensions of ExplorViz
+ * from GitHub.
  */
 function getExtensionLists(): Promise<ExtensionLists> {
     const options = {
@@ -158,8 +168,7 @@ function getExtensionLists(): Promise<ExtensionLists> {
                 for (let i = 0; i < data.length; i++) {
                     const extension = data[i];
                     const name = (extension as any).name;
-                    const temp = new Extension();
-                    temp.name = name;
+                    const temp = new Extension(name);
                     temp.repository = (extension as any).html_url;
                     temp.version = "1.0";
                     if (name.includes("frontend")) {
@@ -179,9 +188,8 @@ function getExtensionLists(): Promise<ExtensionLists> {
 }
 
 /**
- * Assembles the Extension information from different sources and creates a complete
- * extension object.
- * TODO: add version
+ * Adds the information contained in the extension.json file from the respective
+ * GitHub repository to the extension.
  * @param {Extension} extension
  */
 function getExtensionInformation(extension: Extension): Promise<Extension> {
@@ -198,7 +206,6 @@ function getExtensionInformation(extension: Extension): Promise<Extension> {
             }
             resolve(extension);
         }, (err) => {
-            // console.log("Error processing: " + extension.name+ ": " + err.message);
             reject(err);
         });
     });
@@ -220,11 +227,6 @@ function getDefaultExtensionInformation(extension: Extension, extensionType: Ext
     extension.desc = defaultDescr;
     return extension;
 }
-
-// getExtensionJSON("explorviz-frontend", "build-service-test")
-// getRepositoryDescription("explorviz-frontend", "build-service-test")
-// combineExtensionInformation(tmpList.front, "frontend")
-//     .then((success)=> console.log(success), (error) => console.log(error));
 
 /**
  * Get the exttensions.json file from a certain branch of a repository.

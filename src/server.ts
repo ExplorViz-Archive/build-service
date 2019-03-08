@@ -4,6 +4,7 @@ import express = require ("express");
 import * as fs from "fs-extra";
 import * as schedule from "node-schedule";
 import * as path from "path";
+import {configurationHash} from "./artifact_cache";
 import {ArtifactRouter} from "./artifact_router";
 import {Config, createDefaultConfig} from "./config";
 import * as extensionBuilder from "./extension";
@@ -19,13 +20,18 @@ try {
 }
 // const ipAdress = "192.168.178.52";
 
+const builds: {[key: string]: extensionBuilder.Extension[]} = {};
+
 app.set( "views", path.join( __dirname, "views" ) );
 app.set("view engine", "ejs");
-app.use(express.json());
-app.use(express.static(path.join( __dirname, "public" )));
-
 app.set("json replacer", null);
 app.set("json spaces", 2);
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.static(path.join( __dirname, "public" )));
+
+app.use("/artifact", ArtifactRouter);
 
 app.get("/", (req, res) => {
   res.render("index");
@@ -34,8 +40,6 @@ app.get("/", (req, res) => {
 app.get("/config", (req, res) => {
   res.render("config");
 });
-
-app.use("/artifact", ArtifactRouter);
 
 // app.get('/config_1', (req, res) => {
 //   res.render('config_1');
@@ -62,9 +66,20 @@ app.get("/static/extensions", (req, res) => {
   res.send(extensions);
 });
 
-app.get("/show", (req, res) => {
-  const extensions = fs.readJsonSync("extensionList.json");
-  res.json(extensions);
+app.post("/show", (req, res) => {
+  const body: extensionBuilder.Extension[] = req.body;
+  const hash = configurationHash(body);
+  builds[hash] = body;
+  res.end(hash);
+});
+
+app.get("/show/:id", (req, res) => {
+  const conf = builds[req.params.id];
+  if (conf !== null) {
+    res.json(conf);
+  } else {
+    res.end("asddsa");
+  }
 });
 
 app.get("/static/img/:imgUrl", (req, res) => {
@@ -107,7 +122,7 @@ const server = app.listen(config.port, config.host, () => {
 
   const rule = new schedule.RecurrenceRule();
   rule.minute = 0;
-  const repeat = schedule.scheduleJob(rule, () => {
+  schedule.scheduleJob(rule, () => {
     console.log(`Updating extensions.json at ${new Date().toLocaleTimeString()} ...`);
     extensionBuilder.updateExtensionsJSON(true)
     .then((status) => console.log(status + "Update of extensions.json complete."));
