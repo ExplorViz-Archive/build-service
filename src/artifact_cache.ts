@@ -27,11 +27,12 @@ export async function getFile(extensions: Extension[]) {
 }
 
 export function configurationHash(extensions: Extension[]) {
-    extensions.sort((a, b) => a.name.localeCompare(b.name));
+    const extensionsArr = Array.from(extensions);
+    extensionsArr.sort((a, b) => {return a.name.localeCompare(b.name)});
     const hash = sha512.create();
-    extensions.forEach((element) => {
-        sha512.update(element.name);
-        sha512.update(element.version);
-    });
+    for (const extension of extensionsArr) {
+        sha512.update(extension.name);
+        sha512.update(extension.version);
+    }
     return hash.hex();
 }
