@@ -67,9 +67,10 @@ app.get("/static/extensions", (req, res) => {
 });
 
 app.post("/show", (req, res) => {
-  const body: extensionBuilder.Extension[] = req.body;
-  const hash = configurationHash(body);
-  builds[hash] = body;
+  const config: extensionBuilder.Extension[] = req.body.config;
+  console.log(config)
+  const hash = configurationHash(config);
+  builds[hash] = config;
   res.end(hash);
 });
 

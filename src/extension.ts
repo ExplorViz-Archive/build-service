@@ -107,6 +107,8 @@ function addDummyExtensions(extensions: ExtensionLists) {
 /**
  * Receives a list of either frontend or backend extensions and returns a list with all
  * combined information for every extension.
+ * 
+ * TODO: add proper version/release
  * @param extensions
  * @param extensionType
  */
@@ -125,6 +127,7 @@ async function combineExtensionInformation(extensions: Extension[], extensionTyp
         }
         tmp.name = tmp.name.substring(10);
         tmp.extensionType = extensionType;
+        tmp.version = "1.0";
         updatedExtensions.push(tmp);
     }
     return updatedExtensions;
