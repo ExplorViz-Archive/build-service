@@ -1,6 +1,6 @@
 import * as fs from "async-file";
 import * as fse from "fs-extra";
-import {sha512} from "js-sha512";
+import {sha512, sha512_256} from "js-sha512";
 import {Config, createDefaultConfig} from "./config";
 import {Extension, ExtensionType} from "./extension";
 
@@ -29,10 +29,10 @@ export async function getFile(extensions: Extension[]) {
 export function configurationHash(extensions: Extension[]) {
     const extensionsArr = Array.from(extensions);
     extensionsArr.sort((a, b) => a.name.localeCompare(b.name));
-    const hash = sha512.create();
+    const hash = sha512_256.create();
     for (const extension of extensionsArr) {
-        sha512.update(extension.name);
-        sha512.update(extension.version);
+        hash.update(extension.name);
+        hash.update(extension.version);
     }
     return hash.hex();
 }

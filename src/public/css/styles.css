@@ -68,7 +68,7 @@ body {
   
   /* Create two equal columns that sits next to each other */
 .column {
-    width: 50%:
+    width: 50%:;
     padding: 0 0px;
 }
   

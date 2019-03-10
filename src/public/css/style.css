@@ -19,6 +19,10 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
+.mycontainer {
+  max-height: height 50%;
+}
+
 .img-container {
   background-color: #555;
   padding: 5px;
@@ -62,20 +66,14 @@ body {
   border: 2px solid  rgba(44, 127, 250, 0.966);
 }
 
-.footer {
-  background-color: #F1F1F1;
-  text-align: center;
-  padding: 0px;
-}
-
 .scrollable-list {
   height:auto;
   overflow-y:auto;
-  max-height:75vh;
+  max-height:70%;
 }
 
 .scrollable {
   height:auto;
   overflow-y:auto;
-  max-height:83vh;
+  max-height:78%;
 }

@@ -17,8 +17,7 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li><a href="/">Home</a></li>
-          <li class="active"><a href="/config">Config</a></li>
-          <li><a href="/confirmation">Confirmation</a></li>
+          <li class="active"><a href="/config">Configurator</a></li>
           <li><a href="/imprint">Imprint</a></li>
           <li><a href="/contact">Contact</a></li>
         </ul>
@@ -26,7 +25,7 @@
     </div>
   </nav>
 
-  <div class="container theme-showcase" role="main" style="margin-top:25px">
+  <div class="container" role="main" style="margin-top:25px">
     
     <div class="page-header">
       <h1>Extensions</h1>
@@ -38,10 +37,10 @@
           <h3>Current build</h3>
           <div class="scrollable-list">
             <div id="currentBuildList" class="list-group">
-          </div>
+            </div>
           </div>
           <button id="removeButton" type="button" class="btn btn-s btn-default invisible" style="margin-top:5px">Remove</button>
-          <button id="removeAllButton" type="button" class="btn btn-s btn-default invisible" style="margin-top:5px">Reset</button>
+          <button id="removeAllButton" type="button" class="btn btn-s btn-default invisible" style="margin-top:5px">Clear</button>
         </div>
         <div class="col-md-5 scrollable">
           <div id="fe-column">
@@ -53,8 +52,7 @@
         </div>
         <div class="col-md-4">
           <button id="dependenciesButton" type="button" class="btn btn-s btn-default">Add dependencies</button>
-          <a id="contButton" class="btn btn-s btn-danger">Continue <span class="glyphicon glyphicon-menu-right"></span></a>
-          <button id="continueButton" type="button" class="btn btn-s btn-default">Cont for realz</button>
+          <button id="continueButton" type="button" class="btn btn-s btn-danger">Continue <span class="glyphicon glyphicon-menu-right"></button>
           <div id="info-box" class="panel panel-info" style="margin-top:10px">
             <div id="info-box-heading" class="panel-heading">
               <h2 class="panel-title"><b>Selected extension</b></h2>
@@ -68,6 +66,5 @@
   </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src='javascript/configurator.js'></script>
-<script>loadConfigurator();</script>
+<script src='js/configurator.js'></script>
 </html>

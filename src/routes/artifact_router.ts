@@ -1,8 +1,8 @@
 import { Request, Response, Router } from "express";
 
-import {getConfiguration} from "./artifact_builder";
-import { Extension, ExtensionType } from "./extension";
-import { Task } from "./task";
+import {getConfiguration} from "../artifact_builder";
+import { Extension, ExtensionType } from "../extension";
+import { Task } from "../task";
 
 const router: Router = Router();
 

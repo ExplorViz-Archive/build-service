@@ -2,9 +2,8 @@ var frontend;
 var backend;
 
 var timeout;
-var configuration = {
-  config : [],
-};
+
+loadConfigurator();
 
 function loadConfigurator() {
   const removeButton = document.getElementById("removeButton");
@@ -328,30 +327,27 @@ function removeValitdationMarks() {
   }
 }
 
-function asd() {
+function continueOnClick(configuration) {
   console.log(configuration);
   $.ajax({
     data: configuration,
     success: (res) => {
-      console.log(res);
-      window.location = `/show/${res}`;
+      window.location = `/confirmation/${res}`;
     },
     type: "POST",
-    url: "/show",
+    url: "/build/post",
   });
 }
 
 /**
  * Activate the continue button if inactive.
  */
-function activateContinueButton() {
-  let contButton = document.getElementById("contButton");
+function activateContinueButton(configuration) {
   let continueButton = document.getElementById("continueButton");
-  continueButton.addEventListener("click", () => asd(configuration));
-  if (contButton.classList.contains("btn-danger")) {
-    contButton.href = "/confirmation";
-    removeClassFromElement(contButton, "btn-danger");
-    addClassToElement(contButton, "btn-success");
+  if (continueButton.classList.contains("btn-danger")) {
+    removeClassFromElement(continueButton, "btn-danger");
+    addClassToElement(continueButton, "btn-success");
+    continueButton.addEventListener("click", () => continueOnClick(configuration));
   }
 }
 
@@ -359,11 +355,11 @@ function activateContinueButton() {
  * Deactivate the continue button if active.
  */
 function deactivateContinueButton() {
-  let contButton = document.getElementById("contButton");
-  if (contButton.classList.contains("btn-success")) {
-    contButton.removeAttribute("href");
-    removeClassFromElement(contButton, "btn-success");
-    addClassToElement(contButton, "btn-danger");
+  let continueButton = document.getElementById("continueButton");
+  if (continueButton.classList.contains("btn-success")) {
+    removeClassFromElement(continueButton, "btn-success");
+    addClassToElement(continueButton, "btn-danger");
+    continueButton.removeEventListener("click", () => continueOnClick());
   }
 }
 
@@ -415,8 +411,7 @@ function validateConfig() {
   if (status.wanted.length > 0
         && status.required.length === 0
         && status.incompatible.length === 0) {
-    configuration.config = trimConfig(status.wanted);
-    activateContinueButton();
+    activateContinueButton({config: trimConfig(status.wanted)});
   } else {
     deactivateContinueButton();
   }

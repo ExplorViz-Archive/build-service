@@ -1,13 +1,14 @@
-
-// import * as bodyParser from "body-parser";
+import { reduce } from "bluebird";
 import express = require ("express");
 import * as fs from "fs-extra";
 import * as schedule from "node-schedule";
 import * as path from "path";
-import {configurationHash} from "./artifact_cache";
-import {ArtifactRouter} from "./artifact_router";
 import {Config, createDefaultConfig} from "./config";
 import * as extensionBuilder from "./extension";
+import {ArtifactRouter} from "./routes/artifact_router";
+import {BuildRouter, getBuilds} from "./routes/build_router";
+import {ConfirmationRouter} from "./routes/confirmation_router";
+import {StaticRouter} from "./routes/static_router";
 
 const app = express();
 let config: Config;
@@ -32,6 +33,9 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join( __dirname, "public" )));
 
 app.use("/artifact", ArtifactRouter);
+app.use("/build", BuildRouter);
+app.use("/confirmation", ConfirmationRouter);
+app.use("/static", StaticRouter);
 
 app.get("/", (req, res) => {
   res.render("index");
@@ -41,14 +45,6 @@ app.get("/config", (req, res) => {
   res.render("config");
 });
 
-// app.get('/config_1', (req, res) => {
-//   res.render('config_1');
-// });
-
-// app.get('/config_2', (req, res) => {
-//   res.render('config_2');
-// });
-
 app.get("/imprint", (req, res) => {
   res.render("imprint");
 });
@@ -57,51 +53,21 @@ app.get("/contact", (req, res) => {
   res.render("contact");
 });
 
-app.get("/confirmation", (req, res) => {
-  res.render("confirmation");
-});
-
-app.get("/static/extensions", (req, res) => {
-  const extensions = fs.readJsonSync("extensionList.json");
-  res.send(extensions);
-});
-
-app.post("/show", (req, res) => {
-  const configuration: extensionBuilder.Extension[] = req.body.config;
-  console.log(configuration);
-  const hash = configurationHash(configuration);
-  builds[hash] = configuration;
-  res.end(hash);
-});
-
-app.get("/show/:id", (req, res) => {
-  const conf = builds[req.params.id];
-  if (conf !== null) {
-    res.json(conf);
-  } else {
-    res.end("asddsa");
-  }
-});
-
-app.get("/static/img/:imgUrl", (req, res) => {
-  res.sendFile(path.join(__dirname, `/public/img/${req.params.imgUrl}`));
-});
-
-app.get("/description/:reponame/:branch", (req, res) => {
+app.get("/dev/:reponame/:branch", (req, res) => {
   extensionBuilder.getRepositoryDescription(`${req.params.reponame}`, `${req.params.branch}`)
   .then((
     (data) => {res.send(data); }),
     (err) => {res.send("Error: " + err.message); });
 });
 
-app.get("/description/:reponame/", (req, res) => {
+app.get("/dev/:reponame/", (req, res) => {
   extensionBuilder.getRepositoryDescription(`${req.params.reponame}`)
   .then((
     (data) => {res.send(data); }),
     (err) => {res.send("Error: " + err.message); });
 });
 
-app.get("/update", (req, res) => {
+app.get("/dev/update", (req, res) => {
   extensionBuilder.updateExtensionsJSON(true)
   .then((status) => {
     console.log(status + "Update of extensions.json complete.");
@@ -118,7 +84,7 @@ const server = app.listen(config.port, config.host, () => {
   //   + `→ PORT ${ipAdress}:${server.address().port}`);
   console.log(`ExplorViz-build-service running at [${new Date().toLocaleTimeString()}]`
     + ` → PORT ${(server.address() as any).port}`);
-  console.log(`Updating extensionList.json every hour at ${new Date().getMinutes()} minutes.`);
+  console.log(`Updating extensionList.json every hour at ${new Date().getMinutes() - 1} minutes.`);
     // });
   const rule = new schedule.RecurrenceRule();
   rule.minute = new Date().getMinutes() - 1;
