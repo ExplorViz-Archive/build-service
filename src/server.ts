@@ -67,10 +67,10 @@ app.get("/static/extensions", (req, res) => {
 });
 
 app.post("/show", (req, res) => {
-  const config: extensionBuilder.Extension[] = req.body.config;
-  console.log(config)
-  const hash = configurationHash(config);
-  builds[hash] = config;
+  const configuration: extensionBuilder.Extension[] = req.body.config;
+  console.log(configuration);
+  const hash = configurationHash(configuration);
+  builds[hash] = configuration;
   res.end(hash);
 });
 
@@ -118,11 +118,10 @@ const server = app.listen(config.port, config.host, () => {
   //   + `→ PORT ${ipAdress}:${server.address().port}`);
   console.log(`ExplorViz-build-service running at [${new Date().toLocaleTimeString()}]`
     + ` → PORT ${(server.address() as any).port}`);
-  console.log("Updating extensionList.json every full hour.");
+  console.log("Updating extensionList.json every hour.");
     // });
-
   const rule = new schedule.RecurrenceRule();
-  rule.minute = 0;
+  rule.minute = new Date().getMinutes() - 1;
   schedule.scheduleJob(rule, () => {
     console.log(`Updating extensions.json at ${new Date().toLocaleTimeString()} ...`);
     extensionBuilder.updateExtensionsJSON(true)

@@ -58,7 +58,7 @@ const frontendInitializer: Extension = new Extension("explorviz-frontend",
  * Use insertExampleValues boolean to include example values and dummy extensions.
  *
  * Don't use this function exessively as GitHub API requests are limited to 60/hour.
- * @param {boolean} insertExampleValues Defaults to false.
+ * @param insertExampleValues Defaults to false.
  */
 export async function updateExtensionsJSON(insertExampleValues: boolean = false) {
     let tmpList: ExtensionLists = null;
@@ -107,7 +107,7 @@ function addDummyExtensions(extensions: ExtensionLists) {
 /**
  * Receives a list of either frontend or backend extensions and returns a list with all
  * combined information for every extension.
- * 
+ *
  * TODO: add proper version/release
  * @param extensions
  * @param extensionType
@@ -193,7 +193,7 @@ function getExtensionLists(): Promise<ExtensionLists> {
 /**
  * Adds the information contained in the extension.json file from the respective
  * GitHub repository to the extension.
- * @param {Extension} extension
+ * @param extension
  */
 function getExtensionInformation(extension: Extension): Promise<Extension> {
     return new Promise((resolve, reject) => {
@@ -216,8 +216,8 @@ function getExtensionInformation(extension: Extension): Promise<Extension> {
 
 /**
  * Add default values to an Extension object.
- * @param {Extension} extension
- * @param {string} listName Either frontend or backend.
+ * @param extension
+ * @param listName Either frontend or backend.
  */
 function getDefaultExtensionInformation(extension: Extension, extensionType: ExtensionType) {
     if (extensionType === ExtensionType.FRONTEND) {
@@ -233,8 +233,8 @@ function getDefaultExtensionInformation(extension: Extension, extensionType: Ext
 
 /**
  * Get the exttensions.json file from a certain branch of a repository.
- * @param {string} reponame
- * @param {string} branch
+ * @param reponame
+ * @param branch
  */
 function getExtensionJSON(reponame: string, branch: string): Promise<ExtensionJSONObject> {
     const options = {
@@ -270,8 +270,8 @@ function getExtensionJSON(reponame: string, branch: string): Promise<ExtensionJS
 /**
  * Returns a promise for the project description of a certain branch of an ExplorViz
  * repository.
- * @param {string} reponame
- * @param {string} branch defaults to "master".
+ * @param reponame
+ * @param branch defaults to "master".
  */
 export function getRepositoryDescription(reponame: string, branch: string = "master"): Promise<string> {
     const options = {

@@ -28,7 +28,7 @@ export async function getFile(extensions: Extension[]) {
 
 export function configurationHash(extensions: Extension[]) {
     const extensionsArr = Array.from(extensions);
-    extensionsArr.sort((a, b) => {return a.name.localeCompare(b.name)});
+    extensionsArr.sort((a, b) => a.name.localeCompare(b.name));
     const hash = sha512.create();
     for (const extension of extensionsArr) {
         sha512.update(extension.name);
