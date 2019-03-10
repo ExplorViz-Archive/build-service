@@ -1,6 +1,7 @@
 import * as fs from "fs-extra";
 import status from "http-status";
 import * as https from "https";
+import * as path from "path";
 import removeMd from "remove-markdown";
 import * as exampleExtensions from "./exampleExtension";
 
@@ -80,7 +81,7 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
         if (insertExampleValues) {
             tmpList = addDummyExtensions(tmpList);
         }
-        fs.writeJSONSync("extensionList.json", tmpList, {spaces: 2});
+        fs.writeJSONSync(path.join(__dirname, "extensionList.json"), tmpList, {spaces: 2});
         returnStatus = "Success! ";
     } catch (error) {
         console.log("Error: Failed to update the extensionList.json." + error.message);

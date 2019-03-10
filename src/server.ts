@@ -6,7 +6,7 @@ import * as path from "path";
 import {Config, createDefaultConfig} from "./config";
 import * as extensionBuilder from "./extension";
 import {ArtifactRouter} from "./routes/artifact_router";
-import {BuildRouter, getBuilds} from "./routes/build_router";
+import {BuildRouter} from "./routes/build_router";
 import {ConfirmationRouter} from "./routes/confirmation_router";
 import {StaticRouter} from "./routes/static_router";
 
@@ -19,9 +19,7 @@ try {
   config = createDefaultConfig();
   fs.writeJSONSync("config.json", config, {spaces: 2});
 }
-// const ipAdress = "192.168.178.52";
-
-const builds: {[key: string]: extensionBuilder.Extension[]} = {};
+const ipAdress = "192.168.178.52";
 
 app.set( "views", path.join( __dirname, "views" ) );
 app.set("view engine", "ejs");
@@ -67,7 +65,7 @@ app.get("/dev/:reponame/", (req, res) => {
     (err) => {res.send("Error: " + err.message); });
 });
 
-app.get("/dev/update", (req, res) => {
+app.get("/update", (req, res) => {
   extensionBuilder.updateExtensionsJSON(true)
   .then((status) => {
     console.log(status + "Update of extensions.json complete.");
@@ -75,15 +73,15 @@ app.get("/dev/update", (req, res) => {
   });
 });
 
-// const server = app.listen(8080, `${ipAdress}`, () => {
-const server = app.listen(config.port, config.host, () => {
+const server = app.listen(8080, `${ipAdress}`, () => {
+// const server = app.listen(config.port, config.host, () => {
   // extensionBuilder.updateExtensionsJSON(true);
   // .then((status) => {
   //   console.log(status + "Update of extensions.json complete.");
   //   console.log(`ExplorViz-build-service running at [${new Date().toUTCString()}] `
-  //   + `→ PORT ${ipAdress}:${server.address().port}`);
   console.log(`ExplorViz-build-service running at [${new Date().toLocaleTimeString()}]`
-    + ` → PORT ${(server.address() as any).port}`);
+    + `→ PORT ${ipAdress}:${(server.address() as any).port}`);
+    // + ` → PORT ${(server.address() as any).port}`);
   console.log(`Updating extensionList.json every hour at ${new Date().getMinutes() - 1} minutes.`);
     // });
   const rule = new schedule.RecurrenceRule();
