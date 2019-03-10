@@ -118,7 +118,7 @@ const server = app.listen(config.port, config.host, () => {
   //   + `→ PORT ${ipAdress}:${server.address().port}`);
   console.log(`ExplorViz-build-service running at [${new Date().toLocaleTimeString()}]`
     + ` → PORT ${(server.address() as any).port}`);
-  console.log("Updating extensionList.json every hour.");
+  console.log(`Updating extensionList.json every hour at ${new Date().getMinutes()} minutes.`);
     // });
   const rule = new schedule.RecurrenceRule();
   rule.minute = new Date().getMinutes() - 1;
