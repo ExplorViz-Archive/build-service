@@ -13,7 +13,7 @@ export enum ExtensionType {
 export class Extension implements exampleExtensions.ExtensionObject {
     public desc: string;
     public extensionType: ExtensionType;
-    public imgUrl: string;
+    public imgSrc: string;
     public incompatibleExtensions: string[];
     public name: string;
     public repository: string;
@@ -28,7 +28,7 @@ export class Extension implements exampleExtensions.ExtensionObject {
 }
 
 interface ExtensionJSONObject {
-    imgUrl: string;
+    imgSrc: string;
     incompatibleExtensions: string[];
     requiredExtensions: string[];
 }
@@ -38,7 +38,7 @@ interface ExtensionLists {
     frontend: Extension[];
 }
 
-const defaultImgUrl = "img/logo-default.png";
+const defaultimgSrc = "logo-default.png";
 const defaultDescr = "This is an extension for ExplorViz.";
 const defaultBranch = "build-service-test";
 
@@ -119,12 +119,18 @@ async function combineExtensionInformation(extensions: Extension[], extensionTyp
         let tmp: Extension = null;
         try {
             tmp = await getExtensionInformation(extension);
-            tmp.desc = await getRepositoryDescription(extension.name, defaultBranch);
             console.log(`${tmp.name.substring(10)}: Processed successfully.`);
         } catch (error) {
+            console.log(`${extension.name.substring(10)}: Error while retrieving extension information`
+                + ` (${error.message}). Using default values instead.`);
             tmp = getDefaultExtensionInformation(extension, extensionType);
-            console.log(`${extension.name.substring(10)}: Error while processing. `
-                + `Could not parse extension information (${error.message}). Using default values instead.`);
+        }
+        try {
+            tmp.desc = await getRepositoryDescription(extension.name, defaultBranch);
+        } catch (error) {
+            console.log(`${extension.name.substring(10)}: Error while retrieving extension description `
+                + `(${error.message}). Using default values instead.`);
+            tmp.desc = defaultDescr;
         }
         tmp.name = tmp.name.substring(10);
         tmp.extensionType = extensionType;
@@ -204,7 +210,7 @@ function getExtensionInformation(extension: Extension): Promise<Extension> {
                 const success: ExtensionJSONObject = succ;
                 extension.requiredExtensions = success.requiredExtensions;
                 extension.incompatibleExtensions = success.incompatibleExtensions;
-                extension.imgUrl = success.imgUrl;
+                extension.imgSrc = success.imgSrc;
             } catch (error) {
                 reject(error);
             }
@@ -227,7 +233,7 @@ function getDefaultExtensionInformation(extension: Extension, extensionType: Ext
         extension.requiredExtensions = ["backend"];
     }
     extension.incompatibleExtensions = [];
-    extension.imgUrl = defaultImgUrl;
+    extension.imgSrc = defaultimgSrc;
     extension.desc = defaultDescr;
     return extension;
 }

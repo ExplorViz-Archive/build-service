@@ -19,8 +19,9 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-.mycontainer {
-  max-height: height 50%;
+.centered-container {
+  margin: 0 auto;
+  width: 80%;
 }
 
 .img-container {

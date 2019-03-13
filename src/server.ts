@@ -82,10 +82,10 @@ const server = app.listen(8080, `${ipAdress}`, () => {
   console.log(`ExplorViz-build-service running at [${new Date().toLocaleTimeString()}]`
     + `→ PORT ${ipAdress}:${(server.address() as any).port}`);
     // + ` → PORT ${(server.address() as any).port}`);
-  console.log(`Updating extensionList.json every hour at ${new Date().getMinutes() - 1} minutes.`);
+  console.log(`Updating extensionList.json every hour at ${new Date().getMinutes()} minutes.`);
     // });
   const rule = new schedule.RecurrenceRule();
-  rule.minute = new Date().getMinutes() - 1;
+  rule.minute = new Date().getMinutes();
   schedule.scheduleJob(rule, () => {
     console.log(`Updating extensions.json at ${new Date().toLocaleTimeString()} ...`);
     extensionBuilder.updateExtensionsJSON(true)

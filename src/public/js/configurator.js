@@ -3,6 +3,8 @@ var backend;
 
 var timeout;
 
+let build1 = ["frontend-extension-colorpicker", "frontend-extension-tutorial"]
+
 loadConfigurator();
 
 function loadConfigurator() {
@@ -44,6 +46,17 @@ function loadConfigurator() {
        */
       updateColumn("be-column", back);
     });
+
+  /**
+   * Initialize predefined builds.
+   */
+  fetch("/static/predefinedBuilds")
+    .then(data => {
+      return data.json();
+    })
+    .then((response) => {
+      addPredefinedBuilds(response.builds);
+    });
 }
 
 /**
@@ -60,17 +73,14 @@ function updateColumn(colName, extensions) {
     let img = document.createElement("img");
     img.classList.add("extension-img");
     img.id = name;
-    getImageSource(element.imgUrl)
-      .then(success => {
-        img.src = element.imgUrl;
-      }, error => {
-        if (colName.slice(0, 2) === "be") {
-          img.src = "img/logo-default.png";
-        } else {
-          img.src = "img/logo-default.png";
-        }
-      });
+    checkImgSource(element.imgSrc)
+      .then(
+        (resp) => {img.src = resp;},
+      );
     column.appendChild(img);
+    img.addEventListener("error", () => {
+      img.src = "img/logo-default.png";
+    });
     img.addEventListener("click", () => {
         if (img.classList.contains("selected")) {
           removeClassFromElement(img, "selected");
@@ -89,21 +99,50 @@ function updateColumn(colName, extensions) {
       removeClassFromElement(img, "hovered");
       timeout = setTimeout(() => {showSelectedExtensionById(null); }, 100);
     });
-    getExtensionById(name);
   }
 }
 
 /**
- * Check if the image is a static resource.
- * @param {String} imgUrl
+ * Check if the image is a web or static resource. If neither is true use default image.
+ * @param {String} imgSrc
  */
-function getImageSource(imgUrl) {
-  return Promise.resolve(
-    $.ajax({
-      type: "GET",
-      url: "/static/" + imgUrl,
-    }),
-  );
+function checkImgSource(imgSrc) {
+  if (imgSrc === null) {
+    return Promise.reject();
+  }
+  if (imgSrc.startsWith("http")) {
+    return Promise.resolve(imgSrc)
+  } else {
+    return Promise.resolve(
+      $.ajax({
+        type: "GET",
+        url: "/static/img/" + imgSrc,
+      }),
+      );
+    }
+  }
+  
+/**
+ * Remove one item by id from the currentBuildList.
+ * @param {String} id
+ */
+function removeListItem(id) {
+  let list = document.getElementById("currentBuildList");
+  let child = document.getElementById(id);
+  if (child !== null) {
+    let imgId = child.id.substring(5);
+    removeClassFromElement(document.getElementById(imgId), "selected");
+    list.removeChild(child);
+    if (list.childElementCount !== 0) {
+      if (child.classList.contains("active")) {
+      activateListItemById(list.children[list.childElementCount - 1].id);
+      }
+    } else {
+      $("#removeButton").addClass("invisible");
+      $("#removeAllButton").addClass("invisible");
+    }
+  }
+  validateConfig();
 }
 
 /**
@@ -128,6 +167,7 @@ function addListItem(id) {
   });
   $(`#currentBuildList`).append(item);
   activateListItemById("list-" + id);
+  $(`#${id}`).addClass("selected");
   validateConfig();
 }
 
@@ -158,12 +198,16 @@ function showSelectedExtensionById(id) {
     if (extension !== null) {
       setInfoBoxHeading(extension.name.replace("extension-", ""));
       let body = document.getElementById("info-box-body");
+      let descHead = document.createElement("h4");
       let descContent = document.createElement("p");
       let reqContent = document.createElement("p");
       let reqHead = document.createElement("h4");
+      descHead.textContent = "Description:";
       descContent.textContent = extension.desc;
       reqHead.textContent = "Required extensions:";
-      reqContent.textContent = extension.requiredExtensions.toString().replace(/,/g, ", ");
+      let reqText = extension.requiredExtensions.toString();
+      reqContent.textContent = reqText.replace("extension-", "").replace(/,/g, ", ");
+      body.appendChild(descHead);
       body.appendChild(descContent);
       body.appendChild(reqHead);
       body.appendChild(reqContent);
@@ -172,7 +216,8 @@ function showSelectedExtensionById(id) {
         incHead.textContent = "Incompatible with:";
         body.appendChild(incHead);
         let incContent = document.createElement("p");
-        incContent.textContent = extension.incompatibleExtensions.toString();
+        let incText = extension.incompatibleExtensions.toString()
+        incContent.textContent = incText.replace("extension-", "").replace(/,/g, ", ");
         body.appendChild(incContent);
       }
       let urlContent = document.createElement("a");
@@ -220,28 +265,6 @@ function clearSelection() {
   }
 }
 
-/**
- * Remove one item by id from the currentBuildList.
- * @param {String} id
- */
-function removeListItem(id) {
-  let list = document.getElementById("currentBuildList");
-  let child = document.getElementById(id);
-  if (child !== null) {
-    let imgId = child.id.substring(5);
-    removeClassFromElement(document.getElementById(imgId), "selected");
-    list.removeChild(child);
-    if (list.childElementCount !== 0) {
-      if (child.classList.contains("active")) {
-      activateListItemById(list.children[list.childElementCount - 1].id);
-      }
-    } else {
-      $("#removeButton").addClass("invisible");
-      $("#removeAllButton").addClass("invisible");
-    }
-  }
-  validateConfig();
-}
 
 /**
  * Remove the active tag from all list items in the currentBuildList.
@@ -429,8 +452,6 @@ function addAllDependencies() {
       extensions.requiredExtensions.forEach(requiredExtension => {
         if (!buildListHasExtension(requiredExtension)
             && getExtensionById(requiredExtension) !== null) {
-          let img = $(`#${requiredExtension}`);
-          img.addClass("selected");
           addListItem(requiredExtension);
         }
       });
@@ -472,4 +493,39 @@ function trimConfig(extensions) {
     config.push(newExtension);
   }
   return config;
+}
+
+/**
+ * Add an array of ids with their dependencies to the current build list and select
+ * their respective images.
+ */
+function addListItems(ids) {
+  ids.forEach(id => {
+    addListItem(id)
+  })
+  addAllDependencies();
+}
+
+/**
+ * Add the builds obtained from predefinedBuilds.json to the list.
+ * @param builds 
+ */
+function addPredefinedBuilds(builds) {
+  const buildArr = Array.from(builds);
+  const buildSelector = document.getElementById("buildSelector");
+  buildArr.forEach(build => {
+    let selector = document.createElement("li")
+    let link = document.createElement("a")
+    link.textContent = build.name
+    link.addEventListener("click", () => {
+      let item = getFirstActiveListItem();
+      while (item !== null) {
+        removeListItem(item.id);
+        item = getFirstActiveListItem();
+      }
+      addListItems(build.content);
+    })
+    selector.appendChild(link);
+    buildSelector.appendChild(selector);
+  });
 }

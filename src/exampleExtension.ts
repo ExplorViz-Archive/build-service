@@ -27,7 +27,7 @@ const lorIp = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
 export interface ExtensionObject {
     desc: string;
     extensionType: ExtensionType;
-    imgUrl: string;
+    imgSrc: string;
     incompatibleExtensions: string[];
     name: string;
     repository: string;
@@ -37,7 +37,7 @@ export interface ExtensionObject {
 
 class ExampleExtension implements ExtensionObject {
     public desc: string;
-    public imgUrl: string;
+    public imgSrc: string;
     public incompatibleExtensions: string[];
     public name: string;
     public requiredExtensions: string[];
@@ -47,7 +47,7 @@ class ExampleExtension implements ExtensionObject {
 
     constructor(name: string,
                 desc: string,
-                imgUrl: string,
+                imgSrc: string,
                 extensionType: ExtensionType,
                 requiredExtensions: string[],
                 incompatibleExtensions: string[],
@@ -55,7 +55,7 @@ class ExampleExtension implements ExtensionObject {
                 version: string) {
         this.name = name;
         this.desc = desc;
-        this.imgUrl = imgUrl;
+        this.imgSrc = imgSrc;
         this.requiredExtensions = requiredExtensions;
         this.incompatibleExtensions = incompatibleExtensions;
         this.repository = repository;
@@ -71,9 +71,9 @@ enum ExtensionType {
 
 export function getMissingImageDummyBE() {
     return new ExampleExtension(
-        "backend-missing-image-dummy",
+        "backend-missing-image",
         lorIp,
-        "",
+        "daiopjghfbdsafgakldfgölkj",
         ExtensionType.BACKEND,
         ["backend"],
         [],
@@ -84,9 +84,9 @@ export function getMissingImageDummyBE() {
 
 export function getMissingImageDummyFE() {
     return new ExampleExtension(
-        "frontend-missing-image-dummy",
+        "frontend-missing-image",
         lorIp,
-        "",
+        "https://pbs.twimg.com/profile_images/807755806837850112/WSFVeFeQ_400x400.jpg",
         ExtensionType.FRONTEND,
         ["frontend"],
         [],
@@ -99,7 +99,7 @@ export function getNewVrDummyFE() {
     return new ExampleExtension(
         "frontend-extension-new-vr",
         feDesc,
-        "img/augmented-reality.svg",
+        "augmented-reality.svg",
         ExtensionType.FRONTEND,
         ["backend", "frontend", "backend-extension-new-vr"],
         ["frontend-extension-vr"],
@@ -112,7 +112,7 @@ export function getNewVrDummyBE() {
     return new ExampleExtension(
         "backend-extension-new-vr",
         beDesc,
-        "img/augmented-reality.svg",
+        "augmented-reality.svg",
         ExtensionType.BACKEND,
         ["backend", "frontend", "frontend-extension-new-vr"],
         ["backend-extension-vr"],
@@ -128,7 +128,7 @@ export function generateExampleExtensionsJSON() {
 
     const ext1 = new ExampleExtension("backend-extension-vr",
                                 beDesc,
-                                "img/vr.png",
+                                "vr.png",
                                 ExtensionType.BACKEND,
                                 ["backend", "frontend", "frontend-extension-vr"],
                                 [],
@@ -138,7 +138,7 @@ export function generateExampleExtensionsJSON() {
 
     const ext3 = new ExampleExtension("backend-extension-new-vr",
                                 beDesc,
-                                "img/vr.png",
+                                "vr.png",
                                 ExtensionType.BACKEND,
                                 ["backend", "frontend", "frontend-extension-new-vr"],
                                 ["backend-extension-vr"],
@@ -148,7 +148,7 @@ export function generateExampleExtensionsJSON() {
 
     const ext5 = new ExampleExtension("backend",
                                 evDesc,
-                                "img/logo-be.png",
+                                "logo-be.png",
                                 ExtensionType.BACKEND,
                                 ["frontend"],
                                 [],
@@ -158,7 +158,7 @@ export function generateExampleExtensionsJSON() {
 
     const ext2 = new ExampleExtension("frontend-extension-vr",
                                 feDesc,
-                                "img/vr.png",
+                                "vr.png",
                                 ExtensionType.FRONTEND,
                                 ["backend", "frontend", "backend-extension-vr"],
                                 [],
@@ -167,7 +167,7 @@ export function generateExampleExtensionsJSON() {
     );
     const ext4 = new ExampleExtension("frontend-extension-new-vr",
                                 feDesc,
-                                "img/vr.png",
+                                "vr.png",
                                 ExtensionType.FRONTEND,
                                 ["backend", "frontend", "backend-extension-new-vr"],
                                 ["frontend-extension-vr"],
@@ -177,7 +177,7 @@ export function generateExampleExtensionsJSON() {
 
     const ext6 = new ExampleExtension("frontend",
                                 evDesc,
-                                "img/logo-fe.png",
+                                "logo-fe.png",
                                 ExtensionType.FRONTEND,
                                 ["backend"],
                                 [],
@@ -218,7 +218,7 @@ export function generateExampleExtensionsJSON() {
     for (let i = 0; i < 8; i++) {
         const fd = new ExampleExtension("frontend-extension-dummy" + i,
         lorIp + lorIp + lorIp + lorIp,
-        "img/logo-fe.png",
+        "logo-fe.png",
         ExtensionType.FRONTEND,
         ["frontend"],
         [],
@@ -227,7 +227,7 @@ export function generateExampleExtensionsJSON() {
         );
         const bd = new ExampleExtension("backend-extension-dummy" + i,
         lorIp,
-        "img/logo-be.png",
+        "logo-be.png",
         ExtensionType.BACKEND,
         ["backend"],
         [],
