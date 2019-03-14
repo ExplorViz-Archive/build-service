@@ -21,9 +21,9 @@ BuildRouter.post("/post", (req, res) => {
 BuildRouter.get("/get/:id", (req, res) => {
     const build = builds[req.params.id];
     if (build !== null) {
-    res.send(build);
+        res.send(build);
     } else {
-    res.send("NaN");
+        res.send("NaN");
     }
 });
 
