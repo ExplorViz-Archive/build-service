@@ -72,7 +72,7 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
         console.log("Error assembling extension list: " + error);
         return;
     }
-    console.log("List of extensions assemled.");
+    console.log("List of extensions assembled.");
     try {
         const frontend = await combineExtensionInformation(tmpList.frontend, ExtensionType.FRONTEND);
         const backend = await combineExtensionInformation(tmpList.backend, ExtensionType.BACKEND);

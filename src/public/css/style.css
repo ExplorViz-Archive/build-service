@@ -19,11 +19,6 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-.centered-container {
-  margin: 0 auto;
-  width: 80%;
-}
-
 .img-container {
   background-color: #555;
   padding: 5px;
