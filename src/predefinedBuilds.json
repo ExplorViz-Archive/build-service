@@ -16,6 +16,5 @@
             "name": "Archconfcheck",
             "content": ["backend-extension-archconfcheck", "frontend-extension-archconfcheck"]
         }
-
     ]
 }

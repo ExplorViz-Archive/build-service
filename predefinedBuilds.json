@@ -1,0 +1,21 @@
+{
+    "builds": [
+        {
+            "name": "Frontend and Backend",
+            "content": ["frontend", "backend"]
+        },
+        {
+            "name": "VR",
+            "content": ["backend-extension-vr", "frontend-extension-vr"]
+        },
+        {
+            "name": "New VR",
+            "content": ["backend-extension-new-vr", "frontend-extension-new-vr"]
+        },
+        {
+            "name": "Archconfcheck",
+            "content": ["backend-extension-archconfcheck", "frontend-extension-archconfcheck"]
+        }
+
+    ]
+}

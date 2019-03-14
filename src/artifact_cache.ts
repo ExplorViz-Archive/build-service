@@ -1,4 +1,5 @@
 import * as fs from "async-file";
+import {existsSync} from "fs";
 import * as fse from "fs-extra";
 import {sha512, sha512_256} from "js-sha512";
 import {Config, createDefaultConfig} from "./config";
@@ -14,14 +15,15 @@ try {
 }
 
 export async function moveToCache(path: string, extensions: Extension[]) {
-    await fs.rename(path, await getFile(extensions));
+    await fs.rename(path, getFile(extensions));
 }
 
-export async function isCached(extensions: Extension[]) {
-    return await fs.exists(await getFile(extensions));
+export function isCached(extensions: Extension[]) {
+    const path = getFile(extensions);
+    return existsSync(path);
 }
 
-export async function getFile(extensions: Extension[]) {
+export function getFile(extensions: Extension[]) {
     const hash = configurationHash(extensions);
     return config.cachePath + "/" + hash + ".zip";
 }

@@ -12,13 +12,15 @@ export class Task {
         [this.hash, this.promise] = getConfiguration(this, extensions);
         this.promise.then((downloadUrl: string) => {
             this.url = downloadUrl;
-            this.status = "ready";
+            this.setStatus("ready");
         });
     }
 
     public getPromise() { return this.promise; }
     public getStatus() { return this.status; }
     public getToken() { return this.hash; }
-    public setStatus(newstatus: string) { this.status = newstatus; }
+    public setStatus(newstatus: string) {
+        console.log("New Status" + newstatus);
+        this.status = newstatus; }
     public getDownload() { return this.url; }
 }

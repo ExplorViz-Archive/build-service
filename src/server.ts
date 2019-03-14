@@ -19,7 +19,7 @@ try {
   config = createDefaultConfig();
   fs.writeJSONSync("config.json", config, {spaces: 2});
 }
-const ipAdress = "192.168.178.52";
+const ipAdress = "0.0.0.0";
 
 app.set( "views", path.join( __dirname, "views" ) );
 app.set("view engine", "ejs");
