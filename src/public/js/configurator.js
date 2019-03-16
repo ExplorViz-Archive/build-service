@@ -72,7 +72,7 @@ function updateColumn(colName, extensions) {
   let i;
   for (i = 0; i < extensions.length; i ++) {
     let element = extensions[i];
-    if (hasChild(column, element.name)) {
+    if (hasChildName(column, element.name)) {
     //   console.log(element.name + " already found.")
     // Skip if already added.
       continue;

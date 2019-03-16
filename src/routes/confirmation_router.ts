@@ -19,7 +19,6 @@ ConfirmationRouter.get("/:id", (req, res) => {
 
 /**
  * Used by confirmation to finalize the configuration by user.
- * TODO: link to build process
  */
 ConfirmationRouter.post("/:id", (req, res) => {
     const builds = getBuilds()[req.params.id];
