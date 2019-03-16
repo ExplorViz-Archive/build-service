@@ -47,7 +47,8 @@
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-vr/tree/v1.0",
       "requiredExtensions": [
-        "backend_master, frontend_master"
+        "backend_master",
+        "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
@@ -74,7 +75,8 @@
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-archconfcheck/tree/Abgabe",
       "requiredExtensions": [
-        "backend_master, frontend_master"
+        "backend_master",
+        "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
@@ -100,7 +102,8 @@
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-modeleditor/tree/Abgabe",
       "requiredExtensions": [
-        "backend_master, frontend_master"
+        "backend_master",
+        "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
@@ -126,7 +129,8 @@
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-dummy",
       "requiredExtensions": [
-        "backend_master, frontend_master"
+        "backend_master",
+        "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
@@ -154,7 +158,8 @@
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-comparison/tree/final",
       "requiredExtensions": [
-        "backend_master, frontend_master"
+        "backend_master",
+        "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
@@ -238,7 +243,8 @@
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-archconfcheck/tree/Abgabe",
       "requiredExtensions": [
-        "backend_master, frontend_master"
+        "backend_master",
+        "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
@@ -264,7 +270,8 @@
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-modeleditor/tree/Abgabe",
       "requiredExtensions": [
-        "backend_master, frontend_master"
+        "backend_master",
+        "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
@@ -318,7 +325,8 @@
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-comparison/tree/final",
       "requiredExtensions": [
-        "backend_master, frontend_master"
+        "backend_master",
+        "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
@@ -346,7 +354,8 @@
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-vr/tree/v2.0",
       "requiredExtensions": [
-        "backend_master, frontend_master"
+        "backend_master",
+        "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
@@ -359,7 +368,8 @@
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-vr/tree/v1.1",
       "requiredExtensions": [
-        "backend_master, frontend_master"
+        "backend_master",
+        "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",

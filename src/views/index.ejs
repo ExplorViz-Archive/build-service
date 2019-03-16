@@ -3,18 +3,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <title>ExplorViz testing</title>
+  <title>ExplorViz build-service</title>
   
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 
-  <!-- bootstrap navbar -->
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+  <div class="container main-container" role="main">
+  
+    <nav class="navbar">
       <div class="navbar-header">
-        <a class="navbar-brand" href="/">ExplorViz Builder</a>
+        <a class="navbar-left" href="/"> 
+          <img src="/img/logo.png">
+        </a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
@@ -24,24 +26,28 @@
           <li><a href="/contact">Contact</a></li>
         </ul>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <div class="container theme-showcase" role="main" style="margin-top:25px">
-    <div class="page-header">
-      <h1>Home</h1>
+    <div class="container" >
+      <div class="header">
+        <h1>Home</h1>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Welcome</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.    </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Instructions</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.    </p>
+          <a id="getGitRepoButton" href="/config" class="btn btn-s btn-default">Start config</a>
+          <a href="/show" class="btn btn-s btn-default">Show extensions</a>
+        </div>
+      </div>
     </div>
-  </div>
-  
-  <div class="container"  style="padding:40px;">
-      <h1>Welcome</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.    </p>
-  </div>
-  <div class="container"  style="padding:40px;">
-    <h1>Instructions</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.    </p>
-    <a id="getGitRepoButton" href="/config" class="btn btn-s btn-default">Start config</a>
-    <a href="/show" class="btn btn-s btn-default">Show extensions</a>
   </div>
 </body>
 <script src='js/index.js'></script>

@@ -3,11 +3,11 @@ import * as fs from "fs-extra";
 import * as schedule from "node-schedule";
 import * as path from "path";
 import {Config, createDefaultConfig} from "./config";
-import * as extensionBuilder from "./extension";
 import {ArtifactRouter} from "./routes/artifact_router";
 import {BuildRouter} from "./routes/build_router";
 import {ConfirmationRouter} from "./routes/confirmation_router";
 import {StaticRouter} from "./routes/static_router";
+import { DevRouter } from "./routes/dev_router";
 
 const app = express();
 let config: Config;
@@ -32,6 +32,7 @@ app.use("/artifact", ArtifactRouter);
 app.use("/build", BuildRouter);
 app.use("/confirmation", ConfirmationRouter);
 app.use("/static", StaticRouter);
+app.use("/dev", DevRouter);
 
 app.get("/", (req, res) => {
   res.render("index");
@@ -49,37 +50,13 @@ app.get("/contact", (req, res) => {
   res.render("contact");
 });
 
-app.get("/dev/:reponame/:branch", (req, res) => {
-  extensionBuilder.getRepositoryDescription(`${req.params.reponame}`, `${req.params.branch}`)
-  // extensionBuilder.getExtensionJSON(`${req.params.reponame}`, `${req.params.branch}`)
-  .then((
-    (data) => {res.send(data); }),
-    (err) => {res.send("Error: " + err.message); });
-});
-
-app.get("/dev/:reponame/", (req, res) => {
-  // extensionBuilder.getRepositoryDescription(`${req.params.reponame}`)
-  extensionBuilder.getExtensionReleases(req.params.reponame)
-  .then((
-    (data) => {res.send(data); }),
-    (err) => {res.send("Error: " + err.message); });
-});
-
-app.get("/update", (req, res) => {
-  extensionBuilder.updateExtensionsJSON(true)
-  .then((status) => {
-    console.log(status + "Update of extensions.json complete.");
-    res.send(status + "Update of extensions.json complete.");
-  });
-});
-
 // const ipAdress = "192.168.178.52";
 
 // const server = app.listen(8080, `${ipAdress}`, () => {
 const server = app.listen(config.port, config.host, () => {
   // extensionBuilder.updateExtensionsJSON(true);
   // .then((status) => {
-  //   console.log(status + "Update of extensions.json complete.");
+  //   console.log(status + "Update of extenList.json complete.");
   //   console.log(`ExplorViz-build-service running at [${new Date().toUTCString()}] `
   console.log(`ExplorViz-build-service running at [${new Date().toLocaleTimeString()}]`
     // + `→ PORT ${ipAdress}:${(server.address() as any).port}`);
@@ -89,8 +66,8 @@ const server = app.listen(config.port, config.host, () => {
   // const rule = new schedule.RecurrenceRule();
   // rule.minute = new Date().getMinutes();
   // schedule.scheduleJob(rule, () => {
-  //   console.log(`Updating extensions.json at ${new Date().toLocaleTimeString()} ...`);
+  //   console.log(`Updating extenList.json at ${new Date().toLocaleTimeString()} ...`);
   //   extensionBuilder.updateExtensionsJSON(true)
-  //   .then((status) => console.log(status + "Update of extensions.json complete."));
+  //   .then((status) => console.log(status + "Update of extenList.json complete."));
   // });
 });

@@ -494,7 +494,6 @@ function validateConfig() {
   } else {
     deactivateContinueButton();
   }
-  console.log(status);
 }
 
 /**

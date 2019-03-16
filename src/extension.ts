@@ -115,13 +115,13 @@ function addDummyExtensions(extensions: ExtensionLists) {
     extensions.backend.push(exampleExtensions.getNewVrDummyBE());
 
     for (const extension of extensions.backend) {
-        if (extension.id === "backend_1.3.0") {
-            extension.requiredExtensions = ["frontend_1.3.0"];
+        if (extension.name === "backend") {
+            extension.requiredExtensions = ["frontend_" + extension.version];
         }
     }
     for (const extension of extensions.frontend) {
         if (extension.id === "frontend_1.3.0") {
-            extension.requiredExtensions = ["backend_1.3.0"];
+            extension.requiredExtensions = ["backend_" + extension.version];
         }
     }
     return extensions;
@@ -142,16 +142,16 @@ async function combineExtensionInformation(extensions: Extension[], extensionTyp
             tmp = await getExtensionInformation(extension);
             // console.log(`${tmp.name.substring(10)}_${tmp.version}: Processed successfully.`);
         } catch (error) {
-            console.log(`${extension.name.substring(10)}_${extension.version}: "
-                + "Error while retrieving extension information `
+            console.log(`WARNING: ${extension.name.substring(10)}_${extension.version}: `
+                + `Error while retrieving extension information `
                 + `(${error.message}). Using default values instead.`);
             tmp = getDefaultExtensionInformation(extension);
         }
         try {
             tmp.desc = await getRepositoryDescription(extension.name, extension.version);
         } catch (error) {
-            console.log(`${extension.name.substring(10)}_${extension.version}: "
-                + "Error while retrieving extension description `
+            console.log(`WARNING: ${extension.name.substring(10)}_${extension.version}: `
+                + `Error while retrieving extension description `
                 + `(${error.message}). Using default values instead.`);
             tmp.desc = defaultDescr;
         }
@@ -252,7 +252,7 @@ function getExtensionInformation(extension: Extension): Promise<Extension> {
  * @param listName Either frontend or backend.
  */
 function getDefaultExtensionInformation(extension: Extension) {
-    extension.requiredExtensions = ["backend_master, frontend_master"];
+    extension.requiredExtensions = ["backend_master", "frontend_master"];
     extension.incompatibleExtensions = [];
     extension.imgSrc = defaultimgSrc;
     extension.desc = defaultDescr;
