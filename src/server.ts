@@ -73,7 +73,6 @@ app.get("/update", (req, res) => {
   });
 });
 
-
 // const ipAdress = "192.168.178.52";
 
 // const server = app.listen(8080, `${ipAdress}`, () => {

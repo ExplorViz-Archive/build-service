@@ -1,1 +1,0 @@
-export const TOKEN: string = "SECRET TOKEN";

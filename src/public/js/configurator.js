@@ -62,7 +62,6 @@ function loadConfigurator() {
 
 }
 
-
 /**
  * Initialize the column with images.
  * @param {string} colName
@@ -91,9 +90,9 @@ function updateColumn(colName, extensions) {
     img.addEventListener("error", () => {
         img.src = "img/logo-default.png";
     });
-    const id = element.id;    
+    const id = element.id;
     const name = element.name;
-    const versions = getDifferentVersions(element.name)
+    const versions = getDifferentVersions(element.name);
     if (versions.length > 1) {
       const button = document.createElement("button");
       addClassToElement(button, "btn");
@@ -178,7 +177,7 @@ function getVersionElementList(versions) {
   const ul = document.createElement("ul");
   addClassToElement(ul, "dropdown-menu");
 
-  for(let i = 0; i < versions.length; i++) {
+  for (let i = 0; i < versions.length; i++) {
     let extension = getExtensionById(versions[i]);
     const li = document.createElement("li");
     const a = document.createElement("a");
@@ -195,10 +194,10 @@ function getVersionElementList(versions) {
 }
 /**
  * Check if an element alrady has a child with a certain name.
- * @param {HTMLElement} column 
- * @param {string} name 
+ * @param {HTMLElement} column
+ * @param {string} name
  */
-function hasChild(column, name) {
+function hasChildName(column, name) {
   let hasChild = false;
   if (column.childElementCount > 0) {
     for (let i = 0; i < column.childElementCount; i++) {
@@ -286,7 +285,7 @@ function showSelectedExtensionById(id) {
   if (id !== null) {
     let extension = getExtensionById(id);
     if (extension !== null) {
-      setInfoBoxHeading(extension.name.replace("extension-", "") + " (" + extension.version+  ")") ;
+      setInfoBoxHeading(extension.name.replace("extension-", "") + " (" + extension.version +  ")") ;
       let body = document.getElementById("info-box-body");
       let descHead = document.createElement("h4");
       let descContent = document.createElement("p");
@@ -458,20 +457,20 @@ function validateConfig() {
       const requiredExtensions = childExtension.requiredExtensions;
       const incompatibleExtensions = childExtension.incompatibleExtensions;
       status.wanted.push(childExtension);
-      for (const requiredExtensionId of requiredExtensions){
-        if (status.wanted.includes(requiredExtensionId)){
+      for (const requiredExtensionId of requiredExtensions) {
+        if (status.wanted.includes(requiredExtensionId)) {
           continue;
-        } 
+        }
         const requiredExtension = getExtensionById(requiredExtensionId);
         if (requiredExtension !== null) {
-          $(`#${requiredExtension.name}`).addClass("required")
+          $(`#${requiredExtension.name}`).addClass("required");
           if (!buildListHasExtensionId(requiredExtensionId)) {
             if (status.required.indexOf(requiredExtensionId) === -1 ) {
               status.required.push(requiredExtensionId);
             }
           }
         } else {
-          console.error(`Dependency ${requiredExtensionId} of ${childExtension.id} not found.`)
+          console.error(`Dependency ${requiredExtensionId} of ${childExtension.id} not found.`);
           status.incompatible.push(childExtension.id);
           $(`#${childExtension.name}`).addClass("incompatible")
             .attr("data-toggle", "tooltip").attr("title", `Extension ${requiredExtensionId} not available.`);
@@ -495,7 +494,7 @@ function validateConfig() {
   } else {
     deactivateContinueButton();
   }
-  console.log(status)
+  console.log(status);
 }
 
 /**

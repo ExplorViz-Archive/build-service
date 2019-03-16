@@ -3,8 +3,8 @@ import status from "http-status";
 import * as https from "https";
 import * as path from "path";
 import removeMd from "remove-markdown";
+import {TOKEN} from "./auth";
 import * as exampleExtensions from "./exampleExtension";
-import {TOKEN} from "../auth"
 
 export enum ExtensionType {
     FRONTEND,
@@ -114,7 +114,6 @@ function addDummyExtensions(extensions: ExtensionLists) {
     extensions.backend.push(exampleExtensions.getMissingImageDummyBE());
     extensions.backend.push(exampleExtensions.getNewVrDummyBE());
 
-
     for (const extension of extensions.backend) {
         if (extension.id === "backend_1.3.0") {
             extension.requiredExtensions = ["frontend_1.3.0"];
@@ -143,14 +142,16 @@ async function combineExtensionInformation(extensions: Extension[], extensionTyp
             tmp = await getExtensionInformation(extension);
             // console.log(`${tmp.name.substring(10)}_${tmp.version}: Processed successfully.`);
         } catch (error) {
-            console.log(`${extension.name.substring(10)}_${extension.version}: Error while retrieving extension information`
-                + ` (${error.message}). Using default values instead.`);
+            console.log(`${extension.name.substring(10)}_${extension.version}: "
+                + "Error while retrieving extension information `
+                + `(${error.message}). Using default values instead.`);
             tmp = getDefaultExtensionInformation(extension);
         }
         try {
             tmp.desc = await getRepositoryDescription(extension.name, extension.version);
         } catch (error) {
-            console.log(`${extension.name.substring(10)}_${extension.version}: Error while retrieving extension description `
+            console.log(`${extension.name.substring(10)}_${extension.version}: "
+                + "Error while retrieving extension description `
                 + `(${error.message}). Using default values instead.`);
             tmp.desc = defaultDescr;
         }
@@ -297,7 +298,7 @@ export function getExtensionJSON(reponame: string, branch: string): Promise<Exte
 }
 
 /**
- * Depending on a given list of master repositories this function adds all 
+ * Depending on a given list of master repositories this function adds all
  * release versions to the lists and updates their version and repository url.
  * @param oldExtensions
  */

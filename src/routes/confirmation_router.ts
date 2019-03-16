@@ -22,16 +22,16 @@ ConfirmationRouter.get("/:id", (req, res) => {
  * TODO: link to build process
  */
 ConfirmationRouter.post("/:id", (req, res) => {
-    // const builds = getBuilds()[req.params.id];
-    // const exts: Extension[] = [] ;
-    // for (const key in builds) {
-    //     exts.push(builds[key]);
-    // }
-    // const token = startBuildTask(exts);
-    // res.json(token);
-    const config = {
-        conf:  getBuilds()[req.params.id],
-        deployment: req.body.deployment
-      };
-      res.json(config);
+    const builds = getBuilds()[req.params.id];
+    const exts: Extension[] = [] ;
+    for (const key in builds) {
+        exts.push(builds[key]);
+    }
+    const token = startBuildTask(exts);
+    res.json(token);
+    // const config = {
+    //     conf:  getBuilds()[req.params.id],
+    //     deployment: req.body.deployment
+    //   };
+    // res.json(config);
 });
