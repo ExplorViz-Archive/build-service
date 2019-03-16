@@ -1,4 +1,3 @@
-import { reduce } from "bluebird";
 import express = require ("express");
 import * as fs from "fs-extra";
 import * as schedule from "node-schedule";
@@ -19,7 +18,6 @@ try {
   config = createDefaultConfig();
   fs.writeJSONSync("config.json", config, {spaces: 2});
 }
-const ipAdress = "0.0.0.0";
 
 app.set( "views", path.join( __dirname, "views" ) );
 app.set("view engine", "ejs");
@@ -53,13 +51,15 @@ app.get("/contact", (req, res) => {
 
 app.get("/dev/:reponame/:branch", (req, res) => {
   extensionBuilder.getRepositoryDescription(`${req.params.reponame}`, `${req.params.branch}`)
+  // extensionBuilder.getExtensionJSON(`${req.params.reponame}`, `${req.params.branch}`)
   .then((
     (data) => {res.send(data); }),
     (err) => {res.send("Error: " + err.message); });
 });
 
 app.get("/dev/:reponame/", (req, res) => {
-  extensionBuilder.getRepositoryDescription(`${req.params.reponame}`)
+  // extensionBuilder.getRepositoryDescription(`${req.params.reponame}`)
+  extensionBuilder.getExtensionReleases(req.params.reponame)
   .then((
     (data) => {res.send(data); }),
     (err) => {res.send("Error: " + err.message); });
@@ -73,22 +73,25 @@ app.get("/update", (req, res) => {
   });
 });
 
-const server = app.listen(8080, `${ipAdress}`, () => {
-// const server = app.listen(config.port, config.host, () => {
+
+// const ipAdress = "192.168.178.52";
+
+// const server = app.listen(8080, `${ipAdress}`, () => {
+const server = app.listen(config.port, config.host, () => {
   // extensionBuilder.updateExtensionsJSON(true);
   // .then((status) => {
   //   console.log(status + "Update of extensions.json complete.");
   //   console.log(`ExplorViz-build-service running at [${new Date().toUTCString()}] `
   console.log(`ExplorViz-build-service running at [${new Date().toLocaleTimeString()}]`
-    + `→ PORT ${ipAdress}:${(server.address() as any).port}`);
-    // + ` → PORT ${(server.address() as any).port}`);
-  console.log(`Updating extensionList.json every hour at ${new Date().getMinutes()} minutes.`);
-    // });
-  const rule = new schedule.RecurrenceRule();
-  rule.minute = new Date().getMinutes();
-  schedule.scheduleJob(rule, () => {
-    console.log(`Updating extensions.json at ${new Date().toLocaleTimeString()} ...`);
-    extensionBuilder.updateExtensionsJSON(true)
-    .then((status) => console.log(status + "Update of extensions.json complete."));
-  });
+    // + `→ PORT ${ipAdress}:${(server.address() as any).port}`);
+    + ` → PORT ${(server.address() as any).port}`);
+  // console.log(`Updating extensionList.json every hour at ${new Date().getMinutes()} minutes.`);
+  //   // });
+  // const rule = new schedule.RecurrenceRule();
+  // rule.minute = new Date().getMinutes();
+  // schedule.scheduleJob(rule, () => {
+  //   console.log(`Updating extensions.json at ${new Date().toLocaleTimeString()} ...`);
+  //   extensionBuilder.updateExtensionsJSON(true)
+  //   .then((status) => console.log(status + "Update of extensions.json complete."));
+  // });
 });

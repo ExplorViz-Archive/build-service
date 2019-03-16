@@ -2,19 +2,19 @@
     "builds": [
         {
             "name": "Frontend and Backend",
-            "content": ["frontend", "backend"]
+            "content": ["frontend_master", "backend_master"]
         },
         {
             "name": "VR",
-            "content": ["backend-extension-vr", "frontend-extension-vr"]
+            "content": ["backend-extension-vr_master", "frontend-extension-vr_master"]
         },
         {
             "name": "New VR",
-            "content": ["backend-extension-new-vr", "frontend-extension-new-vr"]
+            "content": ["backend-extension-new-vr_master", "frontend-extension-new-vr_master"]
         },
         {
             "name": "Archconfcheck",
-            "content": ["backend-extension-archconfcheck", "frontend-extension-archconfcheck"]
+            "content": ["backend-extension-archconfcheck_master", "frontend-extension-archconfcheck_master"]
         }
     ]
 }

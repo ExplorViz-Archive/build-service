@@ -2,18 +2,7 @@
 /**
  * Generate new dummy extensions
  */
-import * as fs from "fs-extra";
 
-const evDesc = "ExplorViz uses dynamic analysis techniques to provide live"
-+ "trace visualization of the communication in large software landscape. It targets"
-+ " system and program comprehension in those landscapes while still providing details"
-+ " on the communication within an application. A landscape perspective enriches current"
-+ "system visualizations with additional abstraction levels for efficient comprehension"
-+ " of communication between hundreds of applications which is often encountered in, for"
-+ " instance, Cloud environments. On the application level perspective, ExplorViz utilizes"
-+ " the 3D city metaphor combined with an interactive concept of showing only details that"
-+ " are in focus of the analysis. For best accessibility, ExplorViz is a web-based tool"
-+ " featuring cutting-edge technologies like WebGL and HTML 5.";
 const beDesc = "This extension adds features to the backend of ExplorViz to enable a"
 + " multi-user VR-experience. The related frontend extension is explorviz-frontend-extension-vr.";
 const feDesc = "This extension adds a WebVR-based Virtual Reality (VR) mode to ExplorViz, which"
@@ -25,6 +14,7 @@ const lorIp = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
 + " odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.";
 
 export interface ExtensionObject {
+    id: string;
     desc: string;
     extensionType: ExtensionType;
     imgSrc: string;
@@ -36,6 +26,7 @@ export interface ExtensionObject {
 }
 
 class ExampleExtension implements ExtensionObject {
+    public id: string;
     public desc: string;
     public imgSrc: string;
     public incompatibleExtensions: string[];
@@ -53,6 +44,7 @@ class ExampleExtension implements ExtensionObject {
                 incompatibleExtensions: string[],
                 repository: string,
                 version: string) {
+        this.id = name + "_" + version;
         this.name = name;
         this.desc = desc;
         this.imgSrc = imgSrc;
@@ -75,10 +67,10 @@ export function getMissingImageDummyBE() {
         lorIp,
         "daiopjghfbdsafgakldfgölkj",
         ExtensionType.BACKEND,
-        ["backend"],
+        ["backend_master"],
         [],
         "https://www.google.com",
-        "1.0"
+        "master"
     );
 }
 
@@ -88,10 +80,10 @@ export function getMissingImageDummyFE() {
         lorIp,
         "https://pbs.twimg.com/profile_images/807755806837850112/WSFVeFeQ_400x400.jpg",
         ExtensionType.FRONTEND,
-        ["frontend"],
+        ["frontend_master"],
         [],
         "https://www.google.com",
-        "1.0"
+        "master"
     );
 }
 
@@ -101,10 +93,10 @@ export function getNewVrDummyFE() {
         feDesc,
         "augmented-reality.svg",
         ExtensionType.FRONTEND,
-        ["backend", "frontend", "backend-extension-new-vr"],
+        ["backend_1.3.0", "frontend_1.3.0", "backend-extension-new-vr_master"],
         ["frontend-extension-vr"],
         "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
-        "1.1"
+        "master"
     );
 }
 
@@ -114,143 +106,9 @@ export function getNewVrDummyBE() {
         beDesc,
         "augmented-reality.svg",
         ExtensionType.BACKEND,
-        ["backend", "frontend", "frontend-extension-new-vr"],
+        ["backend_1.3.0", "frontend_1.3.0", "frontend-extension-new-vr_master"],
         ["backend-extension-vr"],
         "https://github.com/ExplorViz/explorviz-backend-extension-vr",
-        "1.1"
+        "master"
     );
-}
-
-/**
- * Generates an example extension.json file with mostly dummy extensions.
- */
-export function generateExampleExtensionsJSON() {
-
-    const ext1 = new ExampleExtension("backend-extension-vr",
-                                beDesc,
-                                "vr.png",
-                                ExtensionType.BACKEND,
-                                ["backend", "frontend", "frontend-extension-vr"],
-                                [],
-                                "https://github.com/ExplorViz/explorviz-backend-extension-vr",
-                                "1.0"
-    );
-
-    const ext3 = new ExampleExtension("backend-extension-new-vr",
-                                beDesc,
-                                "vr.png",
-                                ExtensionType.BACKEND,
-                                ["backend", "frontend", "frontend-extension-new-vr"],
-                                ["backend-extension-vr"],
-                                "https://github.com/ExplorViz/explorviz-backend-extension-vr",
-                                "1.1"
-    );
-
-    const ext5 = new ExampleExtension("backend",
-                                evDesc,
-                                "logo-be.png",
-                                ExtensionType.BACKEND,
-                                ["frontend"],
-                                [],
-                                "https://github.com/ExplorViz/explorviz-backend",
-                                "1.0"
-    );
-
-    const ext2 = new ExampleExtension("frontend-extension-vr",
-                                feDesc,
-                                "vr.png",
-                                ExtensionType.FRONTEND,
-                                ["backend", "frontend", "backend-extension-vr"],
-                                [],
-                                "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
-                                "1.0"
-    );
-    const ext4 = new ExampleExtension("frontend-extension-new-vr",
-                                feDesc,
-                                "vr.png",
-                                ExtensionType.FRONTEND,
-                                ["backend", "frontend", "backend-extension-new-vr"],
-                                ["frontend-extension-vr"],
-                                "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
-                                "1.1"
-    );
-
-    const ext6 = new ExampleExtension("frontend",
-                                evDesc,
-                                "logo-fe.png",
-                                ExtensionType.FRONTEND,
-                                ["backend"],
-                                [],
-                                "https://github.com/ExplorViz/explorviz-frontend",
-                                "1.0"
-    );
-
-    const ext7 = new ExampleExtension("backend-missing-image-dummy",
-                                lorIp,
-                                "",
-                                ExtensionType.BACKEND,
-                                ["backend"],
-                                [],
-                                "https://www.google.com",
-                                "1.0"
-    );
-
-    const ext8 = new ExampleExtension("frontend-missing-image-dummy",
-                                lorIp,
-                                "",
-                                ExtensionType.FRONTEND,
-                                ["frontend"],
-                                [],
-                                "https://www.google.com",
-                                "1.0"
-    );
-
-    const front = [];
-    const back = [];
-
-    back.push(ext5);
-    front.push(ext6);
-    back.push(ext1);
-    front.push(ext2);
-    back.push(ext3);
-    front.push(ext4);
-
-    for (let i = 0; i < 8; i++) {
-        const fd = new ExampleExtension("frontend-extension-dummy" + i,
-        lorIp + lorIp + lorIp + lorIp,
-        "logo-fe.png",
-        ExtensionType.FRONTEND,
-        ["frontend"],
-        [],
-        "https://www.google.com",
-        "1.0"
-        );
-        const bd = new ExampleExtension("backend-extension-dummy" + i,
-        lorIp,
-        "logo-be.png",
-        ExtensionType.BACKEND,
-        ["backend"],
-        [],
-        "https://www.google.com",
-        "1.0"
-        );
-        front.push(fd);
-        back.push(bd);
-    }
-
-    back.push(ext7);
-    front.push(ext8);
-
-    const newJson = {
-        backend: back,
-        frontend : front
-    };
-
-    try {
-        fs.writeJsonSync("extensions.json", newJson);
-    } catch (error) {
-        console.log("Error writing file extensions.json.");
-    }
-
-    console.log(`Generated ${front.length} frontend and ${back.length} backend extensions.`);
 }

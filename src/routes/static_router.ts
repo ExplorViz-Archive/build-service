@@ -1,7 +1,7 @@
 import {Router} from "express";
 import * as fs from "fs-extra";
-import * as path from "path";
 import fetch from "node-fetch";
+import * as path from "path";
 
 export const StaticRouter: Router = Router();
 
@@ -22,7 +22,7 @@ StaticRouter.get("/img/:imgUrl?", (req, res) => {
     } else {
         fetch(`img/${req.params.imgUrl}`)
         .then(
-            (success) => res.send(success), 
+            (success) => res.send(success),
             (error) => res.send("img/logo-default.png")
         );
     }

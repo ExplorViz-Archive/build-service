@@ -4,6 +4,7 @@ import * as https from "https";
 import * as path from "path";
 import removeMd from "remove-markdown";
 import * as exampleExtensions from "./exampleExtension";
+import {TOKEN} from "../auth"
 
 export enum ExtensionType {
     FRONTEND,
@@ -11,6 +12,7 @@ export enum ExtensionType {
 }
 
 export class Extension implements exampleExtensions.ExtensionObject {
+    public id: string;
     public desc: string;
     public extensionType: ExtensionType;
     public imgSrc: string;
@@ -39,16 +41,18 @@ interface ExtensionLists {
 }
 
 const defaultimgSrc = "logo-default.png";
-const defaultDescr = "This is an extension for ExplorViz.";
+const defaultDescr = "This is an extension for ExplorViz. "
+    + "ATTENTION: This is a default description. "
+    + "Therefore the information about required and incompatible extensions might not be complete.";
 const defaultBranch = "build-service-test";
 
 const backendInitializer: Extension = new Extension("explorviz-backend",
-    null,
+    "master",
     ExtensionType.BACKEND,
     "https://github.com/ExplorViz/explorviz-backend"
 );
 const frontendInitializer: Extension = new Extension("explorviz-frontend",
-    null,
+    "master",
     ExtensionType.FRONTEND,
     "https://github.com/ExplorViz/explorviz-frontend"
 );
@@ -69,10 +73,18 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
         tmpList.frontend.unshift(frontendInitializer);
         tmpList.backend.unshift(backendInitializer);
     } catch (error) {
-        console.log("Error assembling extension list: " + error);
+        console.log("Error: Failed to assemble extension list: " + error);
         return;
     }
     console.log("List of extensions assembled.");
+    // check for releases
+    try {
+        tmpList.backend = await addReleaseRepositories(tmpList.backend);
+        tmpList.frontend = await addReleaseRepositories(tmpList.frontend);
+        console.log("Release Repositories added.");
+    } catch (error) {
+        console.log("Could not add the release repositories to the extension lists. " + error.message);
+    }
     try {
         const frontend = await combineExtensionInformation(tmpList.frontend, ExtensionType.FRONTEND);
         const backend = await combineExtensionInformation(tmpList.backend, ExtensionType.BACKEND);
@@ -102,6 +114,17 @@ function addDummyExtensions(extensions: ExtensionLists) {
     extensions.backend.push(exampleExtensions.getMissingImageDummyBE());
     extensions.backend.push(exampleExtensions.getNewVrDummyBE());
 
+
+    for (const extension of extensions.backend) {
+        if (extension.id === "backend_1.3.0") {
+            extension.requiredExtensions = ["frontend_1.3.0"];
+        }
+    }
+    for (const extension of extensions.frontend) {
+        if (extension.id === "frontend_1.3.0") {
+            extension.requiredExtensions = ["backend_1.3.0"];
+        }
+    }
     return extensions;
 }
 
@@ -109,7 +132,6 @@ function addDummyExtensions(extensions: ExtensionLists) {
  * Receives a list of either frontend or backend extensions and returns a list with all
  * combined information for every extension.
  *
- * TODO: add proper version/release
  * @param extensions
  * @param extensionType
  */
@@ -119,22 +141,22 @@ async function combineExtensionInformation(extensions: Extension[], extensionTyp
         let tmp: Extension = null;
         try {
             tmp = await getExtensionInformation(extension);
-            console.log(`${tmp.name.substring(10)}: Processed successfully.`);
+            // console.log(`${tmp.name.substring(10)}_${tmp.version}: Processed successfully.`);
         } catch (error) {
-            console.log(`${extension.name.substring(10)}: Error while retrieving extension information`
+            console.log(`${extension.name.substring(10)}_${extension.version}: Error while retrieving extension information`
                 + ` (${error.message}). Using default values instead.`);
-            tmp = getDefaultExtensionInformation(extension, extensionType);
+            tmp = getDefaultExtensionInformation(extension);
         }
         try {
-            tmp.desc = await getRepositoryDescription(extension.name, defaultBranch);
+            tmp.desc = await getRepositoryDescription(extension.name, extension.version);
         } catch (error) {
-            console.log(`${extension.name.substring(10)}: Error while retrieving extension description `
+            console.log(`${extension.name.substring(10)}_${extension.version}: Error while retrieving extension description `
                 + `(${error.message}). Using default values instead.`);
             tmp.desc = defaultDescr;
         }
         tmp.name = tmp.name.substring(10);
         tmp.extensionType = extensionType;
-        tmp.version = "1.0";
+        tmp.id = tmp.name + "_" + tmp.version;
         updatedExtensions.push(tmp);
     }
     return updatedExtensions;
@@ -147,6 +169,7 @@ async function combineExtensionInformation(extensions: Extension[], extensionTyp
 function getExtensionLists(): Promise<ExtensionLists> {
     const options = {
         headers: {
+            "Authorization": `token ${TOKEN}`,
             "User-Agent": "ExplorViz-build-service",
         },
         hostname: "api.github.com",
@@ -180,7 +203,7 @@ function getExtensionLists(): Promise<ExtensionLists> {
                     const name = (extension as any).name;
                     const temp = new Extension(name);
                     temp.repository = (extension as any).html_url;
-                    temp.version = "1.0";
+                    temp.version = "master";
                     if (name.includes("frontend")) {
                         out.frontend.push(temp);
                     } else if (name.includes("backend")) {
@@ -204,7 +227,8 @@ function getExtensionLists(): Promise<ExtensionLists> {
  */
 function getExtensionInformation(extension: Extension): Promise<Extension> {
     return new Promise((resolve, reject) => {
-        getExtensionJSON(extension.name, "build-service-test")
+        const branch = (extension.version === "master") ? defaultBranch : extension.version;
+        getExtensionJSON(extension.name, branch)
         .then((succ) => {
             try {
                 const success: ExtensionJSONObject = succ;
@@ -226,12 +250,8 @@ function getExtensionInformation(extension: Extension): Promise<Extension> {
  * @param extension
  * @param listName Either frontend or backend.
  */
-function getDefaultExtensionInformation(extension: Extension, extensionType: ExtensionType) {
-    if (extensionType === ExtensionType.FRONTEND) {
-        extension.requiredExtensions = ["frontend"];
-    } else {
-        extension.requiredExtensions = ["backend"];
-    }
+function getDefaultExtensionInformation(extension: Extension) {
+    extension.requiredExtensions = ["backend_master, frontend_master"];
     extension.incompatibleExtensions = [];
     extension.imgSrc = defaultimgSrc;
     extension.desc = defaultDescr;
@@ -243,10 +263,11 @@ function getDefaultExtensionInformation(extension: Extension, extensionType: Ext
  * @param reponame
  * @param branch
  */
-function getExtensionJSON(reponame: string, branch: string): Promise<ExtensionJSONObject> {
+export function getExtensionJSON(reponame: string, branch: string): Promise<ExtensionJSONObject> {
     const options = {
         headers: {
             "Accept": "application/vnd.github.raw+json",
+            "Authorization": `token ${TOKEN}`,
             "User-Agent": "ExplorViz-build-service"
         },
         hostname: "api.github.com",
@@ -258,7 +279,72 @@ function getExtensionJSON(reponame: string, branch: string): Promise<ExtensionJS
     return new Promise((resolve, reject) => {
         const req = https.request(options, (resp) => {
             if (resp.statusCode < 200 || resp.statusCode >= 300) {
-                return reject(new Error(resp.statusCode + " - " + status[resp.statusCode]));
+                return reject(new Error("Extensions.json not found. "
+                    + resp.statusCode + " - " + status[resp.statusCode]));
+            }
+            resp.on("data", (d) => {
+                data += d;
+            });
+            resp.on("end", () => {
+                resolve(JSON.parse(data));
+            });
+        });
+        req.on("error", (err) => {
+            reject(err);
+        });
+        req.end();
+    });
+}
+
+/**
+ * Depending on a given list of master repositories this function adds all 
+ * release versions to the lists and updates their version and repository url.
+ * @param oldExtensions
+ */
+async function addReleaseRepositories(oldExtensions: Extension[]) {
+    const newExtensions: Extension[] = [];
+
+    for (const extension of oldExtensions) {
+        newExtensions.push(extension);
+        let releases: ArrayLike<any> = [];
+        try {
+            releases = await getExtensionReleases(extension.name);
+        } catch (error) {
+            console.log(`Could not retrieve releases for ${extension.name}. ${error.message}`);
+        }
+        const releasesArr = Array.from(releases);
+        for (const release of releasesArr) {
+            newExtensions.push(new Extension(
+                extension.name,
+                release.tag_name,
+                extension.extensionType,
+                extension.repository + "/tree/" + release.tag_name
+            ));
+        }
+    }
+    return newExtensions;
+}
+
+/**
+ * Retrieve the releases for am extension.
+ */
+export function getExtensionReleases(reponame: string): Promise<ArrayLike<any>> {
+    const options = {
+        headers: {
+            "Authorization": `token ${TOKEN}`,
+            "User-Agent": "ExplorViz-build-service"
+        },
+        hostname: "api.github.com",
+        method: "GET",
+        path: `/repos/ExplorViz/${reponame}/releases`,
+        port: 443
+    };
+    let data = "";
+    return new Promise((resolve, reject) => {
+        const req = https.request(options, (resp) => {
+            if (resp.statusCode < 200 || resp.statusCode >= 300) {
+                return reject(new Error(`${options.path} not found. `
+                    + ` ${resp.statusCode} - ${status[resp.statusCode]}`));
             }
             resp.on("data", (d) => {
                 data += d;
@@ -281,14 +367,16 @@ function getExtensionJSON(reponame: string, branch: string): Promise<ExtensionJS
  * @param branch defaults to "master".
  */
 export function getRepositoryDescription(reponame: string, branch: string = "master"): Promise<string> {
+    const version = (branch === "master") ? defaultBranch : branch;
     const options = {
         headers: {
             "Accept": "application/vnd.github.raw+json",
+            "Authorization": `token ${TOKEN}`,
             "User-Agent": "ExplorViz-build-service"
         },
         hostname: "api.github.com",
         method: "GET",
-        path: `/repos/ExplorViz/${reponame}/readme?ref=${branch}`,
+        path: `/repos/ExplorViz/${reponame}/readme?ref=${version}`,
         port: 443
     };
     let data = "";

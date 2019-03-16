@@ -65,3 +65,4 @@ typings/
 extensions.json
 extensionList.json
 extensionList_.json
+auth.ts

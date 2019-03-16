@@ -19,7 +19,7 @@ const activeBuilding = {};
 export function getConfiguration(task: Task, extensions: Extension[]): [string, Promise<string>] {
     const hash = configurationHash(extensions);
     if (activeBuilding[hash] !== undefined) {
-        // Currently compiling, return existing promise 
+        // Currently compiling, return existing promise
        return [hash, activeBuilding[hash]];
     }
 

@@ -7,7 +7,7 @@ fetch(`/build/get/${buildHash}`)
     let build = Array.from(res);
     build.sort((a, b) => a.name.localeCompare(b.name));
     build.forEach((elem) => {
-        let item = $(`<li>${elem.name}</li>`);
+        let item = $(`<li>${elem.name} (${elem.version})</li>`);
         $(`#currentBuildList`).append(item);
     });
 });
