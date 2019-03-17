@@ -1,3 +1,7 @@
+html { 
+  height: 100%; 
+  margin: 0;
+}
 
 .navbar-left img {
   float: left;
@@ -8,6 +12,15 @@
 
 body {
   background: #e2eeff !important;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+}
+
+.container {
+  max-height: 100%;
 }
 
 .main-container {
@@ -15,8 +28,9 @@ body {
   padding-right: 0px;
   padding-left: 0px;
   padding-bottom: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   margin-top: 30px;
+  max-height: 90%;
 }
 
 .navbar {
@@ -58,9 +72,9 @@ body {
   border: 2px solid  rgb(46, 46, 46);
   border-radius: 15px;
   display: inline-block;
-  width: 100px;
-  height: 100px;
-  margin: 5px;
+  width: 90px;
+  height: 90px;
+  margin: 3px;
 }
 
 .extension-button {
@@ -104,18 +118,21 @@ body {
 }
 
 .scrollable-list {
-  height:auto;
-  overflow-y:auto;
-  max-height:66%;
+  overflow-y: auto !important;
+  max-height: 65%;
+}
+
+.col-md-4 {
+  max-height: 100%;
+}
+
+.panel .panel-info {
+  max-height: 100%;
 }
 
 .scrollable {
-  height:76%;
-  overflow-y: auto;
+  height: 75%;
+  overflow-y: auto !important;
   overflow-x: hidden;
-  max-height:76%;
-}
-
-.scrollable .dropdown {
-  overflow-x: visible;
+  max-height: 75%;
 }
