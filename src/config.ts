@@ -1,3 +1,5 @@
+import * as fse from "fs-extra";
+
 export interface Config {
     /**
      * Host to bind the webserver to
@@ -45,4 +47,16 @@ export function createDefaultConfig() {
         tmppath: "./tmp"
     };
     return config;
+}
+
+export function getConfig() : Config
+{
+    try {
+        return fse.readJsonSync("config.json");
+    } catch (error) {
+        console.log("No config.json found. Generating new file.");
+        const config = createDefaultConfig();
+        fse.writeJSONSync("config.json", config, {spaces: 2});
+        return config;
+      }
 }

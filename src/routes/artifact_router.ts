@@ -9,7 +9,7 @@ const router: Router = Router();
 const tasks: { [_: string]: Task; } = {};
 
 export function startBuildTask(exts: Extension[]) {
-    const task = new Task(exts);
+    const task = Task.getTask(exts);
     tasks[task.getToken()] = task;
     return task.getToken();
 }

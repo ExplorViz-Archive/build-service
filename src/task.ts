@@ -1,26 +1,53 @@
 
 import {getConfiguration} from "./artifact_builder";
 import { Extension, ExtensionType } from "./extension";
+import {configurationHash} from "./artifact_cache";
+
+export enum TaskState {
+    INIT,
+    FRONTEND,
+    FRONTEND_EXTENSION,
+    BACKEND,
+    BACKEND_EXTENSION,
+    PACKING,
+    READY,
+    FAILED
+}
 
 export class Task {
-    public promise: Promise<string>;
-    public status: string = "";
-    public hash: string = "";
-    public url: string = "";
-    constructor(extensions: Extension[]) {
-        const self = this;
-        [this.hash, this.promise] = getConfiguration(this, extensions);
-        this.promise.then((downloadUrl: string) => {
-            this.url = downloadUrl;
-            this.setStatus("ready");
-        });
+    public static activeTasks = {};
+    public static getTask(extensions : Extension[]) : Task 
+    {
+        const hash = configurationHash(extensions);
+        console.log(Task.activeTasks)
+        if(Task.activeTasks[hash] === undefined)
+        {
+            Task.activeTasks[hash] = new Task(extensions);
+            Task.activeTasks[hash].run();
+        }
+        return Task.activeTasks[hash];
     }
 
+    public promise: Promise<void>;
+    public status: TaskState = TaskState.INIT;
+    public hash: string = "";
+    public extensions : Extension[]
+    private constructor(extensions: Extension[]) {
+        this.extensions = extensions;
+        this.hash = configurationHash(extensions);
+    }
+
+    public run()
+    {
+        getConfiguration(this).then(() => {
+            this.setStatus(TaskState.READY);
+        });
+    }
     public getPromise() { return this.promise; }
-    public getStatus() { return this.status; }
+    public getStatus() { return this.status.toString(); }
     public getToken() { return this.hash; }
-    public setStatus(newstatus: string) {
+    public setStatus(newstatus: TaskState) {
         console.log("New Status" + newstatus);
         this.status = newstatus; }
-    public getDownload() { return this.url; }
+    public getDownload() { return this.hash; }
 }

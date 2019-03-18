@@ -4,7 +4,7 @@ import * as child_process from "ts-process-promises";
 import {configurationHash, getFile, isCached, moveToCache} from "./artifact_cache";
 import {Config, createDefaultConfig} from "./config";
 import {Extension, ExtensionType} from "./extension";
-import {Task} from "./task";
+import {Task, TaskState} from "./task";
 
 let config: Config;
 try {
@@ -14,31 +14,18 @@ try {
   config = createDefaultConfig();
   fse.writeJSONSync("config.json", config, {spaces: 2});
 }
-const activeBuilding = {};
 
-export function getConfiguration(task: Task, extensions: Extension[]): [string, Promise<string>] {
-    const hash = configurationHash(extensions);
-    if (activeBuilding[hash] !== undefined) {
-        // Currently compiling, return existing promise
-       return [hash, activeBuilding[hash]];
-    }
-
-    if (isCached(extensions)) {
+export function getConfiguration(task: Task): Promise<void> {
+    if (isCached(task.extensions)) {
        // Return from cache
-       return [hash, Promise.resolve(getFile(extensions))];
+       return Promise.resolve();
     }
 
     // Not cached, needs building
-    const promise = buildConfiguration(task, extensions);
-
-    activeBuilding[hash] = promise;
-    return [hash, promise.then(() => {
-        activeBuilding[hash] = undefined;
-        return getFile(extensions);
-    })];
+    return buildConfiguration(task);
 }
 
-export async function buildConfiguration(task: Task, extensions: Extension[]) {
+async function buildConfiguration(task: Task) {
     /* An explorviz archive contains:
         - The explorviz frontend including extensions
         - The explorviz backend
@@ -46,31 +33,27 @@ export async function buildConfiguration(task: Task, extensions: Extension[]) {
         - A startup script
         - A readme file
     */
-    const path = config.tmppath + "/dir";
-    task.setStatus("frontend");
+    const path = config.tmppath + "/" + task.getToken();
+    await fs.mkdirp(path);
+
+    task.setStatus(TaskState.FRONTEND);
     // Build the ember js based frontend, this is unique per configuration
-    await buildFrontend(path, extensions);
+    await buildFrontend(path, task.extensions);
 
-    task.setStatus("backend");
+    task.setStatus(TaskState.BACKEND);
     // Fetch backend including extensions
-    await buildBackend(path, extensions);
+    await buildBackend(path, task.extensions);
 
-    task.setStatus("static");
+    task.setStatus(TaskState.PACKING);
     // Fetch static files (Readme, startup Script)
     // todo
 
-    task.setStatus("compress");
     // Compress
     await buildArchive(path);
-
-    task.setStatus("cache");
     // Write to cache
-    await moveToCache(path, extensions);
-
-    task.setStatus("cleanup");
+    await moveToCache(path, task.extensions);
     // Remove build files
     await fs.delete(path);
-    task.setStatus("done");
 }
 
 async function buildArchive(path: string) {
@@ -84,9 +67,9 @@ async function buildArchive(path: string) {
 async function buildFrontend(targetdir: string, extensions: Extension[]) {
     // TODO: Cache this
     // TODO: Use specific version (release)
-    await child_process.exec("git clone " + config.frontendrepo, { cwd: config.tmppath });
+    await child_process.exec("git clone " + config.frontendrepo, { cwd: targetdir + "/build/" });
 
-    const repoPath = config.tmppath + "/explorviz-frontend";
+    const repoPath = targetdir + "/build/explorviz-frontend";
 
     // Install frontend dependencies
     await child_process.exec("npm install", { cwd: repoPath });
@@ -105,7 +88,7 @@ async function buildFrontend(targetdir: string, extensions: Extension[]) {
     await child_process.exec("ember build --environment production", { cwd: repoPath});
 
     // Move the frontend to the target directory
-    await fs.rename(repoPath + "/dist", targetdir);
+    await fs.rename(repoPath + "/dist", targetdir + "/out/");
 
     // Cleanup
     await fs.delete(repoPath);
@@ -118,9 +101,9 @@ async function buildFrontend(targetdir: string, extensions: Extension[]) {
 async function buildBackend(targetdir: string, extensions: Extension[]) {
     // TODO: Cache this
     // TODO: Use specific version (release)
-    await child_process.exec("git clone " + config.backendrepo, { cwd: config.tmppath });
+    await child_process.exec("git clone " + config.backendrepo, { cwd: targetdir + "/build/" });
 
-    const repoPath = config.tmppath + "/explorviz-backend";
+    const repoPath = targetdir + "/build/explorviz-backend";
 
     // Build
     await child_process.exec("gradle build", { cwd: repoPath });
@@ -143,7 +126,7 @@ async function buildBackendExtension(targetdir: string, extension: Extension) {
         return;
     }
 
-    await child_process.exec("git clone " + extension.repository, { cwd: config.tmppath });
-    await child_process.exec("gradle build", { cwd: config.tmppath + "/" + extension.name});
+    await child_process.exec("git clone " + extension.repository, { cwd: targetdir + "/build/" });
+    await child_process.exec("gradle build", { cwd: targetdir + "/build/" + extension.name});
     // todo: how to find the .war file?
 }
