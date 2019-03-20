@@ -241,6 +241,10 @@ function removeListItem(id) {
 function addListItem(id) {
   deactivateActiveListItems();
   const extension = getExtensionById(id);
+  const extensionGroup = buildListHasExtensionName(extension.name);
+  // if (extensionGroup !== null) {
+  //   removeListItem (extensionGroup);
+  // }
   let item = document.createElement("a");
   item.id = id;
   item.name = extension.name;
@@ -428,7 +432,6 @@ function getExtensionById(id) {
 }
 
 function continueOnClick(configuration) {
-  console.log(configuration);
   $.ajax({
     data: configuration,
     success: (res) => {
@@ -448,7 +451,7 @@ function validateConfig() {
   const status = {
     incompatible: [],
     required: [],
-    wanted: [],
+    wanted: []
   };
   let list = document.getElementById("currentBuildList");
   if (list.childElementCount > 0) {
@@ -456,6 +459,12 @@ function validateConfig() {
       const childExtension = getExtensionById(list.children[i].id);
       const requiredExtensions = childExtension.requiredExtensions;
       const incompatibleExtensions = childExtension.incompatibleExtensions;
+      if (!checkUnique(status.wanted, childExtension)) {
+        status.incompatible.push(childExtension.id);
+        $(`#${childExtension.name}`).addClass("incompatible")
+        .attr("data-toggle", "tooltip").attr("title", `Multiple extensions of same group detected.`);
+        continue;
+      }
       status.wanted.push(childExtension);
       for (const requiredExtensionId of requiredExtensions) {
         if (status.wanted.includes(requiredExtensionId)) {
@@ -487,13 +496,7 @@ function validateConfig() {
       }
     }
   }
-  if (status.wanted.length > 0
-      && status.required.length === 0
-      && status.incompatible.length === 0) {
-    activateContinueButton({config: trimConfig(status.wanted)});
-  } else {
-    deactivateContinueButton();
-  }
+  return resolveValidation(status);
 }
 
 /**
@@ -516,6 +519,7 @@ function activateContinueButton(configuration) {
   if (continueButton.classList.contains("btn-danger")) {
     removeClassFromElement(continueButton, "btn-danger");
     addClassToElement(continueButton, "btn-success");
+    continueButton.removeEventListener("click", () => continueOnClick());
     continueButton.addEventListener("click", () => continueOnClick(configuration));
   }
 }
@@ -634,12 +638,48 @@ function addPredefinedBuilds(builds) {
 
 /**
  * Add an array of ids with their dependencies to the current build list and select
- * their respective images.
+ * their respective images. Disables the continue button if one of the ids was removed from
+ * the build list during the process.
  */
 function addListItems(ids) {
   ids.forEach(id => {
     addListItem(id);
   });
-  validateConfig();
   addAllDependencies();
+  let contained = true;
+  ids.forEach(id => {
+    contained = buildListHasExtensionId(id);
+  })
+  if (!contained) {
+    deactivateContinueButton();
+  }
+}
+
+/**
+ * Check if an extension is the only element of the same group in a list of extensions.
+ * @param {*} extensions 
+ * @param {*} extension 
+ */
+function checkUnique(extensions, extension) {
+  let unique = true;
+  extensions.forEach(ext => {
+    if (ext.name === extension.name) {
+      unique = false;
+    }
+  })
+  return unique;
+}
+
+function resolveValidation(status) {
+  let valid = false;
+  if (status.wanted.length > 0
+    && status.required.length === 0
+    && status.incompatible.length === 0) {
+  activateContinueButton({config: trimConfig(status.wanted)});
+    valid = true;
+  } else {
+  deactivateContinueButton();
+    valid = false;
+  }
+  return valid;
 }
