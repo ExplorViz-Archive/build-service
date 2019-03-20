@@ -91,12 +91,12 @@ body {
   height: auto;
 }
 
-.required{
-  border: 2px solid  rgb(235, 164, 11);
-}
-
 .selected{
   border: 2px solid  rgb(32, 197, 17);
+}
+
+.required{
+  border: 2px solid  rgb(235, 164, 11);
 }
 
 .incompatible{
