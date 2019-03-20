@@ -65,6 +65,9 @@ typings/
 extensions.json
 extensionList.json
 extensionList_.json
+
+# dev
+package-lock.json
 auth.ts
 cache/
 tmp/
