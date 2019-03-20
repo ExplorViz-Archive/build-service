@@ -38,6 +38,7 @@ async function buildConfiguration(task: Task) {
     const path = config.tmppath + "/" + task.getToken();
     await fs.mkdirp(path);
     await fs.mkdirp(path + "/out");
+    await fs.mkdirp(path + "/out/frontend");
     await fs.mkdirp(path + "/build");
 
     task.setStatus(TaskState.FRONTEND);
@@ -71,8 +72,7 @@ async function buildArchive(path: string, extensions : Extension[]) {
  * @param extensions Extensions to install
  */
 async function buildFrontend(targetdir: string, extensions: Extension[]) {
-    // TODO: Use specific version (release)
-    await child_process.exec("git clone  -b '1.3.0' --depth 1 " + config.frontendrepo, { cwd: targetdir + "/build/" });
+    await child_process.exec("git clone -b '1.3.0' --depth 1 " + config.frontendrepo, { cwd: targetdir + "/build/" });
 
     const repoPath = targetdir + "/build/explorviz-frontend";
 
@@ -80,7 +80,7 @@ async function buildFrontend(targetdir: string, extensions: Extension[]) {
     await child_process.exec("npm install", { cwd: repoPath });
 
     // Install extensions
-    extensions.forEach(async (extension) => {
+    await asyncForEach(extensions, async (extension) => {
         if (extension.extensionType !== ExtensionType.FRONTEND) {
             return;
         }
@@ -93,7 +93,7 @@ async function buildFrontend(targetdir: string, extensions: Extension[]) {
     await child_process.exec("ember build --environment production", { cwd: repoPath});
 
     // Move the frontend to the target directory
-    await fs.rename(repoPath + "/dist", targetdir + "/out/");
+    await fs.rename(repoPath + "/dist", targetdir + "/out/frontend");
 
     // Cleanup
     await fs.delete(repoPath);
@@ -114,14 +114,14 @@ async function buildBackend(targetdir: string, extensions: Extension[]) {
 
     // Get all .jar files
     const files = await fs.readdir(repoPath + "/build/libs")
-    files.forEach(async element => {
+    await asyncForEach(files, async element => {
         if(path.extname(element) === ".jar")
             await fs.rename(repoPath + "/build/libs/" + element, targetdir + "/out/" + path.basename(element));
     });
 
     // Build extensions
-    extensions.forEach(async (extension) => {
-        buildBackendExtension(targetdir, extension);
+    await asyncForEach(extensions, async (extension) => {
+        await buildBackendExtension(targetdir, extension);
     });
 
     // Cleanup
@@ -133,12 +133,19 @@ async function buildBackendExtension(targetdir: string, extension: Extension) {
         return;
     }
 
-    await child_process.exec("git clone " + extension.repository, { cwd: targetdir + "/build/" });
-    await child_process.exec("./gradlew assemble", { cwd: targetdir + "/build/" + extension.name});
-    const files = await fs.readdir(targetdir + "/" + extension.name + "/build/libs")
-    files.forEach(async element => {
+    const repoPath = targetdir + "/build/" + extension.name;
+    await child_process.exec("git clone -b '" + extension.version + "' --depth 1 " + extension.repository, { cwd: targetdir + "/build/" });
+    await child_process.exec("./gradlew assemble", { cwd: repoPath });
+    const files = await fs.readdir(repoPath + "/build/libs")
+    await asyncForEach(files, async element => {
         if(path.extname(element) === ".jar")
-            await fs.rename(element, targetdir + "/out/" + path.basename(element));
+            await fs.rename(repoPath + "/build/libs/" + element, targetdir + "/out/" + path.basename(element));
     });
 
 }
+
+async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+      await callback(array[index], index, array);
+    }
+  }

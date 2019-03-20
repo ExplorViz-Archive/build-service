@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {Extension} from "../extension";
+import {Extension, ExtensionType} from "../extension";
 import {startBuildTask} from "./artifact_router";
 import {getBuilds} from "./build_router";
 
@@ -23,9 +23,12 @@ ConfirmationRouter.get("/:id", (req, res) => {
 ConfirmationRouter.post("/:id", (req, res) => {
     const builds = getBuilds()[req.params.id];
     const exts: Extension[] = [] ;
+    /*
     for (const key in builds) {
         exts.push(builds[key]);
-    }
+    }*/
+    exts.push(new Extension("explorviz-frontend-extension-vr", "dev-1", ExtensionType.FRONTEND, "https://github.com/ExplorViz/explorviz-frontend-extension-vr"))
+    exts.push(new Extension("explorviz-backend-extension-vr", "dev-1", ExtensionType.BACKEND, "https://github.com/ExplorViz/explorviz-backend-extension-vr"))
     const token = startBuildTask(exts);
     res.json(token);
     // const config = {
