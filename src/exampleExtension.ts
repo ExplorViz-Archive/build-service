@@ -54,6 +54,8 @@ class ExampleExtension implements ExtensionObject {
         this.version = version;
         this.extensionType = extensionType;
     }
+
+    public isBase() { return false; }
 }
 
 enum ExtensionType {

@@ -27,6 +27,14 @@ export class Extension implements exampleExtensions.ExtensionObject {
         this.extensionType = type;
         this.repository = repository;
     }
+
+    /***
+     * Returns whether this extension is not actually an extension, but a base
+     * image instead 
+     */
+    public isBase() {
+        return this.name === "explorviz-backend" || this.name === "explorviz-frontend"
+    }
 }
 
 interface ExtensionJSONObject {

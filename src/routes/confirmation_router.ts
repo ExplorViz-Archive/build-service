@@ -22,18 +22,8 @@ ConfirmationRouter.get("/:id", (req, res) => {
  */
 ConfirmationRouter.post("/:id", (req, res) => {
     const builds = getBuilds()[req.params.id];
-    const exts: Extension[] = [] ;
-    /*
-    for (const key in builds) {
-        exts.push(builds[key]);
-    }*/
-    exts.push(new Extension("explorviz-frontend-extension-vr", "dev-1", ExtensionType.FRONTEND, "https://github.com/ExplorViz/explorviz-frontend-extension-vr"))
-    exts.push(new Extension("explorviz-backend-extension-vr", "dev-1", ExtensionType.BACKEND, "https://github.com/ExplorViz/explorviz-backend-extension-vr"))
-    const token = startBuildTask(exts);
-    res.json(token);
-    // const config = {
-    //     conf:  getBuilds()[req.params.id],
-    //     deployment: req.body.deployment
-    //   };
-    // res.json(config);
+    startBuildTask(builds).then((token) => 
+    {
+        res.json(token);
+    });
 });

@@ -3,7 +3,7 @@ import * as fse from "fs-extra";
 import * as path from "path";
 import * as archiver from "archiver-promise";
 import * as child_process from "ts-process-promises";
-import {configurationHash, getFile, isCached, getCachePath} from "./artifact_cache";
+import {isCached, getCachePath} from "./artifact_cache";
 import {Config, createDefaultConfig} from "./config";
 import {Extension, ExtensionType} from "./extension";
 import {Task, TaskState} from "./task";
@@ -56,6 +56,18 @@ async function buildConfiguration(task: Task) {
     await fs.delete(path);
 }
 
+
+/***
+ * Resolves the commit hash for an extension + version combination
+ * This is primarily useful for branches like master, as master will point
+ * to different commits over time
+*/
+export async function resolveCommit(ext: Extension)
+{
+    const execResults = await child_process.exec("git ls-remote " + ext.repository + " " + ext.version);
+    return execResults.stdout.split(" ")[0];
+}
+
 async function buildArchive(path: string, extensions : Extension[]) {
     const archive = archiver.default(getCachePath(extensions), {
         store: true
@@ -72,7 +84,8 @@ async function buildArchive(path: string, extensions : Extension[]) {
  * @param extensions Extensions to install
  */
 async function buildFrontend(targetdir: string, extensions: Extension[]) {
-    await child_process.exec("git clone -b '1.3.0' --depth 1 " + config.frontendrepo, { cwd: targetdir + "/build/" });
+    const frontend = extensions.find(c => c.isBase() && c.extensionType == ExtensionType.FRONTEND);
+    await child_process.exec("git clone -b '" + frontend.version + "' --depth 1 " + frontend.repository, { cwd: targetdir + "/build/" });
 
     const repoPath = targetdir + "/build/explorviz-frontend";
 
@@ -81,7 +94,7 @@ async function buildFrontend(targetdir: string, extensions: Extension[]) {
 
     // Install extensions
     await asyncForEach(extensions, async (extension) => {
-        if (extension.extensionType !== ExtensionType.FRONTEND) {
+        if (extension.extensionType !== ExtensionType.FRONTEND || extension.isBase()) {
             return;
         }
 
@@ -104,8 +117,8 @@ async function buildFrontend(targetdir: string, extensions: Extension[]) {
  * @param extensions Extensions to install
  */
 async function buildBackend(targetdir: string, extensions: Extension[]) {
-    // TODO: Use specific version (release)
-    await child_process.exec("git clone -b '1.3.0' --depth 1 " + config.backendrepo, { cwd: targetdir + "/build/" });
+    const backend = extensions.find(c => c.isBase() && c.extensionType == ExtensionType.BACKEND);
+    await child_process.exec("git clone -b '" + backend.version + "' --depth 1 " + backend.repository, { cwd: targetdir + "/build/" });
 
     const repoPath = targetdir + "/build/explorviz-backend";
 
