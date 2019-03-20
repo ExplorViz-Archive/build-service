@@ -27,6 +27,7 @@
     "@types/node-fetch": "^2.1.6",
     "@types/node-schedule": "^1.2.3",
     "@types/remove-markdown": "^0.1.1",
+    "archiver-promise": "^1.0.0",
     "async-file": "^2.0.2",
     "child-process-promise": "^2.2.1",
     "ejs": "^2.6.1",
