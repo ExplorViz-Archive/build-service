@@ -1,7 +1,9 @@
 import * as fs from "async-file";
 import * as fse from "fs-extra";
+import * as path from "path";
+import * as archiver from "archiver-promise";
 import * as child_process from "ts-process-promises";
-import {configurationHash, getFile, isCached, moveToCache} from "./artifact_cache";
+import {configurationHash, getFile, isCached, getCachePath} from "./artifact_cache";
 import {Config, createDefaultConfig} from "./config";
 import {Extension, ExtensionType} from "./extension";
 import {Task, TaskState} from "./task";
@@ -35,6 +37,8 @@ async function buildConfiguration(task: Task) {
     */
     const path = config.tmppath + "/" + task.getToken();
     await fs.mkdirp(path);
+    await fs.mkdirp(path + "/out");
+    await fs.mkdirp(path + "/build");
 
     task.setStatus(TaskState.FRONTEND);
     // Build the ember js based frontend, this is unique per configuration
@@ -45,19 +49,21 @@ async function buildConfiguration(task: Task) {
     await buildBackend(path, task.extensions);
 
     task.setStatus(TaskState.PACKING);
-    // Fetch static files (Readme, startup Script)
-    // todo
-
-    // Compress
-    await buildArchive(path);
-    // Write to cache
-    await moveToCache(path, task.extensions);
+    // Compress to cache
+    await buildArchive(path, task.extensions);
     // Remove build files
     await fs.delete(path);
 }
 
-async function buildArchive(path: string) {
+async function buildArchive(path: string, extensions : Extension[]) {
+    const archive = archiver.default(getCachePath(extensions), {
+        store: true
+    });
+
+    archive.directory(path + "/out", false)
+    // Add static files (Readme, startup Script)
     // todo
+    return archive.finalize();
 }
 
 /**
@@ -65,9 +71,8 @@ async function buildArchive(path: string) {
  * @param extensions Extensions to install
  */
 async function buildFrontend(targetdir: string, extensions: Extension[]) {
-    // TODO: Cache this
     // TODO: Use specific version (release)
-    await child_process.exec("git clone " + config.frontendrepo, { cwd: targetdir + "/build/" });
+    await child_process.exec("git clone  -b '1.3.0' --depth 1 " + config.frontendrepo, { cwd: targetdir + "/build/" });
 
     const repoPath = targetdir + "/build/explorviz-frontend";
 
@@ -99,18 +104,20 @@ async function buildFrontend(targetdir: string, extensions: Extension[]) {
  * @param extensions Extensions to install
  */
 async function buildBackend(targetdir: string, extensions: Extension[]) {
-    // TODO: Cache this
     // TODO: Use specific version (release)
-    await child_process.exec("git clone " + config.backendrepo, { cwd: targetdir + "/build/" });
+    await child_process.exec("git clone -b '1.3.0' --depth 1 " + config.backendrepo, { cwd: targetdir + "/build/" });
 
     const repoPath = targetdir + "/build/explorviz-backend";
 
     // Build
-    await child_process.exec("gradle build", { cwd: repoPath });
+    await child_process.exec("./gradlew assemble", { cwd: repoPath });
 
-    // Move the backend to the target directory
-    await fs.rename(repoPath + "/build/libs/explorviz-backend-deployment.war", targetdir
-        + "/explorviz-backend-deployment.war");
+    // Get all .jar files
+    const files = await fs.readdir(repoPath + "/build/libs")
+    files.forEach(async element => {
+        if(path.extname(element) === ".jar")
+            await fs.rename(repoPath + "/build/libs/" + element, targetdir + "/out/" + path.basename(element));
+    });
 
     // Build extensions
     extensions.forEach(async (extension) => {
@@ -127,6 +134,11 @@ async function buildBackendExtension(targetdir: string, extension: Extension) {
     }
 
     await child_process.exec("git clone " + extension.repository, { cwd: targetdir + "/build/" });
-    await child_process.exec("gradle build", { cwd: targetdir + "/build/" + extension.name});
-    // todo: how to find the .war file?
+    await child_process.exec("./gradlew assemble", { cwd: targetdir + "/build/" + extension.name});
+    const files = await fs.readdir(targetdir + "/" + extension.name + "/build/libs")
+    files.forEach(async element => {
+        if(path.extname(element) === ".jar")
+            await fs.rename(element, targetdir + "/out/" + path.basename(element));
+    });
+
 }

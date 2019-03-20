@@ -14,8 +14,8 @@ try {
   fse.writeJSONSync("config.json", config, {spaces: 2});
 }
 
-export async function moveToCache(path: string, extensions: Extension[]) {
-    await fs.rename(path, getFile(extensions));
+export function getCachePath(extensions: Extension[]) {
+    return getFile(extensions);
 }
 
 export function isCached(extensions: Extension[]) {
