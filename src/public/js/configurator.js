@@ -8,27 +8,33 @@ let build1 = ["frontend-extension-colorpicker", "frontend-extension-tutorial"];
 loadConfigurator();
 
 function loadConfigurator() {
-  const removeButton = document.getElementById("removeButton");
-  removeButton.addEventListener("click", () => {
+
+  /**
+   * Initialize buttons
+   */
+  $("#removeButton").click(() => {
     removeListItem(getFirstActiveListItem().id);
     validateConfig();
-  });
+  })
 
-  const removeAllButton = document.getElementById("removeAllButton");
-  removeAllButton.addEventListener("click", () => {
+  $("#removeAllButton").click(() => {
     let item = getFirstActiveListItem();
     while (item !== null) {
       removeListItem(item.id);
       item = getFirstActiveListItem();
     }
     validateConfig();
-  });
+  })
 
-  const dependenciesButton = document.getElementById("dependenciesButton");
-  dependenciesButton.addEventListener("click", () => {
+  $("#dependenciesButton").click(() => {
     addAllDependencies();
-  });
+  })
 
+  deactivateContinueButton();
+
+  /**
+   * Get extension information
+   */
   fetch("/static/extensions")
   .then(data => {
     return data.json();
@@ -452,17 +458,6 @@ function getExtensionById(id) {
   return extension;
 }
 
-function continueOnClick(configuration) {
-  $.ajax({
-    data: configuration,
-    success: (res) => {
-      window.location = `/confirmation/${res}`;
-    },
-    type: "POST",
-    url: "/build/post",
-  });
-}
-
 /**
  * Validates the current config by checking the requirements and incompatibilities
  * of all elements corresponding to the children of currentBuildList.
@@ -534,6 +529,7 @@ function removeValitdationMarks() {
 
 /**
  * Activate the continue button if inactive.
+ * @param {{extensionType: any, name:string, repository:string, version:string}[]} configuration
  */
 function activateContinueButton(configuration) {
   $(`#continueButton`)
@@ -553,9 +549,24 @@ function deactivateContinueButton() {
   .removeClass("btn-success")
   .addClass("btn-danger")
   .attr("data-toggle", "tooltip")
-  .attr("title", `Please select a valid build.`)
+  .attr("title", `Please select a valid build before continuing.`)
   .off("click")
   .prop('disabled', true)
+}
+
+/**
+ * Post the configuration data to the server and load the confirmation page on success.
+ * @param {{extensionType: any, name:string, repository:string, version:string}[]} configuration 
+ */
+function continueOnClick(configuration) {
+  $.ajax({
+    data: configuration,
+    success: (res) => {
+      window.location = `/confirmation/${res}`;
+    },
+    type: "POST",
+    url: "/build/post",
+  });
 }
 
 /**
@@ -635,30 +646,6 @@ function trimConfig(extensions) {
 }
 
 /**
- * Add the builds obtained from predefinedBuilds.json to the list.
- * @param {{name:string, content:string[]}} builds
- */
-function addPredefinedBuilds(builds) {
-  const buildArr = Array.from(builds);
-  const buildSelector = document.getElementById("buildSelector");
-  buildArr.forEach(build => {
-    let selector = document.createElement("li");
-    let link = document.createElement("a");
-    link.textContent = build.name;
-    link.addEventListener("click", () => {
-      let item = getFirstActiveListItem();
-      while (item !== null) {
-          removeListItem(item.id);
-          item = getFirstActiveListItem();
-      }
-      addListItems(build.content);
-    });
-    selector.appendChild(link);
-    buildSelector.appendChild(selector);
-  });
-}
-
-/**
  * Check if an extension is the only element of the same group in a list of extensions.
  * @param {any[]} extensions 
  * @param {string} extensionName 
@@ -689,4 +676,28 @@ function resolveValidation(status) {
     valid = false;
   }
   return valid;
+}
+
+/**
+ * Add the builds obtained from predefinedBuilds.json to the list.
+ * @param {{name:string, content:string[]}} builds
+ */
+function addPredefinedBuilds(builds) {
+  const buildArr = Array.from(builds);
+  const buildSelector = document.getElementById("buildSelector");
+  buildArr.forEach(build => {
+    let selector = document.createElement("li");
+    let link = document.createElement("a");
+    link.textContent = build.name;
+    link.addEventListener("click", () => {
+      let item = getFirstActiveListItem();
+      while (item !== null) {
+          removeListItem(item.id);
+          item = getFirstActiveListItem();
+      }
+      addListItems(build.content);
+    });
+    selector.appendChild(link);
+    buildSelector.appendChild(selector);
+  });
 }
