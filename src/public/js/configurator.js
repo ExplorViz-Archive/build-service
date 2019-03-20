@@ -459,7 +459,7 @@ function validateConfig() {
       const childExtension = getExtensionById(list.children[i].id);
       const requiredExtensions = childExtension.requiredExtensions;
       const incompatibleExtensions = childExtension.incompatibleExtensions;
-      if (!checkUnique(status.wanted, childExtension)) {
+      if (!checkUnique(status.wanted, childExtension.name)) {
         status.incompatible.push(childExtension.id);
         $(`#${childExtension.name}`).addClass("incompatible")
         .attr("data-toggle", "tooltip").attr("title", `Multiple extensions of same group detected.`);
@@ -472,11 +472,10 @@ function validateConfig() {
         }
         const requiredExtension = getExtensionById(requiredExtensionId);
         if (requiredExtension !== null) {
-          $(`#${requiredExtension.name}`).addClass("required");
-          if (!buildListHasExtensionId(requiredExtensionId)) {
-            if (status.required.indexOf(requiredExtensionId) === -1 ) {
+          if (!buildListHasExtensionId(requiredExtensionId)
+            && status.required.indexOf(requiredExtensionId) === -1 ) {
+              $(`#${requiredExtension.name}`).addClass("required");
               status.required.push(requiredExtensionId);
-            }
           }
         } else {
           console.error(`Dependency ${requiredExtensionId} of ${childExtension.id} not found.`);
@@ -519,7 +518,6 @@ function activateContinueButton(configuration) {
   if (continueButton.classList.contains("btn-danger")) {
     removeClassFromElement(continueButton, "btn-danger");
     addClassToElement(continueButton, "btn-success");
-    continueButton.removeEventListener("click", () => continueOnClick());
     continueButton.addEventListener("click", () => continueOnClick(configuration));
   }
 }
@@ -558,7 +556,7 @@ function addAllDependencies() {
 
 /**
  * Check if an extension with the id is present in the build list.
- * @param {String} id
+ * @param {string} id
  */
 function buildListHasExtensionId(id) {
   let hasExtension = false;
@@ -577,7 +575,7 @@ function buildListHasExtensionId(id) {
 
 /**
  * Check if an extension with the id is present in the build list.
- * @param {String} id
+ * @param {string} name
  */
 function buildListHasExtensionName(name) {
   let hasExtension = null;
@@ -596,7 +594,7 @@ function buildListHasExtensionName(name) {
 
 /**
  * Trims an array of extensions to contain only build-relevant information.
- * @param {Extension[]} extensions
+ * @param {{extensionType: any, name:string, repository:string, version:string}[]} extensions
  */
 function trimConfig(extensions) {
   let config = [];
@@ -614,7 +612,7 @@ function trimConfig(extensions) {
 
 /**
  * Add the builds obtained from predefinedBuilds.json to the list.
- * @param builds
+ * @param {{name:string, content:string[]}} builds
  */
 function addPredefinedBuilds(builds) {
   const buildArr = Array.from(builds);
@@ -657,19 +655,23 @@ function addListItems(ids) {
 
 /**
  * Check if an extension is the only element of the same group in a list of extensions.
- * @param {*} extensions 
- * @param {*} extension 
+ * @param {any[]} extensions 
+ * @param {string} extensionName 
  */
-function checkUnique(extensions, extension) {
+function checkUnique(extensions, extensionName) {
   let unique = true;
   extensions.forEach(ext => {
-    if (ext.name === extension.name) {
+    if (ext.name === extensionName) {
       unique = false;
     }
   })
   return unique;
 }
 
+/**
+ * Check if the given status of the build is valid, i.e. no further extensions are required or incompatible.
+ * @param {{wanted:any[], required: string, incompatible: string}} status 
+ */
 function resolveValidation(status) {
   let valid = false;
   if (status.wanted.length > 0
