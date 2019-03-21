@@ -1,26 +1,24 @@
 html { 
   height: 100%; 
   margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  max-height: 100%
 }
 
 .navbar-left img {
   float: left;
   width: 200px;
   height: 50px;
-  border: solid 3px rgba(104,104,104,.9);
-}
-
-body {
-  background: #e2eeff !important;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-}
-
-.container {
-  max-height: 100%;
+  padding: 4px;
+  margin-right: 5px;
 }
 
 .main-container {
@@ -30,26 +28,27 @@ body {
   padding-bottom: 15px;
   margin-bottom: 20px;
   margin-top: 30px;
-  max-height: 90%;
+  max-height: 100%
 }
 
 .navbar {
-  background: rgba(104,104,104,.9);
+  background: #eff0f1;
   width: 100%;
+  border: 0px;
+  padding: .5rem 1rem;
 }
 
 .navbar li a {
-  color: white;
-  font-weight: bold;
+  color: rgba(0,0,0,.5);
 }
 
 .navbar-nav > li > a:hover {
-  background: rgba(104,104,104,.9);
-  color: #0fd0f9
+  background: rgba(104,104,104,.7);
+  color: white;
 }
 
 .navbar-nav > .active > a {
-  color: #0fd0f9
+  color: rgba(0,0,0,.9)
 }
 
 .header {
