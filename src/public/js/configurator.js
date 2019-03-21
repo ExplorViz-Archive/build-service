@@ -179,6 +179,10 @@ function getDifferentVersions(name) {
   return versions;
 }
 
+/**
+ * Generate the dropdown menu for an extension with multiple versions.
+ * @param {} versions 
+ */
 function getVersionElementList(versions) {
   const ul = document.createElement("ul");
   addClassToElement(ul, "dropdown-menu");
