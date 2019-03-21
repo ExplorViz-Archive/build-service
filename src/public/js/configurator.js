@@ -491,23 +491,24 @@ function validateConfig() {
           if (!buildListHasExtensionId(requiredExtensionId)
             && status.required.indexOf(requiredExtensionId) === -1 ) {
               $(`#${requiredExtension.name}`).addClass("required")
-                .attr("data-toggle", "tooltip").attr("title", `${requiredExtension.id} required by ${childExtension.name}.`);
+                .attr("data-toggle", "tooltip").attr("title", `${requiredExtension.id.replace("extension-", "")}`
+                + ` required by ${childExtension.name.replace("extension-", "")}.`);
               status.required.push(requiredExtensionId);
           }
         } else {
           console.error(`Dependency ${requiredExtensionId} of ${childExtension.id} not found.`);
           status.incompatible.push(childExtension.id);
           $(`#${childExtension.name}`).addClass("incompatible")
-            .attr("data-toggle", "tooltip").attr("title", `Extension ${requiredExtensionId} not available.`);
+            .attr("data-toggle", "tooltip").attr("title", `Extension ${requiredExtensionId.replace("extension-", "")} not available.`);
         }
       }
       for (const incompatibleExtension of incompatibleExtensions) {
         const incompatibility = buildListHasExtensionName(incompatibleExtension);
         if (incompatibility !== null) {
           $(`#${incompatibleExtension}`).addClass("incompatible")
-            .attr("data-toggle", "tooltip").attr("title", `Incompatible with ${childExtension.name}.`);
+            .attr("data-toggle", "tooltip").attr("title", `Incompatible with ${childExtension.name.replace("extension-", "")}.`);
           $(`#${childExtension.name}`).addClass("incompatible")
-            .attr("data-toggle", "tooltip").attr("title", `Incompatible with ${incompatibleExtension}.`);
+            .attr("data-toggle", "tooltip").attr("title", `Incompatible with ${incompatibleExtension.replace("extension-", "")}.`);
         }
       }
     }

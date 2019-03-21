@@ -91,7 +91,7 @@ body {
 }
 
 .selected{
-  border: 2px solid  rgb(32, 197, 17);
+  border: 2px solid  rgb(28, 172, 14);
 }
 
 .required{
@@ -104,7 +104,7 @@ body {
 
 .incompatible.selected {
   box-shadow: 4px 4px rgb(226, 8, 8);
-  border: 2px solid  rgb(32, 197, 17);
+  border: 2px solid  rgb(28, 172, 14);
 }
 
 .hovered{
