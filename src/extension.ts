@@ -51,7 +51,8 @@ interface ExtensionLists {
 const defaultimgSrc = "logo-default.png";
 const defaultDescr = "This is an extension for ExplorViz. "
     + "ATTENTION: This is a default description. "
-    + "Therefore the information about required and incompatible extensions might not be complete.";
+    + "Therefore the information about required and incompatible extensions might not be complete."
+    + "Please check the link below for further information.";
 const defaultBranch = "build-service-test";
 
 const backendInitializer: Extension = new Extension("explorviz-backend",
@@ -85,7 +86,7 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
         return;
     }
     console.log("List of extensions assembled.");
-    // check for releases
+    // Check for release repositories.
     try {
         tmpList.backend = await addReleaseRepositories(tmpList.backend);
         tmpList.frontend = await addReleaseRepositories(tmpList.frontend);
@@ -93,6 +94,10 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
     } catch (error) {
         console.log("Could not add the release repositories to the extension lists. " + error.message);
     }
+    // Add dev-1 branch for frontend and backend
+    tmpList.frontend.push(getBranch(frontendInitializer, "dev-1"));
+    tmpList.backend.push(getBranch(backendInitializer, "dev-1"));
+    // Gather and combine the remaining information.
     try {
         const frontend = await combineExtensionInformation(tmpList.frontend, ExtensionType.FRONTEND);
         const backend = await combineExtensionInformation(tmpList.backend, ExtensionType.BACKEND);
@@ -128,7 +133,7 @@ function addDummyExtensions(extensions: ExtensionLists) {
         }
     }
     for (const extension of extensions.frontend) {
-        if (extension.id === "frontend_1.3.0") {
+        if (extension.name === "frontend") {
             extension.requiredExtensions = ["backend_" + extension.version];
         }
     }
@@ -265,6 +270,20 @@ function getDefaultExtensionInformation(extension: Extension) {
     extension.imgSrc = defaultimgSrc;
     extension.desc = defaultDescr;
     return extension;
+}
+
+ /**
+  * Take the frontend or backend initializer and return the dev-1 branch initializer.
+  * @param initializer 
+  * @param branch 
+  */
+function getBranch (initializer: Extension, branch: string): Extension {
+    return new Extension(
+        initializer.name,
+        branch,
+        initializer.extensionType,
+        initializer.repository + "/tree/" + branch
+    )
 }
 
 /**
