@@ -43,7 +43,7 @@ interface ExtensionJSONObject {
     requiredExtensions: string[];
 }
 
-interface ExtensionLists {
+export interface ExtensionLists {
     backend: Extension[];
     frontend: Extension[];
 }
@@ -180,7 +180,7 @@ async function combineExtensionInformation(extensions: Extension[], extensionTyp
  * Tries to return the current lists of frontend and backend extensions of ExplorViz
  * from GitHub.
  */
-function getExtensionLists(): Promise<ExtensionLists> {
+export function getExtensionLists(): Promise<ExtensionLists> {
     const options = {
         headers: {
             "Authorization": `token ${TOKEN}`,
@@ -195,7 +195,7 @@ function getExtensionLists(): Promise<ExtensionLists> {
     return new Promise((resolve, reject) => {
         const req = https.request(options, (resp) => {
             if (resp.statusCode < 200 || resp.statusCode >= 300) {
-                return reject(new Error(resp.statusCode + " - " + status[resp.statusCode]));
+                return reject(resp.statusCode + " - " + status[resp.statusCode]);
             }
             resp.on("data", (d) => {
                 data += d;

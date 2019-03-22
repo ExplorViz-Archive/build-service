@@ -13,7 +13,7 @@
     "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
     "devTest": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "start": "node .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r ts-node/register test/extension.spec.ts"
   },
   "keywords": [],
   "author": "",
@@ -43,10 +43,14 @@
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
+    "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^5.2.6",
+    "@types/nock": "^9.3.1",
     "@types/shelljs": "^0.8.3",
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "mocha": "^6.0.2",
+    "nock": "^10.0.6",
     "nodemon": "^1.18.9",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3",
