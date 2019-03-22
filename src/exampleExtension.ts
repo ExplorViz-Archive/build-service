@@ -69,7 +69,7 @@ export function getMissingImageDummyBE() {
         lorIp,
         "daiopjghfbdsafgakldfgölkj",
         ExtensionType.BACKEND,
-        ["backend_master"],
+        ["backend_1.3.0"],
         [],
         "https://www.google.com",
         "master"
@@ -82,7 +82,7 @@ export function getMissingImageDummyFE() {
         lorIp,
         "https://pbs.twimg.com/profile_images/807755806837850112/WSFVeFeQ_400x400.jpg",
         ExtensionType.FRONTEND,
-        ["frontend_master"],
+        ["frontend_1.3.0"],
         [],
         "https://www.google.com",
         "master"

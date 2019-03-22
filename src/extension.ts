@@ -24,7 +24,17 @@ export class Extension implements exampleExtensions.ExtensionObject {
     constructor(name: string, version?: string, type?: ExtensionType, repository?: string) {
         this.name = name;
         this.version = version;
-        this.extensionType = type;
+        if (typeof type === "undefined" || type === null) {
+            if (name.includes("frontend")) {
+                this.extensionType = ExtensionType.FRONTEND;
+            } else if (name.includes("backend")) {
+                this.extensionType = ExtensionType.BACKEND;
+            } else {
+                this.extensionType = undefined;
+            }
+        } else {
+            this.extensionType = type;
+        }
         this.repository = repository;
     }
 
@@ -106,6 +116,7 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
         if (insertExampleValues) {
             tmpList = addDummyExtensions(tmpList);
         }
+        tmpList = updateRequiredExtensions(tmpList);
         fs.writeJSONSync(path.join(__dirname, "extensionList.json"), tmpList, {spaces: 2});
         returnStatus = "Success! ";
     } catch (error) {
@@ -121,12 +132,19 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
  */
 function addDummyExtensions(extensions: ExtensionLists) {
     console.log("Adding dummies to extension list.");
-
     extensions.frontend.push(exampleExtensions.getMissingImageDummyFE());
     extensions.frontend.push(exampleExtensions.getNewVrDummyFE());
     extensions.backend.push(exampleExtensions.getMissingImageDummyBE());
     extensions.backend.push(exampleExtensions.getNewVrDummyBE());
+    return extensions;
+}
 
+/**
+ * Update required extensions of all frontend and backend extensions such that
+ * they always require the other part of the same version.
+ * @param extensions 
+ */
+export function updateRequiredExtensions(extensions: ExtensionLists) {
     for (const extension of extensions.backend) {
         if (extension.name === "backend") {
             extension.requiredExtensions = ["frontend_" + extension.version];
@@ -139,6 +157,7 @@ function addDummyExtensions(extensions: ExtensionLists) {
     }
     return extensions;
 }
+
 
 /**
  * Receives a list of either frontend or backend extensions and returns a list with all
@@ -195,7 +214,7 @@ export function getExtensionLists(): Promise<ExtensionLists> {
     return new Promise((resolve, reject) => {
         const req = https.request(options, (resp) => {
             if (resp.statusCode < 200 || resp.statusCode >= 300) {
-                return reject(resp.statusCode + " - " + status[resp.statusCode]);
+                return reject(new Error(resp.statusCode + " - " + status[resp.statusCode]));
             }
             resp.on("data", (d) => {
                 data += d;
