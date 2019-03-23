@@ -2,7 +2,7 @@ import nock from "nock";
 import chaiAsPromised from 'chai-as-promised';
 import chai from 'chai';
 import status from "http-status"
-import {Extension, getExtensionLists, updateBaseFields, ExtensionLists} from "../src/extension"
+import {Extension, getExtensionLists, updateBaseFields, ExtensionLists, defaultDescr, defaultimgSrc} from "../src/extension"
 import {getMissingImageDummyBE, getMissingImageDummyFE, getNewVrDummyBE, getNewVrDummyFE} from "../src/exampleExtension"
 
 chai.use(chaiAsPromised);
@@ -10,25 +10,27 @@ const expect = chai.expect;
 
 
 describe("Extension constructor", () => {
-  it("ExtensionType should be 1 if name includes backend", () => {
-    return expect(new Extension ("this-is-a-backend-extension").extensionType).to.equal(1);
-  });
-  it("ExtensionType should be 0 if name includes frontend", () => {
-    return expect(new Extension ("this-is-a-frontend-extension").extensionType).to.equal(0);
-  });
-  it("ExtensionType should be undefined if name includes neither", () => {
-    return expect(new Extension ("this-is-an-extension").extensionType).to.equal(undefined);
-  });
-  it("Extension properties version, type, repository should be set if not null in constructor", () => {
-    const expectedExtension = {
-      name: "test",
-      version: "master",
-      repository: "https://www.google.com",
-      extensionType: 1,
-      isBase: false
-    }
-    return expect(new Extension("test", "master", 1, "https://www.google.com")).to.eql(expectedExtension);
+  it("Extension properties should be set correctly", () => {
+    const expectedExtension = new Extension("test", "master", 1, "https://www.google.com");
+    expect(expectedExtension.name).to.equal("test");
+    expect(expectedExtension.extensionType).to.equal(1);
+    expect(expectedExtension.version).to.equal("master");
+    expect(expectedExtension.repository).to.equal("https://www.google.com");
+    expect(expectedExtension.isBase).to.equal(false);
+    expect(expectedExtension.commit).to.equal("master");
+    expect(expectedExtension.requiredExtensions).to.eql(["frontend_master", "backend_master"]);
+    expect(expectedExtension.incompatibleExtensions).to.eql([]);
+    expect(expectedExtension.imgSrc).to.equal(defaultimgSrc);
+    expect(expectedExtension.desc).to.equal(defaultDescr);
+    expect(expectedExtension.id).to.equal("test_master");
   })
+  it("The isBase property should only be set to true for frontend and backend versions, not for extensions", () => {
+    expect(new Extension("frontend", "master", 0, "").isBase).to.equal(true);
+    expect(new Extension("backend", "master", 1, "").isBase).to.equal(true);
+    expect(new Extension("backend-extension-vr", "master", 1, "").isBase).to.equal(false);
+    expect(new Extension("frontend-extension-vr", "master", 0, "").isBase).to.equal(false);
+    expect(new Extension("test", "master", undefined, "").isBase).to.equal(false);
+  });
 });
 
 describe ("GET extensionLists", () => {
@@ -75,21 +77,39 @@ describe ("GET extensionLists", () => {
           repository: "https://github.com/ExplorViz/explorviz-backend-extension-vr",
           version: "master", 
           extensionType: 1,
-          isBase: false
+          isBase: false,
+          commit: "master",
+          requiredExtensions: ["frontend_master", "backend_master"],
+          incompatibleExtensions: [],
+          imgSrc: defaultimgSrc,
+          desc: defaultDescr, 
+          id: "explorviz-backend-extension-vr_master"
         },
         {
          name: "explorviz-backend-extension-modeleditor",
          repository: "https://github.com/ExplorViz/explorviz-backend-extension-modeleditor",
          version: "master", 
          extensionType: 1,
-         isBase: false
+         isBase: false,
+         commit: "master",
+         requiredExtensions: ["frontend_master", "backend_master"],
+         incompatibleExtensions: [],
+         imgSrc: defaultimgSrc,
+         desc: defaultDescr, 
+         id: "explorviz-backend-extension-modeleditor_master"
         },
         {
           name: "explorviz-backend-extension-dummy",
           repository: "https://github.com/ExplorViz/explorviz-backend-extension-dummy",
           version: "master",
           extensionType: 1,
-          isBase: false
+          isBase: false,
+          commit: "master",
+          requiredExtensions: ["frontend_master", "backend_master"],
+          incompatibleExtensions: [],
+          imgSrc: defaultimgSrc,
+          desc: defaultDescr, 
+          id: "explorviz-backend-extension-dummy_master"
         }
       ],
       frontend: [
@@ -98,7 +118,13 @@ describe ("GET extensionLists", () => {
           repository: "https://github.com/ExplorViz/explorviz-frontend-extension-modeleditor",
           version: "master",
           extensionType: 0,
-          isBase: false
+          isBase: false,
+          commit: "master",
+          requiredExtensions: ["frontend_master", "backend_master"],
+          incompatibleExtensions: [],
+          imgSrc: defaultimgSrc,
+          desc: defaultDescr, 
+          id: "explorviz-frontend-extension-modeleditor_master"
         }
       ]
     }

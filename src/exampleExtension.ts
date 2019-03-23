@@ -24,6 +24,7 @@ export interface ExtensionObject {
     requiredExtensions: string[];
     version: string;
     isBase: boolean;
+    commit: string;
 }
 
 class ExampleExtension implements ExtensionObject {
@@ -37,6 +38,7 @@ class ExampleExtension implements ExtensionObject {
     public version: string;
     public extensionType: ExtensionType;
     public isBase: boolean;
+    public commit: string;
 
     constructor(name: string,
                 desc: string,
@@ -56,6 +58,7 @@ class ExampleExtension implements ExtensionObject {
         this.version = version;
         this.extensionType = extensionType;
         this.isBase = (name === "backend" || name === "frontend")
+        this.commit = version;
     }
 }
 

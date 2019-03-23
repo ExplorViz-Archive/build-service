@@ -23,27 +23,18 @@ export class Extension implements exampleExtensions.ExtensionObject {
     public version: string;
     public isBase: boolean;
     public commit: string;
-    constructor(name: string, version?: string, type?: ExtensionType, repository?: string) {
+    constructor(name: string, version: string, type: ExtensionType, repository: string) {
         this.name = name;
-        if (typeof type === "undefined" || type === null) {
-            if (name.includes("frontend")) {
-                this.extensionType = ExtensionType.FRONTEND;
-            } else if (name.includes("backend")) {
-                this.extensionType = ExtensionType.BACKEND;
-            } else {
-                this.extensionType = undefined;
-            }
-        } else {
-            this.extensionType = type;
-        }
-        if (typeof version === "undefined" || version === null) {
-            this.version = "master";
-        } else {
-            this.version = version;
-        }
+        this.extensionType = type;
+        this.version = version;
         this.repository = repository;
-        this.isBase = (name === "frontend" || name === "backend")
+        this.isBase = (name === "frontend" || name === "backend");
         this.commit = this.version;
+        this.id = name + "_" + version;
+        this.desc = defaultDescr;
+        this.imgSrc = defaultimgSrc;
+        this.requiredExtensions = ["frontend_master", "backend_master"];
+        this.incompatibleExtensions = []
     }
 }
 
@@ -58,8 +49,8 @@ export interface ExtensionLists {
     frontend: Extension[];
 }
 
-const defaultimgSrc = "logo-default.png";
-const defaultDescr = "This is an extension for ExplorViz. "
+export const defaultimgSrc = "logo-default.png";
+export const defaultDescr = "This is an extension for ExplorViz. "
     + "ATTENTION: This is a default description. "
     + "Therefore the information about required and incompatible extensions might not be complete."
     + "Please check the link below for further information.";
@@ -171,15 +162,13 @@ export function updateBaseFields(extensions: ExtensionLists) {
 async function combineExtensionInformation(extensions: Extension[], extensionType: ExtensionType) {
     const updatedExtensions: Extension[] = [];
     for (const extension of extensions) {
-        let tmp: Extension = null;
+        let tmp = extension;
         try {
             tmp = await getExtensionInformation(extension);
-            // console.log(`${tmp.name.substring(10)}_${tmp.version}: Processed successfully.`);
         } catch (error) {
             console.log(`WARNING: ${extension.name.substring(10)}_${extension.version}: `
                 + `Error while retrieving extension information `
                 + `(${error.message}). Using default values instead.`);
-            tmp = getDefaultExtensionInformation(extension);
         }
         try {
             tmp.desc = await getRepositoryDescription(extension.name, extension.version);
@@ -187,7 +176,6 @@ async function combineExtensionInformation(extensions: Extension[], extensionTyp
             console.log(`WARNING: ${extension.name.substring(10)}_${extension.version}: `
                 + `Error while retrieving extension description `
                 + `(${error.message}). Using default values instead.`);
-            tmp.desc = defaultDescr;
         }
         tmp.name = tmp.name.substring(10);
         tmp.extensionType = extensionType;
@@ -236,13 +224,16 @@ export function getExtensionLists(): Promise<ExtensionLists> {
                 for (let i = 0; i < data.length; i++) {
                     const extension = data[i];
                     const name = (extension as any).name;
-                    const temp = new Extension(name);
-                    temp.repository = (extension as any).html_url;
-                    temp.version = "master";
                     if (name.includes("frontend")) {
-                        out.frontend.push(temp);
+                        out.frontend.push(new Extension(name,
+                            "master",
+                            ExtensionType.FRONTEND,
+                            (extension as any).html_url));
                     } else if (name.includes("backend")) {
-                        out.backend.push(temp);
+                        out.backend.push(new Extension(name,
+                            "master",
+                            ExtensionType.BACKEND,
+                            (extension as any).html_url));
                     }
                 }
                 resolve(out);
@@ -367,7 +358,7 @@ async function addReleaseRepositories(oldExtensions: Extension[]) {
                 extension.name,
                 release.tag_name,
                 extension.extensionType,
-                extension.repository/* + "/tree/" + release.tag_name*/
+                extension.repository
             ));
         }
     }
