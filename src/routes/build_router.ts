@@ -1,7 +1,7 @@
 import {Router} from "express";
 import {configurationHash} from "../artifact_cache";
 import {resolveCommit} from "../artifact_builder";
-import {Extension} from "../extension";
+import {Extension, ExtensionType} from "../extension";
 
 export const BuildRouter: Router = Router();
 const builds: {[key: string]: Extension[]} = {};
@@ -10,16 +10,27 @@ const builds: {[key: string]: Extension[]} = {};
  * Used by configurator to register a new build.
  */
 BuildRouter.post("/post", async (req, res) => {
-    const temp: Extension[] = req.body.config;
+    const temp: any[] = req.body.config;
     const configuration: Extension[] = [];
 
     for (const extension of temp) {
+        let type: ExtensionType = null;
+
+        if (extension.extensionType === "1") {
+            type = ExtensionType.BACKEND;
+        } else {
+            type = ExtensionType.FRONTEND;
+        }
+        if (type === null) {
+            continue;
+        }
         const newExt = new Extension(
             extension.name,
             extension.version,
-            extension.extensionType,
+            type,
             extension.repository
         )
+        console.log(newExt);
         configuration.push(newExt);
     }
 
