@@ -5,6 +5,7 @@
       "version": "master",
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend",
+      "isBase": true,
       "requiredExtensions": [
         "frontend_master"
       ],
@@ -18,6 +19,7 @@
       "version": "1.3.0",
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend/tree/1.3.0",
+      "isBase": true,
       "requiredExtensions": [
         "frontend_1.3.0"
       ],
@@ -31,6 +33,7 @@
       "version": "master",
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-vr",
+      "isBase": false,
       "requiredExtensions": [
         "backend_master",
         "frontend_master",
@@ -46,13 +49,14 @@
       "version": "v1.0",
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-vr/tree/v1.0",
+      "isBase": false,
       "requiredExtensions": [
         "backend_master",
         "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
       "id": "backend-extension-vr_v1.0"
     },
     {
@@ -60,6 +64,7 @@
       "version": "master",
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-archconfcheck",
+      "isBase": false,
       "requiredExtensions": [
         "backend_master",
         "frontend-extension-modeleditor_master"
@@ -74,60 +79,22 @@
       "version": "Abgabe",
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-archconfcheck/tree/Abgabe",
+      "isBase": false,
       "requiredExtensions": [
         "backend_master",
         "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
       "id": "backend-extension-archconfcheck_Abgabe"
-    },
-    {
-      "name": "backend-extension-modeleditor",
-      "version": "master",
-      "extensionType": 1,
-      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-modeleditor",
-      "requiredExtensions": [
-        "backend_master"
-      ],
-      "incompatibleExtensions": [],
-      "imgSrc": "model-editor_2.svg",
-      "desc": "This backend extension adds an architecture model editor to ExplorViz (Work-In-Progress)",
-      "id": "backend-extension-modeleditor_master"
-    },
-    {
-      "name": "backend-extension-modeleditor",
-      "version": "Abgabe",
-      "extensionType": 1,
-      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-modeleditor/tree/Abgabe",
-      "requiredExtensions": [
-        "backend_master",
-        "frontend_master"
-      ],
-      "incompatibleExtensions": [],
-      "imgSrc": "logo-default.png",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.",
-      "id": "backend-extension-modeleditor_Abgabe"
-    },
-    {
-      "name": "backend-extension-tutorial",
-      "version": "master",
-      "extensionType": 1,
-      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-tutorial",
-      "requiredExtensions": [
-        "backend_master"
-      ],
-      "incompatibleExtensions": [],
-      "imgSrc": "tutorial.svg",
-      "desc": "This is the backend of the ExplorViz tutorial extension.",
-      "id": "backend-extension-tutorial_master"
     },
     {
       "name": "backend-extension-comparison",
       "version": "master",
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-comparison",
+      "isBase": false,
       "requiredExtensions": [
         "backend_master",
         "frontend_master",
@@ -143,13 +110,14 @@
       "version": "final",
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-comparison/tree/final",
+      "isBase": false,
       "requiredExtensions": [
         "backend_master",
         "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
       "id": "backend-extension-comparison_final"
     },
     {
@@ -157,20 +125,65 @@
       "version": "master",
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-dummy",
+      "isBase": false,
       "requiredExtensions": [
         "backend_master",
         "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
       "id": "backend-extension-dummy_master"
+    },
+    {
+      "name": "backend-extension-modeleditor",
+      "version": "master",
+      "extensionType": 1,
+      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-modeleditor",
+      "isBase": false,
+      "requiredExtensions": [
+        "backend_master"
+      ],
+      "incompatibleExtensions": [],
+      "imgSrc": "model-editor_2.svg",
+      "desc": "This backend extension adds an architecture model editor to ExplorViz (Work-In-Progress)",
+      "id": "backend-extension-modeleditor_master"
+    },
+    {
+      "name": "backend-extension-modeleditor",
+      "version": "Abgabe",
+      "extensionType": 1,
+      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-modeleditor/tree/Abgabe",
+      "isBase": false,
+      "requiredExtensions": [
+        "backend_master",
+        "frontend_master"
+      ],
+      "incompatibleExtensions": [],
+      "imgSrc": "logo-default.png",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
+      "id": "backend-extension-modeleditor_Abgabe"
+    },
+    {
+      "name": "backend-extension-tutorial",
+      "version": "master",
+      "extensionType": 1,
+      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-tutorial",
+      "isBase": false,
+      "requiredExtensions": [
+        "backend_master"
+      ],
+      "incompatibleExtensions": [],
+      "imgSrc": "tutorial.svg",
+      "desc": "This is the backend of the ExplorViz tutorial extension.",
+      "id": "backend-extension-tutorial_master"
     },
     {
       "name": "backend",
       "version": "dev-1",
       "extensionType": 1,
       "repository": "https://github.com/ExplorViz/explorviz-backend/tree/dev-1",
+      "isBase": true,
       "requiredExtensions": [
         "frontend_dev-1"
       ],
@@ -185,12 +198,13 @@
       "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
       "imgSrc": "daiopjghfbdsafgakldfgölkj",
       "requiredExtensions": [
-        "backend_master"
+        "backend_1.3.0"
       ],
       "incompatibleExtensions": [],
       "repository": "https://www.google.com",
       "version": "master",
-      "extensionType": 1
+      "extensionType": 1,
+      "isBase": false
     },
     {
       "id": "backend-extension-new-vr_master",
@@ -207,7 +221,8 @@
       ],
       "repository": "https://github.com/ExplorViz/explorviz-backend-extension-vr",
       "version": "master",
-      "extensionType": 1
+      "extensionType": 1,
+      "isBase": false
     }
   ],
   "frontend": [
@@ -216,6 +231,7 @@
       "version": "master",
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend",
+      "isBase": true,
       "requiredExtensions": [
         "backend_master"
       ],
@@ -229,6 +245,7 @@
       "version": "1.3.0",
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend/tree/1.3.0",
+      "isBase": true,
       "requiredExtensions": [
         "backend_1.3.0"
       ],
@@ -238,37 +255,11 @@
       "id": "frontend_1.3.0"
     },
     {
-      "name": "frontend-extension-archconfcheck",
-      "version": "master",
-      "extensionType": 0,
-      "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-archconfcheck",
-      "requiredExtensions": [
-        "frontend_master"
-      ],
-      "incompatibleExtensions": [],
-      "imgSrc": "conf-check.svg",
-      "desc": "This frontend extension adds an architecture conformance check mode to ExplorViz (Work-In-Progress)",
-      "id": "frontend-extension-archconfcheck_master"
-    },
-    {
-      "name": "frontend-extension-archconfcheck",
-      "version": "Abgabe",
-      "extensionType": 0,
-      "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-archconfcheck/tree/Abgabe",
-      "requiredExtensions": [
-        "backend_master",
-        "frontend_master"
-      ],
-      "incompatibleExtensions": [],
-      "imgSrc": "logo-default.png",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.",
-      "id": "frontend-extension-archconfcheck_Abgabe"
-    },
-    {
       "name": "frontend-extension-modeleditor",
       "version": "master",
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-modeleditor",
+      "isBase": false,
       "requiredExtensions": [
         "frontend_master"
       ],
@@ -282,20 +273,51 @@
       "version": "Abgabe",
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-modeleditor/tree/Abgabe",
+      "isBase": false,
       "requiredExtensions": [
         "backend_master",
         "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
       "id": "frontend-extension-modeleditor_Abgabe"
+    },
+    {
+      "name": "frontend-extension-archconfcheck",
+      "version": "master",
+      "extensionType": 0,
+      "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-archconfcheck",
+      "isBase": false,
+      "requiredExtensions": [
+        "frontend_master"
+      ],
+      "incompatibleExtensions": [],
+      "imgSrc": "conf-check.svg",
+      "desc": "This frontend extension adds an architecture conformance check mode to ExplorViz (Work-In-Progress)",
+      "id": "frontend-extension-archconfcheck_master"
+    },
+    {
+      "name": "frontend-extension-archconfcheck",
+      "version": "Abgabe",
+      "extensionType": 0,
+      "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-archconfcheck/tree/Abgabe",
+      "isBase": false,
+      "requiredExtensions": [
+        "backend_master",
+        "frontend_master"
+      ],
+      "incompatibleExtensions": [],
+      "imgSrc": "logo-default.png",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
+      "id": "frontend-extension-archconfcheck_Abgabe"
     },
     {
       "name": "frontend-extension-comparison",
       "version": "master",
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-comparison",
+      "isBase": false,
       "requiredExtensions": [
         "frontend_master",
         "backend_master",
@@ -311,13 +333,14 @@
       "version": "final",
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-comparison/tree/final",
+      "isBase": false,
       "requiredExtensions": [
         "backend_master",
         "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
       "id": "frontend-extension-comparison_final"
     },
     {
@@ -325,6 +348,7 @@
       "version": "master",
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
+      "isBase": false,
       "requiredExtensions": [
         "frontend_master",
         "backend_master",
@@ -340,13 +364,14 @@
       "version": "v2.0",
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-vr/tree/v2.0",
+      "isBase": false,
       "requiredExtensions": [
         "backend_master",
         "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
       "id": "frontend-extension-vr_v2.0"
     },
     {
@@ -354,33 +379,22 @@
       "version": "v1.1",
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-vr/tree/v1.1",
+      "isBase": false,
       "requiredExtensions": [
         "backend_master",
         "frontend_master"
       ],
       "incompatibleExtensions": [],
       "imgSrc": "logo-default.png",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
       "id": "frontend-extension-vr_v1.1"
-    },
-    {
-      "name": "frontend-extension-colorpicker",
-      "version": "master",
-      "extensionType": 0,
-      "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-colorpicker",
-      "requiredExtensions": [
-        "frontend_master"
-      ],
-      "incompatibleExtensions": [],
-      "imgSrc": "color-picker.svg",
-      "desc": "This extension provides a color-picker for ExplorViz's landscape-view.",
-      "id": "frontend-extension-colorpicker_master"
     },
     {
       "name": "frontend-extension-tutorial",
       "version": "master",
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-tutorial",
+      "isBase": false,
       "requiredExtensions": [
         "frontend_master"
       ],
@@ -390,10 +404,25 @@
       "id": "frontend-extension-tutorial_master"
     },
     {
+      "name": "frontend-extension-colorpicker",
+      "version": "master",
+      "extensionType": 0,
+      "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-colorpicker",
+      "isBase": false,
+      "requiredExtensions": [
+        "frontend_master"
+      ],
+      "incompatibleExtensions": [],
+      "imgSrc": "color-picker.svg",
+      "desc": "This extension provides a color-picker for ExplorViz's landscape-view.",
+      "id": "frontend-extension-colorpicker_master"
+    },
+    {
       "name": "frontend",
       "version": "dev-1",
       "extensionType": 0,
       "repository": "https://github.com/ExplorViz/explorviz-frontend/tree/dev-1",
+      "isBase": true,
       "requiredExtensions": [
         "backend_dev-1"
       ],
@@ -408,12 +437,13 @@
       "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
       "imgSrc": "https://pbs.twimg.com/profile_images/807755806837850112/WSFVeFeQ_400x400.jpg",
       "requiredExtensions": [
-        "frontend_master"
+        "frontend_1.3.0"
       ],
       "incompatibleExtensions": [],
       "repository": "https://www.google.com",
       "version": "master",
-      "extensionType": 0
+      "extensionType": 0,
+      "isBase": false
     },
     {
       "id": "frontend-extension-new-vr_master",
@@ -430,7 +460,8 @@
       ],
       "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
       "version": "master",
-      "extensionType": 0
+      "extensionType": 0,
+      "isBase": false
     }
   ]
 }

@@ -2,7 +2,7 @@ import nock from "nock";
 import chaiAsPromised from 'chai-as-promised';
 import chai from 'chai';
 import status from "http-status"
-import {Extension, getExtensionLists, updateRequiredExtensions, ExtensionLists} from "../src/extension"
+import {Extension, getExtensionLists, updateBaseFields, ExtensionLists} from "../src/extension"
 import {getMissingImageDummyBE, getMissingImageDummyFE, getNewVrDummyBE, getNewVrDummyFE} from "../src/exampleExtension"
 
 chai.use(chaiAsPromised);
@@ -122,7 +122,7 @@ describe("Updating frontend and backend requirements", () => {
   tmpList.backend.push(getNewVrDummyBE());
 
   it("Changing frontend and backend required extensions", () => {
-    const newList = updateRequiredExtensions(tmpList);
+    const newList = updateBaseFields(tmpList);
     for(const extension of newList.backend) {
       if (extension.name === "backend") {
         expect(extension.requiredExtensions).to.eql([`frontend_${extension.version}`]);
@@ -136,7 +136,7 @@ describe("Updating frontend and backend requirements", () => {
   });
 
   it("Other extension's requirements are not changed", () => {
-    const newList = updateRequiredExtensions(tmpList);
+    const newList = updateBaseFields(tmpList);
     for(const extension of newList.backend) {
       if (extension.name === "backend-missing-image") {
         expect(extension.requiredExtensions).to.eql(getMissingImageDummyBE().requiredExtensions);

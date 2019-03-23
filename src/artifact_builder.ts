@@ -84,7 +84,7 @@ async function buildArchive(path: string, extensions : Extension[]) {
  * @param extensions Extensions to install
  */
 async function buildFrontend(targetdir: string, extensions: Extension[]) {
-    const frontend = extensions.find(c => c.isBase() && c.extensionType == ExtensionType.FRONTEND);
+    const frontend = extensions.find(c => c.isBase && c.extensionType == ExtensionType.FRONTEND);
     await child_process.exec("git clone -b '" + frontend.version + "' --depth 1 " + frontend.repository, { cwd: targetdir + "/build/" });
 
     const repoPath = targetdir + "/build/explorviz-frontend";
@@ -117,7 +117,7 @@ async function buildFrontend(targetdir: string, extensions: Extension[]) {
  * @param extensions Extensions to install
  */
 async function buildBackend(targetdir: string, extensions: Extension[]) {
-    const backend = extensions.find(c => c.isBase() && c.extensionType == ExtensionType.BACKEND);
+    const backend = extensions.find(c => c.isBase && c.extensionType == ExtensionType.BACKEND);
     await child_process.exec("git clone -b '" + backend.version + "' --depth 1 " + backend.repository, { cwd: targetdir + "/build/" });
 
     const repoPath = targetdir + "/build/explorviz-backend";

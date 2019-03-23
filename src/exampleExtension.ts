@@ -23,6 +23,7 @@ export interface ExtensionObject {
     repository: string;
     requiredExtensions: string[];
     version: string;
+    isBase: boolean;
 }
 
 class ExampleExtension implements ExtensionObject {
@@ -35,6 +36,7 @@ class ExampleExtension implements ExtensionObject {
     public repository: string;
     public version: string;
     public extensionType: ExtensionType;
+    public isBase: boolean;
 
     constructor(name: string,
                 desc: string,
@@ -53,9 +55,8 @@ class ExampleExtension implements ExtensionObject {
         this.repository = repository;
         this.version = version;
         this.extensionType = extensionType;
+        this.isBase = (name === "backend" || name === "frontend")
     }
-
-    public isBase() { return false; }
 }
 
 enum ExtensionType {

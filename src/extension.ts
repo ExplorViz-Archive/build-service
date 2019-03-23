@@ -21,9 +21,9 @@ export class Extension implements exampleExtensions.ExtensionObject {
     public repository: string;
     public requiredExtensions: string[];
     public version: string;
+    public isBase: boolean;
     constructor(name: string, version?: string, type?: ExtensionType, repository?: string) {
         this.name = name;
-        this.version = version;
         if (typeof type === "undefined" || type === null) {
             if (name.includes("frontend")) {
                 this.extensionType = ExtensionType.FRONTEND;
@@ -35,15 +35,13 @@ export class Extension implements exampleExtensions.ExtensionObject {
         } else {
             this.extensionType = type;
         }
+        if (typeof version === "undefined" || version === null) {
+            this.version = "master";
+        } else {
+            this.version = version;
+        }
         this.repository = repository;
-    }
-
-    /***
-     * Returns whether this extension is not actually an extension, but a base
-     * image instead 
-     */
-    public isBase() {
-        return this.name === "explorviz-backend" || this.name === "explorviz-frontend"
+        this.isBase = (name === "frontend" || name === "backend")
     }
 }
 
@@ -116,7 +114,7 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
         if (insertExampleValues) {
             tmpList = addDummyExtensions(tmpList);
         }
-        tmpList = updateRequiredExtensions(tmpList);
+        tmpList = updateBaseFields(tmpList);
         fs.writeJSONSync(path.join(__dirname, "extensionList.json"), tmpList, {spaces: 2});
         returnStatus = "Success! ";
     } catch (error) {
@@ -144,15 +142,17 @@ function addDummyExtensions(extensions: ExtensionLists) {
  * they always require the other part of the same version.
  * @param extensions 
  */
-export function updateRequiredExtensions(extensions: ExtensionLists) {
+export function updateBaseFields(extensions: ExtensionLists) {
     for (const extension of extensions.backend) {
         if (extension.name === "backend") {
             extension.requiredExtensions = ["frontend_" + extension.version];
+            extension.isBase = true;
         }
     }
     for (const extension of extensions.frontend) {
         if (extension.name === "frontend") {
             extension.requiredExtensions = ["backend_" + extension.version];
+            extension.isBase = true;
         }
     }
     return extensions;

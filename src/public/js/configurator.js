@@ -644,6 +644,8 @@ function trimConfig(extensions) {
       name: extension.name,
       repository: extension.repository,
       version: extension.version,
+      isBase: extension.isBase,
+      id: extension.id
     };
     config.push(newExtension);
   }
