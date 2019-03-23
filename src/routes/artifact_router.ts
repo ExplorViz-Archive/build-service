@@ -9,14 +9,6 @@ const router: Router = Router();
 const tasks: { [_: string]: Task; } = {};
 
 export async function startBuildTask(exts: Extension[]) {
-    // Convert named versions to commit hashes.
-    // this allows us to differentiate between
-    // different versions on a branch (e.g. master)
-    for(let i = 0; i < exts.length; ++i)
-    {
-        exts[i].version = await resolveCommit(exts[i]); 
-    }
-
     const task = Task.getTask(exts);
     tasks[task.getToken()] = task;
     return task.getToken();

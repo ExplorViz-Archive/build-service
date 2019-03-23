@@ -22,6 +22,7 @@ export class Extension implements exampleExtensions.ExtensionObject {
     public requiredExtensions: string[];
     public version: string;
     public isBase: boolean;
+    public commit: string;
     constructor(name: string, version?: string, type?: ExtensionType, repository?: string) {
         this.name = name;
         if (typeof type === "undefined" || type === null) {
@@ -42,6 +43,7 @@ export class Extension implements exampleExtensions.ExtensionObject {
         }
         this.repository = repository;
         this.isBase = (name === "frontend" || name === "backend")
+        this.commit = this.version;
     }
 }
 
@@ -301,7 +303,7 @@ function getBranch (initializer: Extension, branch: string): Extension {
         initializer.name,
         branch,
         initializer.extensionType,
-        // initializer.repository + "/tree/" + branch
+        initializer.repository
     )
 }
 

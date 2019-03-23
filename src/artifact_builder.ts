@@ -65,7 +65,7 @@ async function buildConfiguration(task: Task) {
 export async function resolveCommit(ext: Extension)
 {
     const execResults = await child_process.exec("git ls-remote " + ext.repository + " " + ext.version);
-    return execResults.stdout.split(" ")[0];
+    return execResults.stdout.split("\t")[0];
 }
 
 async function buildArchive(path: string, extensions : Extension[]) {

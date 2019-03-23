@@ -34,7 +34,7 @@ export function configurationHash(extensions: Extension[]) {
     const hash = sha512_256.create();
     for (const extension of extensionsArr) {
         hash.update(extension.name);
-        hash.update(extension.version);
+        hash.update(extension.commit);
     }
     return hash.hex();
 }

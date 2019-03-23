@@ -1,5 +1,6 @@
 import {Router} from "express";
 import {configurationHash} from "../artifact_cache";
+import {resolveCommit} from "../artifact_builder";
 import {Extension} from "../extension";
 
 export const BuildRouter: Router = Router();
@@ -8,8 +9,17 @@ const builds: {[key: string]: Extension[]} = {};
 /**
  * Used by configurator to register a new build.
  */
-BuildRouter.post("/post", (req, res) => {
+BuildRouter.post("/post", async (req, res) => {
     const configuration: Extension[] = req.body.config;
+
+    // Convert named versions to commit hashes.
+    // this allows us to differentiate between
+    // different versions on a branch (e.g. master)
+    for(let i = 0; i < configuration.length; ++i)
+    {
+        configuration[i].commit = await resolveCommit(configuration[i]);
+    }
+
     const hash = configurationHash(configuration);
     builds[hash] = configuration;
     res.end(hash);
