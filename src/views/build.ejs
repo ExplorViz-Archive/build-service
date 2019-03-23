@@ -28,7 +28,7 @@
   <div class="container main-container" role="main">
   <div class="container" role="main">
     <div class="header">
-      <h1>Confirmation</h1>
+      <h1>Your configuration</h1>
     </div>
     <div class="row">
       <div class="col-md-12">
@@ -37,12 +37,23 @@
           <ul id="currentBuildList">
           </ul>
         </div>
+        <div id="startButtons">
+          <button type="button" class="btn btn-success" onclick="startBuild();">Continue</button>
+          <a href="/config"><button type="button" class="btn btn-danger">Go back</button></a>
+        </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row" id="progressRow" style="display:none">
       <div class="col-md-12">
-        <h3>Building Configuration</h3>
-        <p>Current Status: <b id="status">0</b>
+        <h3>Build Progress</h3>
+        <div class="progress" style="height: 30px">
+          <div id="progressbar" class="progress-bar progress-bar-striped active" style="width: 0%;" ></div>
+        </div>
+        <center>
+          <h4 id="progress-label">Initializing...</h4> 
+        </center>
+        <button type="button" class="btn btn-primary">Download (zip)</button>
+        <button type="button" class="btn btn-info">Download (Docker)</button>
       </div>
     </div>
   </div>

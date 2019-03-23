@@ -11,7 +11,7 @@ export const ConfirmationRouter: Router = Router();
 ConfirmationRouter.get("/:id", (req, res) => {
     const conf = getBuilds()[req.params.id];
     if (conf !== null && typeof conf !== "undefined") {
-        res.render("confirmation");
+        res.render("build");
     } else {
        res.status(404).send("Not found.");
     }

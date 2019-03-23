@@ -1,12 +1,14 @@
 
 import {getConfiguration} from "./artifact_builder";
-import { Extension, ExtensionType } from "./extension";
+import { Extension } from "./extension";
 import {configurationHash} from "./artifact_cache";
 
 export enum TaskState {
     INIT,
-    FRONTEND,
+    FRONTEND_PREPARE,
     FRONTEND_EXTENSION,
+    FRONTEND,
+    BACKEND_PREPARE,
     BACKEND,
     BACKEND_EXTENSION,
     PACKING,
