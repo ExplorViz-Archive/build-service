@@ -30,7 +30,6 @@ BuildRouter.post("/post", async (req, res) => {
             type,
             extension.repository
         )
-        console.log(newExt);
         configuration.push(newExt);
     }
 
