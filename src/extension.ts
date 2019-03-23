@@ -292,7 +292,7 @@ function getDefaultExtensionInformation(extension: Extension) {
 }
 
  /**
-  * Take the frontend or backend initializer and return the dev-1 branch initializer.
+  * Take the frontend or backend initializer and return the branch initializer.
   * @param initializer 
   * @param branch 
   */
@@ -301,7 +301,7 @@ function getBranch (initializer: Extension, branch: string): Extension {
         initializer.name,
         branch,
         initializer.extensionType,
-        initializer.repository + "/tree/" + branch
+        // initializer.repository + "/tree/" + branch
     )
 }
 
@@ -365,7 +365,7 @@ async function addReleaseRepositories(oldExtensions: Extension[]) {
                 extension.name,
                 release.tag_name,
                 extension.extensionType,
-                extension.repository + "/tree/" + release.tag_name
+                extension.repository/* + "/tree/" + release.tag_name*/
             ));
         }
     }

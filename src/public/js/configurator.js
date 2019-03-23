@@ -347,7 +347,11 @@ function showSelectedExtensionById(id) {
       }
       let urlContent = document.createElement("a");
       urlContent.textContent = "Visit GitHub repository";
-      urlContent.href = extension.repository;
+      let extensionTree = (extension.version === "master") ? "" : `/tree/${extension.version}`;
+      // if (extension.version !== "master") {
+      //   extension 
+      // }
+      urlContent.href = extension.repository + extensionTree;
       urlContent.target = "_blank";
       body.appendChild(urlContent);
     }

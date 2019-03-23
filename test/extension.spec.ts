@@ -24,7 +24,8 @@ describe("Extension constructor", () => {
       name: "test",
       version: "master",
       repository: "https://www.google.com",
-      extensionType: 1
+      extensionType: 1,
+      isBase: false
     }
     return expect(new Extension("test", "master", 1, "https://www.google.com")).to.eql(expectedExtension);
   })
@@ -73,19 +74,22 @@ describe ("GET extensionLists", () => {
           name: "explorviz-backend-extension-vr",
           repository: "https://github.com/ExplorViz/explorviz-backend-extension-vr",
           version: "master", 
-          extensionType: 1
+          extensionType: 1,
+          isBase: false
         },
         {
          name: "explorviz-backend-extension-modeleditor",
          repository: "https://github.com/ExplorViz/explorviz-backend-extension-modeleditor",
          version: "master", 
-         extensionType: 1
+         extensionType: 1,
+         isBase: false
         },
         {
           name: "explorviz-backend-extension-dummy",
           repository: "https://github.com/ExplorViz/explorviz-backend-extension-dummy",
           version: "master",
-          extensionType: 1
+          extensionType: 1,
+          isBase: false
         }
       ],
       frontend: [
@@ -93,7 +97,8 @@ describe ("GET extensionLists", () => {
           name: "explorviz-frontend-extension-modeleditor",
           repository: "https://github.com/ExplorViz/explorviz-frontend-extension-modeleditor",
           version: "master",
-          extensionType: 0
+          extensionType: 0,
+          isBase: false
         }
       ]
     }
