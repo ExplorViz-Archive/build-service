@@ -10,7 +10,18 @@ const builds: {[key: string]: Extension[]} = {};
  * Used by configurator to register a new build.
  */
 BuildRouter.post("/post", async (req, res) => {
-    const configuration: Extension[] = req.body.config;
+    const temp: Extension[] = req.body.config;
+    const configuration: Extension[] = [];
+
+    for (const extension of temp) {
+        const newExt = new Extension(
+            extension.name,
+            extension.version,
+            extension.extensionType,
+            extension.repository
+        )
+        configuration.push(newExt);
+    }
 
     // Convert named versions to commit hashes.
     // this allows us to differentiate between

@@ -52,7 +52,7 @@ export interface ExtensionLists {
 export const defaultimgSrc = "logo-default.png";
 export const defaultDescr = "This is an extension for ExplorViz. "
     + "ATTENTION: This is a default description. "
-    + "Therefore the information about required and incompatible extensions might not be complete."
+    + "Therefore the information about required and incompatible extensions might not be complete. "
     + "Please check the link below for further information.";
 const defaultBranch = "build-service-test";
 
