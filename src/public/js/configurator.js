@@ -184,9 +184,9 @@ function getDifferentVersions(name) {
 function getVersionElementList(versions) {
   const ul = document.createElement("ul");
   addClassToElement(ul, "dropdown-menu");
-
   for (let i = 0; i < versions.length; i++) {
     let extension = getExtensionById(versions[i]);
+    name = extension.name;
     const li = document.createElement("li");
     const a = document.createElement("a");
     a.addEventListener("click", () => {
@@ -194,7 +194,7 @@ function getVersionElementList(versions) {
         addListItem(extension.id);
         validateConfig();
     });
-    a.textContent = extension.name.replace("extension-", "") + " " + extension.version;
+    a.textContent = extension.name.replace("extension-", "") + " (branch: " + extension.version + ")";
     li.appendChild(a);
     ul.appendChild(li);
   }
@@ -270,7 +270,7 @@ function addListItem(id) {
   item.name = extension.name;
   item.classList.add("list-group-item");
   let content = document.createElement("h4");
-  content.textContent = id.replace("extension-", "").replace("_", " (") + ")";
+  content.textContent = id.replace("extension-", "").replace("_", " (branch: ") + ")";
   content.classList.add("list-group-item-heading");
   item.appendChild(content);
   item.addEventListener("click", () => {
@@ -319,21 +319,24 @@ function showSelectedExtensionById(id) {
   if (id !== null) {
     let extension = getExtensionById(id);
     if (extension !== null) {
-      setInfoBoxHeading(extension.name.replace("extension-", "") + " (" + extension.version +  ")") ;
+      setInfoBoxHeading(extension.name.replace("extension-", "") + " (branch: " + extension.version +  ")") ;
       let body = document.getElementById("info-box-body");
+      // Add description
       let descHead = document.createElement("h4");
       let descContent = document.createElement("p");
-      let reqContent = document.createElement("p");
-      let reqHead = document.createElement("h4");
       descHead.textContent = "Description:";
       descContent.textContent = extension.desc;
-      reqHead.textContent = "Required extensions:";
-      let reqText = extension.requiredExtensions.toString();
-      reqContent.textContent = reqText.replace("extension-", "").replace(/,/g, ", ");
       body.appendChild(descHead);
       body.appendChild(descContent);
+      // Add Required extensions
+      let reqHead = document.createElement("h4");
+      reqHead.textContent = "Required extensions:";
+      let reqContent = document.createElement("p");
+      let reqText = extension.requiredExtensions.toString();
+      reqContent.textContent = reqText.replace("extension-", "").replace(/,/g, ", ");
       body.appendChild(reqHead);
       body.appendChild(reqContent);
+      // Add incompatible extensions if necessary
       if (extension.incompatibleExtensions.length > 0) {
         let incHead = document.createElement("h4");
         incHead.textContent = "Incompatible with:";
@@ -343,6 +346,7 @@ function showSelectedExtensionById(id) {
         incContent.textContent = incText.replace("extension-", "").replace(/,/g, ", ");
         body.appendChild(incContent);
       }
+      // Add repository url
       let urlContent = document.createElement("a");
       urlContent.textContent = "Visit GitHub repository";
       let extensionTree = (extension.version === "master") ? "" : `/tree/${extension.version}`;
