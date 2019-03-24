@@ -181,7 +181,7 @@ export async function combineExtensionInformation(extensions: Extension[]) {
         } catch (error) {
             console.log(`WARNING: ${extension.name.substring(10)}_${extension.version}: `
                 + `Error while retrieving extension description `
-                + `(${error.message}). Using default values instead.`);
+                + `(${error}). Using default values instead.`);
         }
         tmp.name = tmp.name.replace("explorviz-", "");
         tmp.id = tmp.name + "_" + tmp.version;
@@ -427,7 +427,7 @@ export function getRepositoryDescription(reponame: string, branch: string = "mas
                     data = dataArr[0].trim();
                     data = removeMd(data);
                 } catch (e) {
-                    reject(e);
+                    reject("Project Description not found");
                 }
                 resolve(data);
             });

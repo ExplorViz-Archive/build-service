@@ -29,23 +29,32 @@
   <div class="container main-container" role="main">
 
     <div class="container" >
-      <div class="header">
-        <h1>Home</h1>
-      </div>
       
-      <div class="row">
-        <div class="col-md-12">
-          <h2>Welcome</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.    </p>
+      <div class="row row-offcanvas row-offcanvas-right">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="header">
+            <h1>Home</h1>
+          </div>
+          <!-- <div class="well"> -->
+            <h3 id =>Welcome</h3>
+            <p>
+              Welcome to the ExplorViz build-service. 
+              This application helps you to easily configure and build new combinations and different versions of ExplorViz and it's extensions.
+            </p>
+            <p>This omits the need of installing the different frameworks for building ExplorViz.
+               Furthermore you don't have to browse through all repositories anymore to get all dependencies.
+            </p>
+            
+            <h3>Instructions</h3>
+            <p>
+              On the next page simply click the extension icons to add an extension to the current build list. 
+              Missing dependencies are highlighted with a yellow border. Incompatible extensions are marked with a red border.
+              Once the build is valid you can click the continue button to request the building of the chosen configuration.
+            </p>
+            <a id="getGitRepoButton" href="/config" class="btn btn-s btn-default">Start configuration</a>
+          <!-- </div> -->
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <h2>Instructions</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.    </p>
-          <a id="getGitRepoButton" href="/config" class="btn btn-s btn-default">Start configuration</a>
-          <!-- <a href="/show" class="btn btn-s btn-default">Show extensions</a> -->
-        </div>
       </div>
     </div>
   </div>
