@@ -89,6 +89,7 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
         tmpList.backend.unshift(backendInitializer);
     } catch (error) {
         console.log("Error: Failed to assemble extension list: " + error);
+        returnStatus = error + " ";
         return;
     }
     console.log("List of extensions assembled.");
@@ -410,7 +411,6 @@ export function getRepositoryDescription(reponame: string, branch: string = "mas
         path: `/repos/ExplorViz/${reponame}/readme?ref=${version}`,
         port: 443
     };
-    console.log(options.hostname + options.path)
     let data = "";
     return new Promise((resolve, reject) => {
         const req = https.request(options, (resp) => {
