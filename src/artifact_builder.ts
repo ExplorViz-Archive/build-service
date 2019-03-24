@@ -92,7 +92,7 @@ async function buildFrontend(task: Task, targetdir: string, extensions: Extensio
     // Install extensions
     task.setStatus(TaskState.FRONTEND_EXTENSION);
     await asyncForEach(extensions, async (extension) => {
-        if (extension.extensionType !== ExtensionType.FRONTEND || extension.isBase()) {
+        if (extension.extensionType !== ExtensionType.FRONTEND || extension.isBase) {
             return;
         }
 
