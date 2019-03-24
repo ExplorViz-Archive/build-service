@@ -54,7 +54,12 @@ export const defaultDescr = "This is an extension for ExplorViz. "
     + "ATTENTION: This is a default description. "
     + "Therefore the information about required and incompatible extensions might not be complete. "
     + "Please check the link below for further information.";
-const defaultBranch = "build-service-test";
+
+/**
+ * The default branch to use when looking for master branch extensions.
+ * TODO: remove upon release
+ */
+export const defaultBranch = "build-service-test";
 
 const backendInitializer: Extension = new Extension("explorviz-backend",
     "master",
@@ -100,8 +105,8 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
     tmpList.backend.push(getBranch(backendInitializer, "dev-1"));
     // Gather and combine the remaining information.
     try {
-        const frontend = await combineExtensionInformation(tmpList.frontend, ExtensionType.FRONTEND);
-        const backend = await combineExtensionInformation(tmpList.backend, ExtensionType.BACKEND);
+        const frontend = await combineExtensionInformation(tmpList.frontend);
+        const backend = await combineExtensionInformation(tmpList.backend);
         tmpList.backend = backend;
         tmpList.frontend = frontend;
         if (insertExampleValues) {
@@ -159,7 +164,7 @@ export function updateBaseFields(extensions: ExtensionLists) {
  * @param extensions
  * @param extensionType
  */
-async function combineExtensionInformation(extensions: Extension[], extensionType: ExtensionType) {
+export async function combineExtensionInformation(extensions: Extension[]) {
     const updatedExtensions: Extension[] = [];
     for (const extension of extensions) {
         let tmp = extension;
@@ -177,8 +182,7 @@ async function combineExtensionInformation(extensions: Extension[], extensionTyp
                 + `Error while retrieving extension description `
                 + `(${error.message}). Using default values instead.`);
         }
-        tmp.name = tmp.name.substring(10);
-        tmp.extensionType = extensionType;
+        tmp.name = tmp.name.replace("explorviz-", "");
         tmp.id = tmp.name + "_" + tmp.version;
         updatedExtensions.push(tmp);
     }
@@ -272,19 +276,6 @@ function getExtensionInformation(extension: Extension): Promise<Extension> {
 }
 
 /**
- * Add default values to an Extension object.
- * @param extension
- * @param listName Either frontend or backend.
- */
-function getDefaultExtensionInformation(extension: Extension) {
-    extension.requiredExtensions = ["backend_master", "frontend_master"];
-    extension.incompatibleExtensions = [];
-    extension.imgSrc = defaultimgSrc;
-    extension.desc = defaultDescr;
-    return extension;
-}
-
- /**
   * Take the frontend or backend initializer and return the branch initializer.
   * @param initializer 
   * @param branch 
@@ -341,7 +332,7 @@ export function getExtensionJSON(reponame: string, branch: string): Promise<Exte
  * release versions to the lists and updates their version and repository url.
  * @param oldExtensions
  */
-async function addReleaseRepositories(oldExtensions: Extension[]) {
+export async function addReleaseRepositories(oldExtensions: Extension[]) {
     const newExtensions: Extension[] = [];
 
     for (const extension of oldExtensions) {
@@ -419,6 +410,7 @@ export function getRepositoryDescription(reponame: string, branch: string = "mas
         path: `/repos/ExplorViz/${reponame}/readme?ref=${version}`,
         port: 443
     };
+    console.log(options.hostname + options.path)
     let data = "";
     return new Promise((resolve, reject) => {
         const req = https.request(options, (resp) => {

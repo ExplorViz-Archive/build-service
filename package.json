@@ -8,7 +8,7 @@
     "copy-assets": "ts-node tools/copyAssets",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "tsc": "tsc",
-    "build": "npm-run-all clean lint tsc copy-assets",
+    "build": "npm-run-all clean tsc copy-assets",
     "dev:start": "npm-run-all build start",
     "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
     "devTest": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
