@@ -13,7 +13,8 @@ import {
   getExtensionReleases,
   addReleaseRepositories,
   combineExtensionInformation,
-  ExtensionType
+  ExtensionType,
+  ExtensionJSONObject
 } from "../src/extension"
 import {getMissingImageDummyBE, getMissingImageDummyFE, getNewVrDummyBE, getNewVrDummyFE} from "../src/exampleExtension"
 
@@ -340,7 +341,15 @@ describe("Updating frontend and backend requirements", () => {
 
 
 describe ("combineExtensionInformation", () => {
-  
+  const extensionJSON: ExtensionJSONObject = {
+      "imgSrc": "augmented-reality_2.svg",
+      "requiredExtensions": [
+        "frontend_master",
+        "backend_master",
+        "backend-extension-vr_master"
+      ],
+      "incompatibleExtensions": []
+  } 
   it (`Should respond with default values if not found`, async () => {
     const backend: Extension[] = [
       {
@@ -357,7 +366,6 @@ describe ("combineExtensionInformation", () => {
         id: "backend_master"
       }
     ]
-    
     nock("https://api.github.com")
       .get("/repos/ExplorViz/explorviz-backend/contents/extensions.json?ref=" + defaultBranch)
       .reply(404);
@@ -372,10 +380,9 @@ describe ("combineExtensionInformation", () => {
     const header = "Some stuff Project Description"
     const customDesc = " Testing this feature! To be removed at some time "
     const footer = "## Second title is beautifull"
-
     nock("https://api.github.com")
       .get("/repos/ExplorViz/explorviz-backend/contents/extensions.json?ref=" + defaultBranch)
-      .reply(404);
+      .reply(200, extensionJSON);
     nock("https://api.github.com")
       .get("/repos/ExplorViz/explorviz-backend/readme?ref=" + defaultBranch)
       .reply(200, header + customDesc + footer);
@@ -387,10 +394,9 @@ describe ("combineExtensionInformation", () => {
     const header = "Some stuff ## Project Description"
     const customDesc = " Testing this feature! To be removed at some time "
     const footer = "## Second title is beautifull"
-
     nock("https://api.github.com")
       .get("/repos/ExplorViz/explorviz-backend/contents/extensions.json?ref=" + defaultBranch)
-      .reply(404);
+      .reply(200, extensionJSON);
     nock("https://api.github.com")
       .get("/repos/ExplorViz/explorviz-backend/readme?ref=" + defaultBranch)
       .reply(200, header + customDesc + footer);
@@ -402,15 +408,30 @@ describe ("combineExtensionInformation", () => {
     const header = "Some stuff ## Project Description"
     const customDesc = " Testing this feature! To be removed at some time "
     const footer = " Second title is beautifull"
-
     nock("https://api.github.com")
       .get("/repos/ExplorViz/explorviz-backend/contents/extensions.json?ref=" + defaultBranch)
-      .reply(404);
+      .reply(200, extensionJSON);
     nock("https://api.github.com")
       .get("/repos/ExplorViz/explorviz-backend/readme?ref=" + defaultBranch)
       .reply(200, header + customDesc + footer);
     const tmp = [new Extension("explorviz-backend", "master", 1, "https://github.com/ExplorViz/explorviz-backend")];
     const result = await combineExtensionInformation(tmp);
     expect(result[0].desc).to.equal((customDesc + footer).trim());
+  });
+  it (`Should respond with custom information if found`, async () => {
+    const header = "Some stuff ## Project Description"
+    const customDesc = " Testing this feature! To be removed at some time "
+    const footer = " Second title is beautifull"
+    nock("https://api.github.com")
+      .get("/repos/ExplorViz/explorviz-backend/contents/extensions.json?ref=" + defaultBranch)
+      .reply(200, extensionJSON);
+    nock("https://api.github.com")
+      .get("/repos/ExplorViz/explorviz-backend/readme?ref=" + defaultBranch)
+      .reply(200, header + customDesc + footer);
+    const tmp = [new Extension("explorviz-backend", "master", 1, "https://github.com/ExplorViz/explorviz-backend")];
+    const result = await combineExtensionInformation(tmp);
+    expect(result[0].requiredExtensions).to.eql(extensionJSON.requiredExtensions);
+    expect(result[0].incompatibleExtensions).to.eql(extensionJSON.incompatibleExtensions);
+    expect(result[0].imgSrc).to.eql(extensionJSON.imgSrc);
   });
 });

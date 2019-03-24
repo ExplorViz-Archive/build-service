@@ -38,7 +38,7 @@ export class Extension implements exampleExtensions.ExtensionObject {
     }
 }
 
-interface ExtensionJSONObject {
+export interface ExtensionJSONObject {
     imgSrc: string;
     incompatibleExtensions: string[];
     requiredExtensions: string[];

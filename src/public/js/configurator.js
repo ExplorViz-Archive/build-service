@@ -3,8 +3,6 @@ var backend;
 
 var timeout;
 
-let build1 = ["frontend-extension-colorpicker", "frontend-extension-tutorial"];
-
 loadConfigurator();
 
 function loadConfigurator() {

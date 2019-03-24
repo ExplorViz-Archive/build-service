@@ -13,7 +13,7 @@
     "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
     "devTest": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "start": "node .",
-    "test": "mocha -r ts-node/register test/extension.spec.ts"
+    "test": "mocha -r ts-node/register test/*"
   },
   "keywords": [],
   "author": "",
