@@ -55,7 +55,7 @@
       "isBase": false,
       "commit": "v1.0",
       "id": "backend-extension-vr_v1.0",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete. Please check the link below for further information.",
       "imgSrc": "logo-default.png",
       "requiredExtensions": [
         "frontend_master",
@@ -87,7 +87,7 @@
       "isBase": false,
       "commit": "Abgabe",
       "id": "backend-extension-archconfcheck_Abgabe",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete. Please check the link below for further information.",
       "imgSrc": "logo-default.png",
       "requiredExtensions": [
         "frontend_master",
@@ -120,7 +120,7 @@
       "isBase": false,
       "commit": "final",
       "id": "backend-extension-comparison_final",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete. Please check the link below for further information.",
       "imgSrc": "logo-default.png",
       "requiredExtensions": [
         "frontend_master",
@@ -129,17 +129,16 @@
       "incompatibleExtensions": []
     },
     {
-      "name": "backend-extension-dummy",
+      "name": "backend-extension-tutorial",
       "extensionType": 1,
       "version": "master",
-      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-dummy",
+      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-tutorial",
       "isBase": false,
       "commit": "master",
-      "id": "backend-extension-dummy_master",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
-      "imgSrc": "logo-default.png",
+      "id": "backend-extension-tutorial_master",
+      "desc": "This is the backend of the ExplorViz tutorial extension.",
+      "imgSrc": "tutorial.svg",
       "requiredExtensions": [
-        "frontend_master",
         "backend_master"
       ],
       "incompatibleExtensions": []
@@ -167,7 +166,7 @@
       "isBase": false,
       "commit": "Abgabe",
       "id": "backend-extension-modeleditor_Abgabe",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete. Please check the link below for further information.",
       "imgSrc": "logo-default.png",
       "requiredExtensions": [
         "frontend_master",
@@ -176,16 +175,17 @@
       "incompatibleExtensions": []
     },
     {
-      "name": "backend-extension-tutorial",
+      "name": "backend-extension-dummy",
       "extensionType": 1,
       "version": "master",
-      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-tutorial",
+      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-dummy",
       "isBase": false,
       "commit": "master",
-      "id": "backend-extension-tutorial_master",
-      "desc": "This is the backend of the ExplorViz tutorial extension.",
-      "imgSrc": "tutorial.svg",
+      "id": "backend-extension-dummy_master",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete. Please check the link below for further information.",
+      "imgSrc": "logo-default.png",
       "requiredExtensions": [
+        "frontend_master",
         "backend_master"
       ],
       "incompatibleExtensions": []
@@ -294,7 +294,7 @@
       "isBase": false,
       "commit": "Abgabe",
       "id": "frontend-extension-modeleditor_Abgabe",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete. Please check the link below for further information.",
       "imgSrc": "logo-default.png",
       "requiredExtensions": [
         "frontend_master",
@@ -325,7 +325,7 @@
       "isBase": false,
       "commit": "Abgabe",
       "id": "frontend-extension-archconfcheck_Abgabe",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete. Please check the link below for further information.",
       "imgSrc": "logo-default.png",
       "requiredExtensions": [
         "frontend_master",
@@ -358,7 +358,7 @@
       "isBase": false,
       "commit": "final",
       "id": "frontend-extension-comparison_final",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete. Please check the link below for further information.",
       "imgSrc": "logo-default.png",
       "requiredExtensions": [
         "frontend_master",
@@ -391,7 +391,7 @@
       "isBase": false,
       "commit": "v2.0",
       "id": "frontend-extension-vr_v2.0",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete. Please check the link below for further information.",
       "imgSrc": "logo-default.png",
       "requiredExtensions": [
         "frontend_master",
@@ -407,7 +407,7 @@
       "isBase": false,
       "commit": "v1.1",
       "id": "frontend-extension-vr_v1.1",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete.Please check the link below for further information.",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete. Please check the link below for further information.",
       "imgSrc": "logo-default.png",
       "requiredExtensions": [
         "frontend_master",
