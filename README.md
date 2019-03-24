@@ -12,6 +12,6 @@
 3. Run the build script `npm run build` to compile the files
 4. Use `node .` to start the application. 
 
-The application should be up and running on localhost:8080. If you want to change the ip address please edit the ipAdress variable in src/server.ts berfore compiling.
+After updating the list of extensions the application should be up and running on localhost:8080. If you want to change the ip address please edit the ipAdress variable in src/server.ts berfore compiling.
 
 It is advised to change the token variable in src/auth.ts before compiling to get full use of the GitHub API.
