@@ -36,9 +36,9 @@ BuildRouter.post("/post", async (req, res) => {
     // Convert named versions to commit hashes.
     // this allows us to differentiate between
     // different versions on a branch (e.g. master)
-    for(let i = 0; i < configuration.length; ++i)
+    for(const extension of configuration)
     {
-        configuration[i].commit = await resolveCommit(configuration[i]);
+        extension.commit = await resolveCommit(extension);
     }
 
     const hash = configurationHash(configuration);

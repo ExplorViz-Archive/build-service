@@ -504,16 +504,19 @@ function validateConfig() {
           console.error(`Dependency ${requiredExtensionId} of ${childExtension.id} not found.`);
           status.incompatible.push(childExtension.id);
           $(`#${childExtension.name}`).addClass("incompatible")
-            .attr("data-toggle", "tooltip").attr("title", `Extension ${requiredExtensionId.replace("extension-", "")} not available.`);
+            .attr("data-toggle", "tooltip")
+            .attr("title", `Extension ${requiredExtensionId.replace("extension-", "")} not available.`);
         }
       }
       for (const incompatibleExtension of incompatibleExtensions) {
         const incompatibility = buildListHasExtensionName(incompatibleExtension);
         if (incompatibility !== null) {
           $(`#${incompatibleExtension}`).addClass("incompatible")
-            .attr("data-toggle", "tooltip").attr("title", `Incompatible with ${childExtension.name.replace("extension-", "")}.`);
+            .attr("data-toggle", "tooltip")
+            .attr("title", `Incompatible with ${childExtension.name.replace("extension-", "")}.`);
           $(`#${childExtension.name}`).addClass("incompatible")
-            .attr("data-toggle", "tooltip").attr("title", `Incompatible with ${incompatibleExtension.replace("extension-", "")}.`);
+            .attr("data-toggle", "tooltip")
+            .attr("title", `Incompatible with ${incompatibleExtension.replace("extension-", "")}.`);
         }
       }
     }
@@ -642,11 +645,11 @@ function trimConfig(extensions) {
   for (const extension of extensions) {
     const newExtension = {
       extensionType: extension.extensionType,
+      id: extension.id,
+      isBase: extension.isBase,
       name: extension.name,
       repository: extension.repository,
-      version: extension.version,
-      isBase: extension.isBase,
-      id: extension.id
+      version: extension.version
     };
     config.push(newExtension);
   }
