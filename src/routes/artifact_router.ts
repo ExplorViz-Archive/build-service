@@ -30,7 +30,7 @@ router.get("/download/:token", (req, res) => {
     if (task === undefined) {
         res.end("notfound");
     } else {
-        res.end(task.getDownload());
+        res.sendFile(task.getDownload() + ".zip", { "root": "./cache/" });
     }
 });
 

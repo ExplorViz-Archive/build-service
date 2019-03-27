@@ -21,11 +21,19 @@ try {
 export function getConfiguration(task: Task): Promise<void> {
     if (isCached(task.extensions)) {
        // Return from cache
+       task.setStatus(TaskState.READY);
        return Promise.resolve();
     }
 
     // Not cached, needs building
-    return buildConfiguration(task);
+    return buildConfiguration(task).catch(async (e) => 
+    {
+        console.log("Build failed");
+        console.log(e);
+        const path = config.tmppath + "/" + task.getToken();
+        await fs.delete(path);
+        task.setStatus(TaskState.FAILED);
+    });
 }
 
 async function buildConfiguration(task: Task) {
@@ -70,6 +78,7 @@ export async function resolveCommit(ext: Extension)
  */
 async function buildArchive(task: Task, path: string, extensions : Extension[]) {    
     task.setStatus(TaskState.PACKING);
+    await fs.mkdirp(config.cachePath);
     const archive = archiver.default(getCachePath(extensions), {
         store: true
     });
@@ -177,7 +186,7 @@ async function buildBackend(task: Task, targetdir: string, extensions: Extension
  * @param targetdir Extension to build
  */
 async function buildBackendExtension(targetdir: string, extension: Extension) {
-    if (extension.extensionType !== ExtensionType.BACKEND) {
+    if (extension.extensionType !== ExtensionType.BACKEND || extension.isBase) {
         return;
     }
 

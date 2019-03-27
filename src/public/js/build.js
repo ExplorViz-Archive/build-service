@@ -1,6 +1,9 @@
 const url = window.location.href.split("/");
 const buildHash = url[url.length - 1];
 
+$("#downloadButton")[0].href = "/artifact/download/" + buildHash;
+
+
 fetch(`/build/get/${buildHash}`)
 .then(data => {return data.json(); })
 .then((res) => {
@@ -67,6 +70,7 @@ function handleStatus(data)
                     break;
         case 8:
             setProgress(100, "Ready for Download!");
+            $("#downloadButton")[0].style.visibility = "visible";
             break
         default:
             setProgressFailed();

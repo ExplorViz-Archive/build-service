@@ -21,7 +21,6 @@ export class Task {
     public static getTask(extensions : Extension[]) : Task 
     {
         const hash = configurationHash(extensions);
-        console.log(Task.activeTasks)
         if(Task.activeTasks[hash] === undefined)
         {
             Task.activeTasks[hash] = new Task(extensions);
@@ -41,15 +40,13 @@ export class Task {
 
     public run()
     {
-        getConfiguration(this).then(() => {
-            this.setStatus(TaskState.READY);
+        getConfiguration(this).catch(() => {
+            this.setStatus(TaskState.FAILED);
         });
     }
     public getPromise() { return this.promise; }
     public getStatus() { return this.status.toString(); }
     public getToken() { return this.hash; }
-    public setStatus(newstatus: TaskState) {
-        console.log("New Status" + newstatus);
-        this.status = newstatus; }
+    public setStatus(newstatus: TaskState) { this.status = newstatus; }
     public getDownload() { return this.hash; }
 }
