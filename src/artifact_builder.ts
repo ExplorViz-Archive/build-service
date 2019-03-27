@@ -2,6 +2,7 @@ import * as fs from "async-file";
 import * as fse from "fs-extra";
 import * as path from "path";
 import * as archiver from "archiver-promise";
+import * as yaml from "js-yaml";
 import * as child_process from "ts-process-promises";
 import {isCached, getCachePath} from "./artifact_cache";
 import {Config, createDefaultConfig} from "./config";
@@ -39,6 +40,7 @@ async function buildConfiguration(task: Task) {
     await fs.mkdirp(path);
     await fs.mkdirp(path + "/out");
     await fs.mkdirp(path + "/out/frontend");
+    await fs.mkdirp(path + "/out/docker");
     await fs.mkdirp(path + "/build");
     // Build the ember js based frontend, this is unique per configuration
     await buildFrontend(task, path, task.extensions);
@@ -63,15 +65,24 @@ export async function resolveCommit(ext: Extension)
     return execResults.stdout.split("\t")[0];
 }
 
+/***
+ * Adds static files to the out directory and packs everything into an archive
+ */
 async function buildArchive(task: Task, path: string, extensions : Extension[]) {    
     task.setStatus(TaskState.PACKING);
     const archive = archiver.default(getCachePath(extensions), {
         store: true
     });
 
-    archive.directory(path + "/out", false)
     // Add static files (Readme, startup Script)
-    
+    const targetdir = path + "/out/";
+    await buildDockerCompose(targetdir, extensions);
+    await buildLaunchScript(targetdir);
+    await fse.copyFile("./static/Dockerfile-frontend", targetdir + "/docker/Dockerfile-frontend");
+    await fse.copyFile("./static/prod-env-updater.sh", targetdir + "/docker/prod-env-updater.sh");
+    await fse.copyFile("./static/Readme.md", targetdir + "/Readme.md");
+    await fse.copyFile("./static/nginx.conf", targetdir + "/nginx.conf");
+    archive.directory(targetdir, false)    
     return archive.finalize();
 }
 
@@ -160,12 +171,17 @@ async function buildBackend(task: Task, targetdir: string, extensions: Extension
     await fs.delete(repoPath);
 }
 
+/**
+ * Builds a backend extension
+ * @param targetdir Base directory for the build
+ * @param targetdir Extension to build
+ */
 async function buildBackendExtension(targetdir: string, extension: Extension) {
     if (extension.extensionType !== ExtensionType.BACKEND) {
         return;
     }
 
-    const repoPath = targetdir + "/build/" + extension.name;
+    const repoPath = targetdir + "/build/explorviz-" + extension.name;
     await child_process.exec("git clone -b '" + extension.version + "' --depth 1 " + extension.repository, { cwd: targetdir + "/build/" });
     await child_process.exec("./gradlew assemble", { cwd: repoPath });
     const files = await fs.readdir(repoPath + "/build/libs")
@@ -176,8 +192,108 @@ async function buildBackendExtension(targetdir: string, extension: Extension) {
 
 }
 
+/**
+ * Async Array.forEach
+ */
 async function asyncForEach(array, callback) {
     for (let index = 0; index < array.length; index++) {
-      await callback(array[index], index, array);
+        await callback(array[index], index, array);
     }
-  }
+}
+
+/**
+ * Builds a launching script for all jar files as well as for the nginx frontend
+ * @param targetdir Base directory for the build
+ */
+async function buildLaunchScript(targetdir: string)
+{
+    let launch = "nginx -c nginx.conf\n";
+    const dir = await fs.readdir(targetdir)
+    dir.forEach(element => {
+        if(path.extname(element) === ".jar")
+            launch += "java -jar " + element + " & \n";
+    });
+    await fs.writeFile(targetdir + "/launch.sh", launch, "ascii");
+}
+
+/**
+ * Adds an entry to the docker compose services object for a jar file.
+ * Also generates a generic Dockerfile
+ * @param targetdir Base directory for the build
+ * @param extensions Extensions to build docker containers for, Frontend extensions are not considered
+ */
+async function buildDockerCompose(targetdir: string, extensions: Extension[])
+{
+    const extlist = extensions.filter(c => c.extensionType == ExtensionType.BACKEND || c.isBase);
+    const services = {
+        "mongo": 
+        {
+            "image": "mongo",
+            "container_name": "explorviz-backend-auth-mongo",
+            "volumes": [
+                "explorviz-auth-mongo-data:/data/db",
+                "explorviz-auth-mongo-configdb:/data/configdb"]
+        },
+        "frontend":
+        {        
+            "build": 
+            {
+                "dockerfile": "docker/Dockerfile-frontend",
+                "context": "."
+            },
+            "ports":
+            [
+                "8090:81"
+            ],
+            "container_name": "explorviz-frontend",
+            "depends_on": [ "discovery", "landscape", "analysis", "authentication" ],
+            "environment": [ "API_ROOT=http://localhost:8090" ]
+        }
+    };
+    const dir = await fs.readdir(targetdir)
+    dir.forEach(element => {
+        if(path.extname(element) === ".jar")
+            addDockerComposeEntry(targetdir, element, services);
+    });
+
+    const compose = {
+        "version": "3.2",
+        "services": services,
+        "volumes": 
+        {
+            "explorviz-auth-mongo-data": null,
+            "explorviz-auth-mongo-configdb": null
+        }
+    };
+    
+    await fs.writeFile(targetdir + "/docker-compose.yml", yaml.dump(compose), "ascii");
+}
+
+/**
+ * Adds an entry to the docker compose services object for a jar file.
+ * Also generates a generic Dockerfile
+ * @param targetdir Base directory for the Dockerfile
+ * @param jarname Name of the jar file
+ * @param services Services object to update
+ */
+async function addDockerComposeEntry(targetdir: string, jarname: String, services)
+{  
+    // drop explorviz- prefix of all files for naming as well as the .jar extension
+    const name = jarname.replace("explorviz-", "").replace(".jar", "");
+    services[name] = 
+    {
+        "build": 
+        {
+            "dockerfile": "docker/Dockerfile-" + name,
+            "context": "."
+        },
+        "container_name": "explorviz-" + name,
+        "depends_on": [ "mongo" ],
+        "environment": [ "MONGO_IP=mongo" ]
+    }
+
+    // Create Dockerfile
+    let file = await fs.readFile("./static/Dockerfile.base", "utf8");
+    file = file.replace("%%%JAR%%%", jarname);
+    await fs.writeFile(targetdir + "/docker/Dockerfile-" + name, file);
+}

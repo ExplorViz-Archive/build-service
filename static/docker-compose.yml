@@ -1,0 +1,23 @@
+version: '3.2'
+
+services:
+  mongo:
+    image: mongo
+    container_name: explorviz-backend-auth-mongo
+    volumes:
+       - explorviz-auth-mongo-data:/data/db
+       - explorviz-auth-mongo-configdb:/data/configdb
+
+  authentication: 
+    build:
+      dockerfile: Dockerfile-backend-authentication
+      context: .
+    container_name: explorviz-backend-auth
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_IP=mongo
+
+volumes:
+  explorviz-auth-mongo-data:
+  explorviz-auth-mongo-configdb:
