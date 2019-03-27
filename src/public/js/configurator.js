@@ -28,7 +28,12 @@ function loadConfigurator() {
     addAllDependencies();
   })
 
+  /**
+   * Initialize fields
+   */
   deactivateContinueButton();
+  hideAlert();
+  $("#yourBuildTitle").hide()
 
   /**
    * Get extension information
@@ -42,6 +47,12 @@ function loadConfigurator() {
     backend = response.backend;
     let front = response.frontend;
     let back = response.backend;
+
+    /**
+     * Update the coumn of frontend extensions.
+     */
+    updateColumn("core-column", front);
+    updateColumn("core-column", back);
     /**
      * Update the coumn of frontend extensions.
      */
@@ -76,6 +87,13 @@ function updateColumn(colName, extensions) {
   let i;
   for (i = 0; i < extensions.length; i ++) {
     let element = extensions[i];
+    if (colName !== "core-column" && element.isBase === true) {
+      // Skip frontend and backend outside of core column
+      continue;
+    } else if (colName === "core-column" && element.isBase === false) {
+      // Skip extensions inside of core column
+      continue;
+    }
     if (hasChildName(column, element.name)) {
       // Skip if already added.
       continue;
@@ -118,6 +136,8 @@ function updateColumn(colName, extensions) {
           addClassToElement(div, "selected");
           removeListItems(name);
           addListItem(id);
+          $("#selectorContent").text("Predefined builds...");
+          $("#yourBuildTitle").show();
           validateConfig();
         }
       });
@@ -192,9 +212,11 @@ function getVersionElementList(versions) {
     a.addEventListener("click", () => {
         removeListItems(extension.name);
         addListItem(extension.id);
+        $("#selectorContent").text("Predefined builds...");
+        $("#yourBuildTitle").show();
         validateConfig();
     });
-    a.textContent = extension.name.replace("extension-", "") + " (branch: " + extension.version + ")";
+    a.textContent = extension.name.replace("extension-", "") + " (version: " + extension.version + ")";
     li.appendChild(a);
     ul.appendChild(li);
   }
@@ -241,6 +263,8 @@ function removeListItem(id) {
     } else {
       $("#removeButton").addClass("invisible");
       $("#removeAllButton").addClass("invisible");
+      $("#selectorContent").text("Predefined builds...");
+      $("#yourBuildTitle").hide();
     }
   }
 }
@@ -270,7 +294,7 @@ function addListItem(id) {
   item.name = extension.name;
   item.classList.add("list-group-item");
   let content = document.createElement("h4");
-  content.textContent = id.replace("extension-", "").replace("_", " (branch: ") + ")";
+  content.textContent = id.replace("extension-", "").replace("_", " (version: ") + ")";
   content.classList.add("list-group-item-heading");
   item.appendChild(content);
   item.addEventListener("click", () => {
@@ -319,7 +343,7 @@ function showSelectedExtensionById(id) {
   if (id !== null) {
     let extension = getExtensionById(id);
     if (extension !== null) {
-      setInfoBoxHeading(extension.name.replace("extension-", "") + " (branch: " + extension.version +  ")") ;
+      setInfoBoxHeading(extension.name.replace("extension-", "") + " (version: " + extension.version +  ")") ;
       let body = document.getElementById("info-box-body");
       // Add description
       let descHead = document.createElement("h4");
@@ -330,7 +354,7 @@ function showSelectedExtensionById(id) {
       body.appendChild(descContent);
       // Add Required extensions
       let reqHead = document.createElement("h4");
-      reqHead.textContent = "Required extensions:";
+      reqHead.textContent = "Requirements:";
       let reqContent = document.createElement("p");
       let reqText = extension.requiredExtensions.toString();
       reqContent.textContent = reqText.replace("extension-", "").replace(/,/g, ", ");
@@ -550,6 +574,7 @@ function activateContinueButton(configuration) {
   .attr("title", `Click to continue to the confirmation page.`)
   .click(() => continueOnClick(configuration))
   .prop('disabled', false)
+  hideAlert();
 }
 
 /**
@@ -563,6 +588,15 @@ function deactivateContinueButton() {
   .attr("title", `Please select a valid build before continuing.`)
   .off("click")
   .prop('disabled', true)
+  showAlert();
+}
+
+function showAlert(){
+  $(".alert").show(); 
+}
+
+function hideAlert(){
+  $(".alert").hide(); 
 }
 
 /**
@@ -708,6 +742,8 @@ function addPredefinedBuilds(builds) {
           removeListItem(item.id);
           item = getFirstActiveListItem();
       }
+      $("#selectorContent").text( build.name);
+      $("#yourBuildTitle").show();
       addListItems(build.content);
     });
     selector.appendChild(link);

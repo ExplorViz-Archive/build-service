@@ -8,6 +8,7 @@ import {BuildRouter} from "./routes/build_router";
 import {ConfirmationRouter} from "./routes/confirmation_router";
 import {StaticRouter} from "./routes/static_router";
 import { DevRouter } from "./routes/dev_router";
+import {updateExtensionsJSON} from "./extension"
 
 const app = express();
 let config: Config;
@@ -50,24 +51,21 @@ app.get("/contact", (req, res) => {
   res.render("contact");
 });
 
-// const ipAdress = "192.168.178.52";
+const ipAdress = "0.0.0.0";
 
-// const server = app.listen(8080, `${ipAdress}`, () => {
-const server = app.listen(config.port, config.host, () => {
-  // extensionBuilder.updateExtensionsJSON(true);
+const server = app.listen(8080, `${ipAdress}`, () => {
+  // updateExtensionsJSON(true)
   // .then((status) => {
-  //   console.log(status + "Update of extenList.json complete.");
-  //   console.log(`ExplorViz-build-service running at [${new Date().toUTCString()}] `
-  console.log(`ExplorViz-build-service running at [${new Date().toLocaleTimeString()}]`
-    // + `→ PORT ${ipAdress}:${(server.address() as any).port}`);
-    + ` → PORT ${(server.address() as any).port}`);
-  // console.log(`Updating extensionList.json every hour at ${new Date().getMinutes()} minutes.`);
-  //   // });
-  // const rule = new schedule.RecurrenceRule();
-  // rule.minute = new Date().getMinutes();
-  // schedule.scheduleJob(rule, () => {
-  //   console.log(`Updating extenList.json at ${new Date().toLocaleTimeString()} ...`);
-  //   extensionBuilder.updateExtensionsJSON(true)
-  //   .then((status) => console.log(status + "Update of extenList.json complete."));
-  // });
+  //   console.log(`Update of extensionList.json ${status}.`);
+    console.log(`ExplorViz-build-service running at [${new Date().toLocaleTimeString()}]`
+    + ` → ${ipAdress}:${(server.address() as any).port}`);
+  console.log(`Updating extensionList.json every hour at ${new Date().getMinutes()} minutes.`);
+    // });
+  const rule = new schedule.RecurrenceRule();
+  rule.minute = new Date().getMinutes();
+  schedule.scheduleJob(rule, () => {
+    console.log(`Updating extenList.json at ${new Date().toLocaleTimeString()} ...`);
+    updateExtensionsJSON(true)
+    .then((status) => console.log(`Update of extensionList.json ${status}.`));
+  });
 });

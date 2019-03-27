@@ -24,48 +24,52 @@
       </div>
   </nav>
   <div class="container main-container" role="main">
-    
-
-    <div class="container">
+    <div class="container inner-container">
       <div class="header">
-          <h1>Extensions</h1>
+          <h1>Configure your ExplorViz build</h1>
       </div>
-              
-      <div class="row">
+      <div class="row inner-row">
+        <div class="col-md-4">
+          <button id="dependenciesButton" type="button" class="btn btn-s btn-default">Add dependencies</button>
+          <button id="continueButton" type="button" class="btn btn-s btn-danger">Continue <span class="glyphicon glyphicon-menu-right"></button>
+          <div id="info-box" class="panel panel-info scrollable-list" style="margin-top:10px">
+            <div id="info-box-heading" class="panel-heading">
+              <h2 class="panel-title"><b>Selected extension</b></h2>
+            </div>
+            <div id="info-box-body" class="panel-body" id="extensions-panel" >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5 scrollable">
+          <h4>Core</h4> 
+            <div id="core-column">
+            </div>
+          <h4>Backend Extensions</h4> 
+            <div id="be-column">
+            </div>
+          <h4>Frontend Extensions</h4> 
+            <div id="fe-column">
+            </div>
+        </div>
         <div class="col-md-3">
           <div class="dropdown">
-              <button class="btn btn-default btn-lg dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" style="width:100%">
-                <span class="pull-left" id="selectorContent">Current build</span>
-                <span class="caret pull-right" style="margin-top:8px"></span>
-              </button>
-              <ul class="dropdown-menu" style="width:100%" id="buildSelector">
-              </ul>
+            <button class="btn btn-default btn-lg dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" style="width:100%">
+              <span class="pull-left cut-text" id="selectorContent" style="width:90%">Predefined builds...</span>
+              <span class="caret pull-right" style="margin-top:8px"></span>
+            </button>
+            <ul class="dropdown-menu" style="width:100%" id="buildSelector">
+            </ul>
           </div>
+          <h4 id="yourBuildTitle">Your build contains:</h4>
           <div class="scrollable-list" style="margin-top:5px">
             <ul id="currentBuildList" class="list-group">
             </ul>
           </div>
+          <div class="alert alert-danger">
+            <strong>Current build is invalid!</strong>
+          </div>
           <button id="removeButton" type="button" class="btn btn-s btn-default invisible" style="margin-top:5px">Remove</button>
           <button id="removeAllButton" type="button" class="btn btn-s btn-default invisible" style="margin-top:5px">Clear</button>
-        </div>
-        <div class="col-md-5 scrollable">
-          <h4>Backend Extensions</h4> 
-          <div id="be-column" class="text-center">
-          </div>
-          <h4>Frontend Extensions</h4> 
-          <div id="fe-column" class="text-center">
-          </div>
-        </div>
-        <div class="col-md-4">
-          <button id="dependenciesButton" type="button" class="btn btn-s btn-default">Add dependencies</button>
-          <button id="continueButton" type="button" class="btn btn-s btn-danger">Continue <span class="glyphicon glyphicon-menu-right"></button>
-          <div id="info-box" class="panel panel-info" style="margin-top:10px">
-            <div id="info-box-heading" class="panel-heading">
-              <h2 class="panel-title"><b>Selected extension</b></h2>
-            </div>
-            <div id="info-box-body" class="panel-body scrollable-list" id="extensions-panel" >
-            </div>
-          </div>
         </div>
       </div>
     </div>

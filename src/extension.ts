@@ -89,8 +89,8 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
         tmpList.backend.unshift(backendInitializer);
     } catch (error) {
         console.log("Error: Failed to assemble extension list: " + error);
-        returnStatus = error + " ";
-        return;
+        returnStatus = "failed";
+        return returnStatus;
     }
     console.log("List of extensions assembled.");
     // Check for release repositories.
@@ -115,10 +115,10 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
         }
         tmpList = updateBaseFields(tmpList);
         fs.writeJSONSync(path.join(__dirname, "extensionList.json"), tmpList, {spaces: 2});
-        returnStatus = "Success! ";
+        returnStatus = "successful";
     } catch (error) {
         console.log("Error: Failed to update the extensionList.json." + error.message);
-        returnStatus = "Failure! ";
+        returnStatus = "failed";
     }
     return returnStatus;
 }

@@ -6,8 +6,8 @@ export const DevRouter: Router = Router();
 DevRouter.get("/update", (req, res) => {
   extensionBuilder.updateExtensionsJSON(true)
   .then((status) => {
-    console.log(status + "Update of extensions.json complete.");
-    res.send(status + "Update of extensions.json complete.");
+    console.log(`Update of extensionList.json ${status}.`);
+    res.send(`Update of extensionList.json ${status}.`);
   });
 });
 

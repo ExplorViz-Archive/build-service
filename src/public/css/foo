@@ -1,0 +1,5 @@
+
+- Wenn Backend ausgewählt ist (also Backend Beschreibung angezeigt wird) springen die Spalten hin und her, sobald ich mit der Maus über eine Extension hovere und deren Beschreibung angezeigt wird. Analog wenn ich eine Extension ausgewählt habe und über Frontend oder Backend hovere.
+
+- Generell mag ich es nicht, wenn der User überhaupt in einen nicht möglichen Zustand landet. Z.B. kann ich frontend master und backend dev-1 auswählen und dann "add Dependencies" drücken und schon habe ich zwei Frontends und zwei Backends im Current Build. Ich kann zwar nicht weiter drücken, aber dennoch ist das unschön.
+- Ich stelle mir auch die Frage, warum dem User überhaupt die Auswahl von nicht möglichen Konfigurationen gegeben wird. Ich meine Tim hat  dazu was gesagt im Vortrag, aber die Usability sehe ich als besser an, wenn nicht kompatible Teile (ausgegraut, Stichwort: opacity) und überhaupt nicht klickbar wären.
