@@ -92,14 +92,23 @@ body {
   width: 100%;
   height: 100%;
   background-color: white;
+  opacity: inherit;
 }
 
 .extension-img {
   border-radius: 15px;
   width: 100%;
   height: auto;
+  opacity: inherit;
 }
 
+.incompatible-opaque{
+  opacity: 0.4 !important;
+}
+
+.disabled-extension {
+  opacity: 0.4 !important;
+}
 
 .selected{
   border: 2px solid  rgb(28, 172, 14);
@@ -162,7 +171,4 @@ div .col-md-3 {
   font-size: 1.5rem
 }
 
-.disabled-extension {
-  opacity: 0.2;
-  color: grey;
-}
+

@@ -19,10 +19,6 @@
         {
             "name": "Archconfcheck",
             "content": ["backend-extension-archconfcheck_master", "frontend-extension-archconfcheck_master"]
-        },
-        {
-            "name": "Invalid build",
-            "content": ["frontend_1.3.0", "backend_master"]
         }
     ]
 }

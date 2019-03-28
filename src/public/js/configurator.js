@@ -3,6 +3,12 @@ var backend;
 
 var timeout;
 
+const status = {
+  incompatible: [],
+  required: [],
+  wanted: []
+};
+
 loadConfigurator();
 
 function loadConfigurator() {
@@ -33,7 +39,8 @@ function loadConfigurator() {
    */
   deactivateContinueButton();
   hideAlert();
-  $("#yourBuildTitle").hide()
+  hideAlert("dependency-alert");
+  $("#yourBuildTitle").hide();
 
   /**
    * Get extension information
@@ -114,15 +121,15 @@ function updateColumn(colName, extensions) {
     const id = element.id;
     const name = element.name;
     const versions = getDifferentVersions(element.name);
+    const button = document.createElement("button");
+    addClassToElement(button, "btn");
+    addClassToElement(button, "extension-button");
+    button.appendChild(img);
     // Create drowdown for extensions with releases
     if (versions.length > 1) {
-      const button = document.createElement("button");
-      addClassToElement(button, "btn");
-      addClassToElement(button, "extension-button");
       button.setAttribute("data-toggle", "dropdown");
       const span = document.createElement("span");
       addClassToElement (span, "caret");
-      button.appendChild(img);
       button.appendChild(span);
       div.appendChild(button);
       const ul = getVersionElementList(versions);
@@ -130,7 +137,7 @@ function updateColumn(colName, extensions) {
       // Create image for single extensions
     } else {
       if (element.active) {
-        div.addEventListener("click", () => {
+        button.addEventListener("click", () => {
           if (div.classList.contains("selected")) {
             removeClassFromElement(div, "selected");
             removeListItems(name);
@@ -146,9 +153,9 @@ function updateColumn(colName, extensions) {
         });
       } else {
         // Disable inactive extensions
-        disableElement(div);
+        disableInactiveElement(button);
       }
-      div.appendChild(img);
+      div.appendChild(button);
     }
     div.addEventListener("mouseover", () => {
       addClassToElement(div, "hovered");
@@ -225,7 +232,7 @@ function getVersionElementList(versions) {
           validateConfig();
       });
     } else {
-      disableElement(a);
+      disableInactiveElement(a);
     }
     a.textContent = extension.name.replace("extension-", "") + " (version: " + extension.version + ")";
     li.appendChild(a);
@@ -238,11 +245,11 @@ function getVersionElementList(versions) {
  * Disables an element, reduces opacity and adds a tooltip.
  * @param {HTMLElement} element 
  */
-function disableElement(element) {
-  element.setAttribute("disabled", true);
+function disableInactiveElement(element) {
   element.setAttribute("data-toggle", "tooltip");
   element.setAttribute("title", `This extension is not available at this time.`);
   addClassToElement(element, "disabled-extension")
+  element.setAttribute("disabled", true);
 }
 
 /**
@@ -337,7 +344,6 @@ function addListItems(ids) {
   ids.forEach(id => {
     addListItem(id);
   });
-  addAllDependencies();
 }
 
 /**
@@ -517,11 +523,10 @@ function getExtensionById(id) {
  */
 function validateConfig() {
   removeValitdationMarks();
-  const status = {
-    incompatible: [],
-    required: [],
-    wanted: []
-  };
+  status.incompatible = [];
+  status.required = [];
+  status.wanted = [];
+
   let list = document.getElementById("currentBuildList");
   if (list.childElementCount > 0) {
     for (let i = 0; i < list.childElementCount; i++) {
@@ -539,6 +544,7 @@ function validateConfig() {
         if (status.wanted.includes(requiredExtensionId)) {
           continue;
         }
+        // Mark required extensions
         const requiredExtension = getExtensionById(requiredExtensionId);
         if (requiredExtension !== null) {
           if (!buildListHasExtensionId(requiredExtensionId)
@@ -556,6 +562,7 @@ function validateConfig() {
             .attr("title", `Extension ${requiredExtensionId.replace("extension-", "")} not available.`);
         }
       }
+      // Handle incompatible extensions
       for (const incompatibleExtension of incompatibleExtensions) {
         const incompatibility = buildListHasExtensionName(incompatibleExtension);
         if (incompatibility !== null) {
@@ -565,25 +572,63 @@ function validateConfig() {
           $(`#${childExtension.name}`).addClass("incompatible")
             .attr("data-toggle", "tooltip")
             .attr("title", `Incompatible with ${incompatibleExtension.replace("extension-", "")}.`);
+        } else {
+          disableIncompatibleExtension(incompatibleExtension, childExtension.name);
         }
       }
     }
   }
+  reverseDisableExtensions();
   return resolveValidation(status);
 }
 
 /**
- * Removes the required and incompatible classes from all extension-images.
+ * Disables a group of extensions specified by name because of incompatibility with source.
+ * @param {string} name 
+ * @param {string} source 
+ */
+function disableIncompatibleExtension(name, source) {
+  $(`#${name}`)
+    .attr("data-toggle", "tooltip")
+    .attr("title", `Incompatible with ${source.replace("extension-", "")}.`)
+    .children("button")
+    .addClass("incompatible-opaque")
+    .prop("disabled", true)
+}
+
+/**
+ * Iterates over all extensions and disables extensions that are incompatible with the current build.
+ */
+function reverseDisableExtensions() {
+  const arr = frontend.concat(backend);
+  arr.forEach(extension => {
+    if (!buildListHasExtensionId(extension.id)) {
+      const incompatibleExtensions = extension.incompatibleExtensions;
+      for (let i = 0; i< incompatibleExtensions.length; i++) {
+        if (buildListHasExtensionName(incompatibleExtensions[i]) !== null) {
+          disableIncompatibleExtension(extension.name, incompatibleExtensions[i])
+          break;
+        }
+      }
+    }
+  })
+}
+
+/**
+ * Removes the .required and .incompatible classes from all extension-divs.
+ * Furthermore tooltips and disabled attributes are removed.
  */
 function removeValitdationMarks() {
   let elements = document.getElementsByClassName("extension-div");
   for (let i = 0; i < elements.length; i++) {
+    $(`#${elements[i].id}`)
     removeClassFromElement(elements[i], "required");
     removeClassFromElement(elements[i], "incompatible");
-    if (!elements[i].hasAttribute("disabled")) {
+    if (!elements[i].classList.contains("disabled-extension")) {
       elements[i].removeAttribute("title");
     }
   }
+  $(".incompatible-opaque").removeClass("incompatible-opaque").removeAttr("disabled")
 }
 
 /**
@@ -615,12 +660,13 @@ function deactivateContinueButton() {
   showAlert();
 }
 
-function showAlert(){
-  $(".alert").show(); 
+function showAlert(id = "incompatible-alert" ,text = "Current build is invalid!"){
+  $(`#${id}`).children("span").first().html(`<strong>${text}</strong>`);
+  $(`#${id}`).show() 
 }
 
-function hideAlert(){
-  $(".alert").hide(); 
+function hideAlert(id = "incompatible-alert"){
+  $(`#${id}`).hide(); 
 }
 
 /**
@@ -643,19 +689,32 @@ function continueOnClick(configuration) {
  */
 function addAllDependencies() {
   let list = document.getElementById("currentBuildList");
+  let children = [];
+  let added = [];
   if (list.childElementCount > 0) {
     for (let i = 0; i < list.childElementCount; i++) {
-      let childId = list.children[i].id;
-      let extensions = getExtensionById(childId);
-      extensions.requiredExtensions.forEach(requiredExtension => {
-        if (!buildListHasExtensionId(requiredExtension)
-            && getExtensionById(requiredExtension) !== null) {
-          addListItem(requiredExtension);
-        }
-      });
+      const childExtension = getExtensionById(list.children[i].id);
+      children.push(list.children[i].id);
+      added.push(childExtension.name);
     }
-    validateConfig();
+    for(child of children) {
+      const childExtension = getExtensionById(child);
+      for (requiredExtension of childExtension.requiredExtensions) {
+        const ext = getExtensionById(requiredExtension);
+        if (children.includes(requiredExtension)) {
+          continue;
+        }
+        if (ext !== null && !added.includes(ext.name)) {
+            addListItem(requiredExtension);
+            children.push(requiredExtension);
+            added.push(ext.name);
+        } else {
+          showAlert("dependency-alert", "Dependencies incompatible!");
+        }
+      }
+    }
   }
+  validateConfig();
 }
 
 /**
@@ -769,6 +828,7 @@ function addPredefinedBuilds(builds) {
       $("#selectorContent").text( build.name);
       $("#yourBuildTitle").show();
       addListItems(build.content);
+      addAllDependencies();
     });
     selector.appendChild(link);
     buildSelector.appendChild(selector);

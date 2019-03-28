@@ -39,8 +39,14 @@
           </div>
         </div>
         <div class="col-md-5 scrollable">
-            <div class="alert alert-danger">
-                <strong>Current build is invalid!</strong>
+            <div id="incompatible-alert" class="alert alert-danger">
+              <span></span>
+            </div>
+            <div id="dependency-alert" class="alert alert-danger">
+                <span></span>
+                <button type="button" class="close" onClick="hideAlert('dependency-alert')">
+                    <span>&times;</span>
+                </button>
             </div>
           <h4>Core</h4> 
             <div id="core-column">
