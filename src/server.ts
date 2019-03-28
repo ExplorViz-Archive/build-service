@@ -1,13 +1,12 @@
 import express = require ("express");
-import * as fs from "fs-extra";
 import * as schedule from "node-schedule";
 import * as path from "path";
-import {Config, getConfig} from "./config";
+import {getConfig} from "./config";
 import {ArtifactRouter} from "./routes/artifact_router";
 import {BuildRouter} from "./routes/build_router";
 import {ConfirmationRouter} from "./routes/confirmation_router";
 import {StaticRouter} from "./routes/static_router";
-import { DevRouter } from "./routes/dev_router";
+import {DevRouter} from "./routes/dev_router";
 import {updateExtensionsJSON} from "./extension"
 
 const app = express();
