@@ -317,7 +317,7 @@ function addListItem(id) {
   item.id = id;
   item.name = extension.name;
   item.classList.add("list-group-item");
-  let content = document.createElement("h4");
+  let content = document.createElement("p");
   content.textContent = id.replace("extension-", "").replace("_", " (version: ") + ")";
   content.classList.add("list-group-item-heading");
   item.appendChild(content);
