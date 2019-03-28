@@ -1,6 +1,10 @@
 
 /**
- * Generate new dummy extensions
+ * Generate new dummy extensions.
+ * 
+ * This module is just for testing purpose and dummy extension generation and
+ * should not be used in production.
+ * 
  */
 
 const beDesc = "This extension adds features to the backend of ExplorViz to enable a"
@@ -25,6 +29,7 @@ export interface ExtensionObject {
     version: string;
     isBase: boolean;
     commit: string;
+    active: boolean;
 }
 
 class ExampleExtension implements ExtensionObject {
@@ -39,6 +44,7 @@ class ExampleExtension implements ExtensionObject {
     public extensionType: ExtensionType;
     public isBase: boolean;
     public commit: string;
+    public active: boolean;
 
     constructor(name: string,
                 desc: string,
@@ -59,6 +65,7 @@ class ExampleExtension implements ExtensionObject {
         this.extensionType = extensionType;
         this.isBase = (name === "backend" || name === "frontend")
         this.commit = version;
+        this.active = true;
     }
 }
 
