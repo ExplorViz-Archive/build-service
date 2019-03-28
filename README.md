@@ -13,10 +13,18 @@
 3. Run the build script `npm run build` to compile the files
 4. Use `node .` to start the application. 
 
-After updating the list of extensions the application should be up and running on localhost:8080. If you want to change the ip address please edit the ipAdress variable in src/server.ts berfore compiling.
+After updating the list of extensions the application should be up and running on localhost:8080.
 
 It is advised to change the token variable in src/auth.ts before compiling to get full use of the GitHub API.
 
+## Configuration
+
+The config.json file offers options to configurate important variables. Here is a short list:
+
+  - `host` : The IP-Adress for the webserver to run on.
+  - `port` : The Port for the server to run on.
+  - `defaultBranch` : The branch for the extension module to look for extensions.json files for extensions on the master branch. Change this if you want to test changes to the extensions.json files on different branches. This should usually be set to master.
+  - `devOptions` : Enables the use of the dev-router found in /src/routes/dev-router.ts.
 
 ## Additional commands
 
