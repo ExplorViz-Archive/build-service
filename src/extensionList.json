@@ -129,16 +129,17 @@
       "incompatibleExtensions": []
     },
     {
-      "name": "backend-extension-tutorial",
+      "name": "backend-extension-dummy",
       "extensionType": 1,
       "version": "master",
-      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-tutorial",
+      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-dummy",
       "isBase": false,
       "commit": "master",
-      "id": "backend-extension-tutorial_master",
-      "desc": "This is the backend of the ExplorViz tutorial extension.",
-      "imgSrc": "tutorial.svg",
+      "id": "backend-extension-dummy_master",
+      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete. Please check the link below for further information.",
+      "imgSrc": "logo-default.png",
       "requiredExtensions": [
+        "frontend_master",
         "backend_master"
       ],
       "incompatibleExtensions": []
@@ -175,17 +176,16 @@
       "incompatibleExtensions": []
     },
     {
-      "name": "backend-extension-dummy",
+      "name": "backend-extension-tutorial",
       "extensionType": 1,
       "version": "master",
-      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-dummy",
+      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-tutorial",
       "isBase": false,
       "commit": "master",
-      "id": "backend-extension-dummy_master",
-      "desc": "This is an extension for ExplorViz. ATTENTION: This is a default description. Therefore the information about required and incompatible extensions might not be complete. Please check the link below for further information.",
-      "imgSrc": "logo-default.png",
+      "id": "backend-extension-tutorial_master",
+      "desc": "This is the backend of the ExplorViz tutorial extension.",
+      "imgSrc": "tutorial.svg",
       "requiredExtensions": [
-        "frontend_master",
         "backend_master"
       ],
       "incompatibleExtensions": []
@@ -204,40 +204,6 @@
         "frontend_dev-1"
       ],
       "incompatibleExtensions": []
-    },
-    {
-      "id": "backend-missing-image_master",
-      "name": "backend-missing-image",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgSrc": "daiopjghfbdsafgakldfgölkj",
-      "requiredExtensions": [
-        "backend_1.3.0"
-      ],
-      "incompatibleExtensions": [],
-      "repository": "https://www.google.com",
-      "version": "master",
-      "extensionType": 1,
-      "isBase": false,
-      "commit": "master"
-    },
-    {
-      "id": "backend-extension-new-vr_master",
-      "name": "backend-extension-new-vr",
-      "desc": "This extension adds features to the backend of ExplorViz to enable a multi-user VR-experience. The related frontend extension is explorviz-frontend-extension-vr.",
-      "imgSrc": "augmented-reality.svg",
-      "requiredExtensions": [
-        "backend_1.3.0",
-        "frontend_1.3.0",
-        "frontend-extension-new-vr_master"
-      ],
-      "incompatibleExtensions": [
-        "backend-extension-vr"
-      ],
-      "repository": "https://github.com/ExplorViz/explorviz-backend-extension-vr",
-      "version": "master",
-      "extensionType": 1,
-      "isBase": false,
-      "commit": "master"
     }
   ],
   "frontend": [
@@ -459,40 +425,6 @@
         "backend_dev-1"
       ],
       "incompatibleExtensions": []
-    },
-    {
-      "id": "frontend-missing-image_master",
-      "name": "frontend-missing-image",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.",
-      "imgSrc": "https://pbs.twimg.com/profile_images/807755806837850112/WSFVeFeQ_400x400.jpg",
-      "requiredExtensions": [
-        "frontend_1.3.0"
-      ],
-      "incompatibleExtensions": [],
-      "repository": "https://www.google.com",
-      "version": "master",
-      "extensionType": 0,
-      "isBase": false,
-      "commit": "master"
-    },
-    {
-      "id": "frontend-extension-new-vr_master",
-      "name": "frontend-extension-new-vr",
-      "desc": "This extension adds a WebVR-based Virtual Reality (VR) mode to ExplorViz, which allows collaborative exploration.",
-      "imgSrc": "augmented-reality.svg",
-      "requiredExtensions": [
-        "backend_1.3.0",
-        "frontend_1.3.0",
-        "backend-extension-new-vr_master"
-      ],
-      "incompatibleExtensions": [
-        "frontend-extension-vr"
-      ],
-      "repository": "https://github.com/ExplorViz/explorviz-frontend-extension-vr",
-      "version": "master",
-      "extensionType": 0,
-      "isBase": false,
-      "commit": "master"
     }
   ]
 }

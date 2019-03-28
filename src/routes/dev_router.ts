@@ -4,7 +4,7 @@ import * as extensionBuilder from "../extension";
 export const DevRouter: Router = Router();
 
 DevRouter.get("/update", (req, res) => {
-  extensionBuilder.updateExtensionsJSON(true)
+  extensionBuilder.updateExtensionsJSON()
   .then((status) => {
     console.log(`Update of extensionList.json ${status}.`);
     res.send(`Update of extensionList.json ${status}.`);

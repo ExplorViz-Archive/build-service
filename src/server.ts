@@ -54,7 +54,7 @@ app.get("/contact", (req, res) => {
 const ipAdress = "0.0.0.0";
 
 const server = app.listen(8080, `${ipAdress}`, () => {
-  // updateExtensionsJSON(true)
+  // updateExtensionsJSON()
   // .then((status) => {
   //   console.log(`Update of extensionList.json ${status}.`);
     console.log(`ExplorViz-build-service running at [${new Date().toLocaleTimeString()}]`
@@ -65,7 +65,7 @@ const server = app.listen(8080, `${ipAdress}`, () => {
   rule.minute = new Date().getMinutes();
   schedule.scheduleJob(rule, () => {
     console.log(`Updating extenList.json at ${new Date().toLocaleTimeString()} ...`);
-    updateExtensionsJSON(true)
+    updateExtensionsJSON()
     .then((status) => console.log(`Update of extensionList.json ${status}.`));
   });
 });
