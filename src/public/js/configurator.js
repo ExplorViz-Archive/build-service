@@ -3,11 +3,6 @@ var backend;
 
 var timeout;
 
-const status = {
-  incompatible: [],
-  required: [],
-  wanted: []
-};
 
 loadConfigurator();
 
@@ -523,10 +518,11 @@ function getExtensionById(id) {
  */
 function validateConfig() {
   removeValitdationMarks();
-  status.incompatible = [];
-  status.required = [];
-  status.wanted = [];
-
+  const status = {
+    incompatible: [],
+    required: [],
+    wanted: []
+  };
   let list = document.getElementById("currentBuildList");
   if (list.childElementCount > 0) {
     for (let i = 0; i < list.childElementCount; i++) {
