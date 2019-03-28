@@ -146,10 +146,7 @@ function updateColumn(colName, extensions) {
         });
       } else {
         // Disable inactive extensions
-        div.setAttribute("disabled", true);
-        div.setAttribute("data-toggle", "tooltip");
-        div.setAttribute("title", `This extension is currently disabled.`);
-        addClassToElement(div, "disabled-extension")
+        disableElement(div);
       }
       div.appendChild(img);
     }
@@ -228,17 +225,24 @@ function getVersionElementList(versions) {
           validateConfig();
       });
     } else {
-      // Disable inactive extensions
-      a.setAttribute("disabled", true);
-      a.setAttribute("data-toggle", "tooltip");
-      a.setAttribute("title", `This extension is currently disabled.`);
-      addClassToElement(a, "disabled-extension")
+      disableElement(a);
     }
     a.textContent = extension.name.replace("extension-", "") + " (version: " + extension.version + ")";
     li.appendChild(a);
     ul.appendChild(li);
   }
   return ul;
+}
+
+/**
+ * Disables an element, reduces opacity and adds a tooltip.
+ * @param {HTMLElement} element 
+ */
+function disableElement(element) {
+  element.setAttribute("disabled", true);
+  element.setAttribute("data-toggle", "tooltip");
+  element.setAttribute("title", `This extension is not available at this time.`);
+  addClassToElement(element, "disabled-extension")
 }
 
 /**
