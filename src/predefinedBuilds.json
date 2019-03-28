@@ -17,10 +17,6 @@
             "content": ["backend-extension-vr_master", "frontend-extension-vr_master"]
         },
         {
-            "name": "New VR",
-            "content": ["backend-extension-new-vr_master", "frontend-extension-new-vr_master"]
-        },
-        {
             "name": "Archconfcheck",
             "content": ["backend-extension-archconfcheck_master", "frontend-extension-archconfcheck_master"]
         },

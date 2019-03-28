@@ -32,6 +32,21 @@ export interface Config {
      * https://github.com/ExplorViz/explorviz-backend.git
      */
     backendrepo: string;
+    /**
+     * Use defaultBranch to change the default directory to look for extensions.json file
+     * for master-branch applications. This option is necessary to allow testing with the
+     * build-service-test branch.
+     * This should usually be
+     * master
+     */
+    defaultBranch: string;
+    /**
+     * Option to enable dev routes found in /routes/dev_router.ts. These are for testing 
+     * and development purposes only.
+     * This should usually be 
+     * false
+     */
+    devOptions: boolean;
 }
 
 /**
@@ -44,7 +59,9 @@ export function createDefaultConfig() {
         frontendrepo: "https://github.com/ExplorViz/explorviz-frontend.git",
         host: "0.0.0.0",
         port: 8080,
-        tmppath: "./tmp"
+        tmppath: "./tmp",
+        defaultBranch: "master",
+        devOptions: false
     };
     return config;
 }
@@ -58,5 +75,5 @@ export function getConfig() : Config
         const config = createDefaultConfig();
         fse.writeJSONSync("config.json", config, {spaces: 2});
         return config;
-      }
+    }
 }

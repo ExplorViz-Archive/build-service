@@ -2,7 +2,7 @@ import express = require ("express");
 import * as fs from "fs-extra";
 import * as schedule from "node-schedule";
 import * as path from "path";
-import {Config, createDefaultConfig} from "./config";
+import {Config, getConfig} from "./config";
 import {ArtifactRouter} from "./routes/artifact_router";
 import {BuildRouter} from "./routes/build_router";
 import {ConfirmationRouter} from "./routes/confirmation_router";
@@ -11,14 +11,7 @@ import { DevRouter } from "./routes/dev_router";
 import {updateExtensionsJSON} from "./extension"
 
 const app = express();
-let config: Config;
-try {
-  config = fs.readJsonSync("config.json");
-} catch (error) {
-  console.log("No config.json found. Generating new file.");
-  config = createDefaultConfig();
-  fs.writeJSONSync("config.json", config, {spaces: 2});
-}
+const config = getConfig();
 
 app.set( "views", path.join( __dirname, "views" ) );
 app.set("view engine", "ejs");
@@ -33,7 +26,9 @@ app.use("/artifact", ArtifactRouter);
 app.use("/build", BuildRouter);
 app.use("/confirmation", ConfirmationRouter);
 app.use("/static", StaticRouter);
-app.use("/dev", DevRouter);
+if (config.devOptions) {
+  app.use("/dev", DevRouter);
+}
 
 app.get("/", (req, res) => {
   res.render("index");
@@ -51,9 +46,10 @@ app.get("/contact", (req, res) => {
   res.render("contact");
 });
 
-const ipAdress = "0.0.0.0";
+const ipAdress = config.host;
+const port = config.port;
 
-const server = app.listen(8080, `${ipAdress}`, () => {
+const server = app.listen(port, `${ipAdress}`, () => {
   // updateExtensionsJSON()
   // .then((status) => {
   //   console.log(`Update of extensionList.json ${status}.`);

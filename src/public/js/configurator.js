@@ -383,7 +383,7 @@ function showSelectedExtensionById(id) {
     if (firstListItem !== null) {
       showSelectedExtensionById(firstListItem.id);
     } else {
-      setInfoBoxHeading("Please select an extension.");
+      setInfoBoxHeading("Please select your configuration.");
     }
   }
 }

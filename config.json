@@ -4,5 +4,7 @@
   "frontendrepo": "https://github.com/ExplorViz/explorviz-frontend.git",
   "host": "0.0.0.0",
   "port": 8080,
-  "tmppath": "./tmp"
+  "tmppath": "./tmp",
+  "defaultBranch": "build-service-test",
+  "devOptions": false
 }

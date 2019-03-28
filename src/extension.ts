@@ -4,25 +4,26 @@ import * as https from "https";
 import * as path from "path";
 import removeMd from "remove-markdown";
 import {TOKEN} from "./auth";
-import * as exampleExtensions from "./exampleExtension";
+import {getConfig} from "./config";
 
 export enum ExtensionType {
     FRONTEND,
     BACKEND
 }
 
-export class Extension implements exampleExtensions.ExtensionObject {
-    public id: string;
+export class Extension {
+    public active: boolean;
+    public commit: string;
     public desc: string;
     public extensionType: ExtensionType;
+    public id: string;
     public imgSrc: string;
     public incompatibleExtensions: string[];
+    public isBase: boolean;
     public name: string;
     public repository: string;
     public requiredExtensions: string[];
     public version: string;
-    public isBase: boolean;
-    public commit: string;
     constructor(name: string, version: string, type: ExtensionType, repository: string) {
         this.name = name;
         this.extensionType = type;
@@ -34,11 +35,13 @@ export class Extension implements exampleExtensions.ExtensionObject {
         this.desc = defaultDescr;
         this.imgSrc = defaultimgSrc;
         this.requiredExtensions = ["frontend_master", "backend_master"];
-        this.incompatibleExtensions = []
+        this.incompatibleExtensions = [];
+        this.active = true;
     }
 }
 
 export interface ExtensionJSONObject {
+    active: boolean;
     imgSrc: string;
     incompatibleExtensions: string[];
     requiredExtensions: string[];
@@ -55,11 +58,6 @@ export const defaultDescr = "This is an extension for ExplorViz. "
     + "Therefore the information about required and incompatible extensions might not be complete. "
     + "Please check the link below for further information.";
 
-/**
- * The default branch to use when looking for master branch extensions.
- * TODO: remove upon release
- */
-export const defaultBranch = "build-service-test";
 
 const backendInitializer: Extension = new Extension("explorviz-backend",
     "master",
@@ -73,14 +71,26 @@ const frontendInitializer: Extension = new Extension("explorviz-frontend",
 );
 
 /**
+ * Get the config.json entries or create default one.
+ */
+const config = getConfig();
+
+/**
+ * The default branch to use when looking for master branch extensions.
+ */
+export let defaultBranch = config.defaultBranch;
+
+/**
  * Initiate automated update of the extensionList.json file.
  *
- * Use insertExampleValues boolean to include example values and dummy extensions.
+ * Use defaultBranch to change the default directory to look for extensions.json file
+ * for master-branch applications. This option is necessary to allow testing with the
+ * build-service-test branch.
  *
  * Don't use this function exessively as GitHub API requests are limited to 60/hour.
- * @param insertExampleValues Defaults to false.
+ * @param defaultBranch Defaults to "master".
  */
-export async function updateExtensionsJSON(insertExampleValues: boolean = false) {
+export async function updateExtensionsJSON() {
     let tmpList: ExtensionLists = null;
     let returnStatus = "";
     try {
@@ -110,9 +120,6 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
         const backend = await combineExtensionInformation(tmpList.backend);
         tmpList.backend = backend;
         tmpList.frontend = frontend;
-        if (insertExampleValues) {
-            tmpList = addDummyExtensions(tmpList);
-        }
         tmpList = updateBaseFields(tmpList);
         fs.writeJSONSync(path.join(__dirname, "extensionList.json"), tmpList, {spaces: 2});
         returnStatus = "successful";
@@ -121,19 +128,6 @@ export async function updateExtensionsJSON(insertExampleValues: boolean = false)
         returnStatus = "failed";
     }
     return returnStatus;
-}
-
-/**
- * Adds dummy extensions for testing purposes to the extension list.
- * @param extensions
- */
-function addDummyExtensions(extensions: ExtensionLists) {
-    console.log("Adding dummies to extension list.");
-    extensions.frontend.push(exampleExtensions.getMissingImageDummyFE());
-    extensions.frontend.push(exampleExtensions.getNewVrDummyFE());
-    extensions.backend.push(exampleExtensions.getMissingImageDummyBE());
-    extensions.backend.push(exampleExtensions.getNewVrDummyBE());
-    return extensions;
 }
 
 /**
@@ -266,6 +260,7 @@ function getExtensionInformation(extension: Extension): Promise<Extension> {
                 extension.requiredExtensions = success.requiredExtensions;
                 extension.incompatibleExtensions = success.incompatibleExtensions;
                 extension.imgSrc = success.imgSrc;
+                extension.active = success.active;
             } catch (error) {
                 reject(error);
             }

@@ -30,17 +30,18 @@
       </div>
       <div class="row inner-row">
         <div class="col-md-4">
-          <button id="dependenciesButton" type="button" class="btn btn-s btn-default">Add dependencies</button>
-          <button id="continueButton" type="button" class="btn btn-s btn-danger">Continue <span class="glyphicon glyphicon-menu-right"></button>
           <div id="info-box" class="panel panel-info scrollable-list" style="margin-top:10px">
             <div id="info-box-heading" class="panel-heading">
-              <h2 class="panel-title"><b>Selected extension</b></h2>
+              <h2 class="panel-title"><b>Please select your configuration.</b></h2>
             </div>
             <div id="info-box-body" class="panel-body" id="extensions-panel" >
             </div>
           </div>
         </div>
         <div class="col-md-5 scrollable">
+            <div class="alert alert-danger">
+                <strong>Current build is invalid!</strong>
+            </div>
           <h4>Core</h4> 
             <div id="core-column">
             </div>
@@ -52,7 +53,9 @@
             </div>
         </div>
         <div class="col-md-3">
-          <div class="dropdown">
+          <button id="dependenciesButton" type="button" class="btn btn-s btn-default">Add dependencies</button>
+          <button id="continueButton" type="button" class="btn btn-s btn-danger">Continue <span class="glyphicon glyphicon-menu-right"></button>
+          <div class="dropdown" style="padding-top:5px">
             <button class="btn btn-default btn-lg dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" style="width:100%">
               <span class="pull-left cut-text" id="selectorContent" style="width:90%">Predefined builds...</span>
               <span class="caret pull-right" style="margin-top:8px"></span>
@@ -64,9 +67,6 @@
           <div class="scrollable-list" style="margin-top:5px">
             <ul id="currentBuildList" class="list-group">
             </ul>
-          </div>
-          <div class="alert alert-danger">
-            <strong>Current build is invalid!</strong>
           </div>
           <button id="removeButton" type="button" class="btn btn-s btn-default invisible" style="margin-top:5px">Remove</button>
           <button id="removeAllButton" type="button" class="btn btn-s btn-default invisible" style="margin-top:5px">Clear</button>
