@@ -161,3 +161,8 @@ div .col-md-3 {
   white-space: nowrap;
   font-size: 1.5rem
 }
+
+.disabled-extension {
+  opacity: 0.2;
+  color: grey;
+}

@@ -114,6 +114,7 @@ function updateColumn(colName, extensions) {
     const id = element.id;
     const name = element.name;
     const versions = getDifferentVersions(element.name);
+    // Create drowdown for extensions with releases
     if (versions.length > 1) {
       const button = document.createElement("button");
       addClassToElement(button, "btn");
@@ -126,21 +127,30 @@ function updateColumn(colName, extensions) {
       div.appendChild(button);
       const ul = getVersionElementList(versions);
       div.appendChild(ul);
+      // Create image for single extensions
     } else {
-      div.addEventListener("click", () => {
-        if (div.classList.contains("selected")) {
-          removeClassFromElement(div, "selected");
-          removeListItems(name);
-          validateConfig();
-        } else {
-          addClassToElement(div, "selected");
-          removeListItems(name);
-          addListItem(id);
-          $("#selectorContent").text("Predefined builds...");
-          $("#yourBuildTitle").show();
-          validateConfig();
-        }
-      });
+      if (element.active) {
+        div.addEventListener("click", () => {
+          if (div.classList.contains("selected")) {
+            removeClassFromElement(div, "selected");
+            removeListItems(name);
+            validateConfig();
+          } else {
+            addClassToElement(div, "selected");
+            removeListItems(name);
+            addListItem(id);
+            $("#selectorContent").text("Predefined builds...");
+            $("#yourBuildTitle").show();
+            validateConfig();
+          }
+        });
+      } else {
+        // Disable inactive extensions
+        div.setAttribute("disabled", true);
+        div.setAttribute("data-toggle", "tooltip");
+        div.setAttribute("title", `This extension is currently disabled.`);
+        addClassToElement(div, "disabled-extension")
+      }
       div.appendChild(img);
     }
     div.addEventListener("mouseover", () => {
@@ -209,13 +219,21 @@ function getVersionElementList(versions) {
     name = extension.name;
     const li = document.createElement("li");
     const a = document.createElement("a");
-    a.addEventListener("click", () => {
-        removeListItems(extension.name);
-        addListItem(extension.id);
-        $("#selectorContent").text("Predefined builds...");
-        $("#yourBuildTitle").show();
-        validateConfig();
-    });
+    if (extension.active) {
+      a.addEventListener("click", () => {
+          removeListItems(extension.name);
+          addListItem(extension.id);
+          $("#selectorContent").text("Predefined builds...");
+          $("#yourBuildTitle").show();
+          validateConfig();
+      });
+    } else {
+      // Disable inactive extensions
+      a.setAttribute("disabled", true);
+      a.setAttribute("data-toggle", "tooltip");
+      a.setAttribute("title", `This extension is currently disabled.`);
+      addClassToElement(a, "disabled-extension")
+    }
     a.textContent = extension.name.replace("extension-", "") + " (version: " + extension.version + ")";
     li.appendChild(a);
     ul.appendChild(li);
@@ -558,7 +576,9 @@ function removeValitdationMarks() {
   for (let i = 0; i < elements.length; i++) {
     removeClassFromElement(elements[i], "required");
     removeClassFromElement(elements[i], "incompatible");
-    elements[i].removeAttribute("title");
+    if (!elements[i].hasAttribute("disabled")) {
+      elements[i].removeAttribute("title");
+    }
   }
 }
 
