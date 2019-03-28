@@ -48,5 +48,4 @@ export class Task {
     public getStatus() { return this.status.toString(); }
     public getToken() { return this.hash; }
     public setStatus(newstatus: TaskState) { this.status = newstatus; }
-    public getDownload() { return this.hash; }
 }
