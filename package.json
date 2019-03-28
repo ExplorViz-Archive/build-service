@@ -1,5 +1,9 @@
 {
-  "name": "masterproject",
+  "name": "build-service",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ExplorViz/build-service"
+  },
   "version": "1.0.0",
   "description": "",
   "main": "build/server.js",
@@ -17,7 +21,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "@types/bluebird": "^3.5.24",
     "@types/express": "^4.16.1",
