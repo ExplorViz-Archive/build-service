@@ -49,13 +49,13 @@ const ipAdress = config.host;
 const port = config.port;
 
 const server = app.listen(port, `${ipAdress}`, () => {
-  // updateExtensionsJSON()
-  // .then((status) => {
-  //   console.log(`Update of extensionList.json ${status}.`);
+  updateExtensionsJSON()
+  .then((status) => {
+    console.log(`Update of extensionList.json ${status}.`);
     console.log(`ExplorViz-build-service running at [${new Date().toLocaleTimeString()}]`
     + ` → ${ipAdress}:${(server.address() as any).port}`);
-  console.log(`Updating extensionList.json every hour at ${new Date().getMinutes()} minutes.`);
-    // });
+    console.log(`Updating extensionList.json every hour at ${new Date().getMinutes()} minutes.`);
+  });
   const rule = new schedule.RecurrenceRule();
   rule.minute = new Date().getMinutes();
   schedule.scheduleJob(rule, () => {

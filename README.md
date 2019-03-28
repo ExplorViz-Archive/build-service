@@ -41,6 +41,8 @@ The build service may either be configured via environment variables or a config
 
 If no config.json is present at startup, a default one will be created. To suppress this behavior the environment variable `BUILDSERVICE_NOCONFIG` may be set to `true` to prevent creation of a config.json. This is intended for setups where configuration via environment variables may be desired (e.g. Docker). 
 
+The interval for refreshing the extensionList.json can be configured by manipulating the `schedule rule` in the app.listen function of the src/server.ts file.
+
 ## Additional commands
 
 - `npm run devTest` to run the application without compiling first
