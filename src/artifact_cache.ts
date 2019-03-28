@@ -1,18 +1,9 @@
-import * as fs from "async-file";
 import {existsSync} from "fs";
-import * as fse from "fs-extra";
-import {sha512, sha512_256} from "js-sha512";
-import {Config, createDefaultConfig} from "./config";
-import {Extension, ExtensionType} from "./extension";
+import {sha512_256} from "js-sha512";
+import {getConfig} from "./config";
+import {Extension} from "./extension";
 
-let config: Config;
-try {
-  config = fse.readJsonSync("config.json");
-} catch (error) {
-  console.log("No config.json found. Generating new file.");
-  config = createDefaultConfig();
-  fse.writeJSONSync("config.json", config, {spaces: 2});
-}
+const config = getConfig();
 
 export function getCachePath(extensions: Extension[]) {
     return getFile(extensions);

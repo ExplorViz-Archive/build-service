@@ -5,18 +5,11 @@ import * as archiver from "archiver-promise";
 import * as yaml from "js-yaml";
 import * as child_process from "ts-process-promises";
 import {isCached, getCachePath} from "./artifact_cache";
-import {Config, createDefaultConfig} from "./config";
+import {getConfig} from "./config";
 import {Extension, ExtensionType} from "./extension";
 import {Task, TaskState} from "./task";
 
-let config: Config;
-try {
-  config = fse.readJsonSync("config.json");
-} catch (error) {
-  console.log("No config.json found. Generating new file.");
-  config = createDefaultConfig();
-  fse.writeJSONSync("config.json", config, {spaces: 2});
-}
+const config = getConfig();
 
 export function getConfiguration(task: Task): Promise<void> {
     if (isCached(task.extensions)) {

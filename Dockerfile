@@ -35,4 +35,6 @@ COPY package.json .
 RUN npm install --production
 COPY --from=build /build/build /build
 COPY static static
+# Avoid generating a config.json file
+ENV BUILDSERVICE_NOCONFIG=true 
 CMD ["node", "server.js"]

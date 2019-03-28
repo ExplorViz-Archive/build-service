@@ -3,7 +3,6 @@ import status from "http-status";
 import * as https from "https";
 import * as path from "path";
 import removeMd from "remove-markdown";
-import {TOKEN} from "./auth";
 import {getConfig} from "./config";
 
 export enum ExtensionType {
@@ -191,7 +190,7 @@ export async function combineExtensionInformation(extensions: Extension[]) {
 export function getExtensionLists(): Promise<ExtensionLists> {
     const options = {
         headers: {
-            "Authorization": `token ${TOKEN}`,
+            "Authorization": `token ${config.githubToken}`,
             "User-Agent": "ExplorViz-build-service",
         },
         hostname: "api.github.com",
@@ -294,7 +293,7 @@ export function getExtensionJSON(reponame: string, branch: string): Promise<Exte
     const options = {
         headers: {
             "Accept": "application/vnd.github.raw+json",
-            "Authorization": `token ${TOKEN}`,
+            "Authorization": `token ${config.githubToken}`,
             "User-Agent": "ExplorViz-build-service"
         },
         hostname: "api.github.com",
@@ -358,7 +357,7 @@ export async function addReleaseRepositories(oldExtensions: Extension[]) {
 export function getExtensionReleases(reponame: string): Promise<ArrayLike<any>> {
     const options = {
         headers: {
-            "Authorization": `token ${TOKEN}`,
+            "Authorization": `token ${config.githubToken}`,
             "User-Agent": "ExplorViz-build-service"
         },
         hostname: "api.github.com",
@@ -398,7 +397,7 @@ export function getRepositoryDescription(reponame: string, branch: string = "mas
     const options = {
         headers: {
             "Accept": "application/vnd.github.raw+json",
-            "Authorization": `token ${TOKEN}`,
+            "Authorization": `token ${config.githubToken}`,
             "User-Agent": "ExplorViz-build-service"
         },
         hostname: "api.github.com",
