@@ -1,11 +1,11 @@
 import { Request, Response, Router } from "express";
 
-import {resolveCommit} from "../artifact_builder";
-import { Extension, ExtensionType } from "../extension";
+import { Extension } from "../extension";
 import { Task } from "../task";
+import { Config, getConfig } from "../config";
 
 const router: Router = Router();
-
+const config: Config = getConfig();
 const tasks: { [_: string]: Task; } = {};
 
 export async function startBuildTask(exts: Extension[]) {
@@ -30,7 +30,7 @@ router.get("/download/:token", (req, res) => {
     if (task === undefined) {
         res.end("notfound");
     } else {
-        res.sendFile(task.getDownload() + ".zip", { "root": "./cache/" });
+        res.download(config.cachePath + "/" + task.getToken() + ".zip", "explorviz-configuration.zip");
     }
 });
 
