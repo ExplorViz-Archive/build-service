@@ -5,6 +5,7 @@
 
 - Git
 - Node.js and npm
+- ember.js and a JDK suitable for compiling Explorviz (only required for running builds)
 
 ### Installation
 1. Clone this repository via `git clone https://github.com/ExplorViz/build-service.git`
@@ -23,3 +24,15 @@ It is advised to change the token variable in src/auth.ts before compiling to ge
 - `npm run dev` to compile and restart the application upon changes in the source code
 - `npm run lint` to perform a style check on the application
 - `npm run test` to run the test script
+
+## Usage (Docker)
+### Requirements
+
+- Docker
+
+### Installation
+1. Clone this repository via `git clone https://github.com/ExplorViz/build-service.git`
+2. Run `docker build -t explorviz/build-service`
+3. Then run `docker run -p 8080:8080 explorviz/build-service` to start the application
+
+After updating the list of extensions the application should be up and running on localhost:8080. 
