@@ -605,6 +605,7 @@ function disableIncompatibleExtensionDiv(name, source) {
  * @param {string} source 
  */
 function disableIncompatibleExtensionLink(id, source) {
+  id = id.replace(/\./g, '\\.');
   if(!$(`#${id}-dropdownlink`).hasClass("inactive")) {
     $(`#${id}-dropdownlink`)
       .attr("data-toggle", "tooltip")
@@ -683,14 +684,17 @@ function reverseDisableExtensions() {
 function removeValitdationMarks() {
   let elements = document.getElementsByClassName("extension-div");
   for (let i = 0; i < elements.length; i++) {
-    $(`#${elements[i].id}`)
     removeClassFromElement(elements[i], "required");
     removeClassFromElement(elements[i], "incompatible");
     if (!elements[i].classList.contains("disabled-extension")) {
       elements[i].removeAttribute("title");
     }
   }
-  $(".incompatible-opaque").removeClass("incompatible-opaque").removeAttr("disabled").removeClass("disabled");
+  $(".incompatible-opaque")
+    .removeClass("incompatible-opaque")
+    .removeAttr("disabled")
+    .removeClass("disabled")
+    .removeAttr("title");
 }
 
 /**
