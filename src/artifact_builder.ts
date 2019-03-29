@@ -133,36 +133,32 @@ async function buildBackend(task: Task, targetdir: string, extensions: Extension
     await child_process.exec("git clone -b '" + backend.version + "' --depth 1 " + backend.repository, { cwd: targetdir + "/build/" });
 
     const repoPath = targetdir + "/build/explorviz-backend/";
-
+    const outdir = targetdir + "/out";
     // Build
     task.setStatus(TaskState.BACKEND);
     await child_process.exec("./gradlew assemble", { cwd: repoPath });
-
-    // Get all .jar files (analysis)
-    const files_analysis = await fs.readdir(repoPath + "analysis/build/libs")
-    await asyncForEach(files_analysis, async element => {
-        if(path.extname(element) === ".jar")
-            await fs.rename(repoPath + "analysis/build/libs/" + element, targetdir + "/out/" + path.basename(element));
-    });
-    // Get all .jar files (discovery)
-    const files_discovery = await fs.readdir(repoPath + "discovery/build/libs")
-    await asyncForEach(files_discovery, async element => {
-        if(path.extname(element) === ".jar")
-            await fs.rename(repoPath + "discovery/build/libs/" + element, targetdir + "/out/" + path.basename(element));
-    });
-    // Get all .jar files (landscape-service)
-    const files_landscape = await fs.readdir(repoPath + "landscape/build/libs")
-    await asyncForEach(files_landscape, async element => {
-        if(path.extname(element) === ".jar")
-            await fs.rename(repoPath + "landscape/build/libs/" + element, targetdir + "/out/" + path.basename(element));
-    });
-    // Get all .jar files (authentication)
-    const files_authentication = await fs.readdir(repoPath + "authentication/build/libs")
-    await asyncForEach(files_authentication, async element => {
-        if(path.extname(element) === ".jar")
-            await fs.rename(repoPath + "authentication/build/libs/" + element, targetdir + "/out/" + path.basename(element));
-    });
-
+    // Note: Services were renamed in 
+    // https://github.com/ExplorViz/explorviz-backend/commit/f3d4ecccd41501e2034b28ba741875f68e59250c
+    // Therefore we need to look at (master/1.3.0)
+    // - analysis
+    // - discovery
+    // - landscape
+    // - authentication
+    // as well as (dev-1, future master)
+    // - analysis-service
+    // - discovery-service
+    // - landscape-service
+    // - user-service
+    // Get all .jar files (old style/1.3.0)
+    await moveJarsToOutput(outdir, repoPath + "analysis/build/libs");
+    await moveJarsToOutput(outdir, repoPath + "discovery/build/libs");
+    await moveJarsToOutput(outdir, repoPath + "landscape/build/libs");
+    await moveJarsToOutput(outdir, repoPath + "authentication/build/libs");
+    // Get all .jar files (new style)
+    await moveJarsToOutput(outdir, repoPath + "analysis-service/build/libs");
+    await moveJarsToOutput(outdir, repoPath + "discovery-service/build/libs");
+    await moveJarsToOutput(outdir, repoPath + "landscape-service/build/libs");
+    await moveJarsToOutput(outdir, repoPath + "user-service/build/libs");
     // Build extensions
     task.setStatus(TaskState.BACKEND_EXTENSION);
     await asyncForEach(extensions, async (extension) => {
@@ -171,6 +167,22 @@ async function buildBackend(task: Task, targetdir: string, extensions: Extension
 
     // Cleanup
     await fs.delete(repoPath);
+}
+
+/**
+ * Recursively moves all jar files to outdir
+ * @param outdir Target directory
+ * @param srcdir Directory to search in. If not existing, no files will be moved
+ */
+async function moveJarsToOutput(outdir: string, srcdir: string)
+{
+    if(!await fs.exists(srcdir))
+        return;
+    const files = await fs.readdir(srcdir)
+    await asyncForEach(files, async element => {
+        if(path.extname(element) === ".jar")
+            await fs.rename(srcdir + "/" + element, outdir + "/" + path.basename(element));
+    });
 }
 
 /**
@@ -226,7 +238,18 @@ async function buildLaunchScript(targetdir: string)
  */
 async function buildDockerCompose(targetdir: string, extensions: Extension[])
 {
-    const extlist = extensions.filter(c => c.extensionType == ExtensionType.BACKEND || c.isBase);
+    // Frontend depends_on needs to contain all other services
+    let depends_on = [];
+    const dir = await fs.readdir(targetdir)
+    dir.forEach(element => {
+        if(path.extname(element) === ".jar")
+        {
+            const name = element.replace("explorviz-", "").replace(".jar", "");
+            depends_on.push(name);
+        }
+    });
+    
+    // default services (mongodb, frontend)
     const services = {
         "mongo": 
         {
@@ -248,11 +271,12 @@ async function buildDockerCompose(targetdir: string, extensions: Extension[])
                 "8090:81"
             ],
             "container_name": "explorviz-frontend",
-            "depends_on": [ "discovery", "landscape", "analysis", "authentication" ],
+            "depends_on": depends_on,
             "environment": [ "API_ROOT=http://localhost:8090" ]
         }
     };
-    const dir = await fs.readdir(targetdir)
+
+    // Add services for all jars
     dir.forEach(element => {
         if(path.extname(element) === ".jar")
             addDockerComposeEntry(targetdir, element, services);
