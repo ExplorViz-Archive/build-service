@@ -421,7 +421,7 @@ export function getRepositoryDescription(reponame: string, branch: string = "mas
             resp.on("end", () => {
                 try {
                     let dataArr = data.split("## Project Description");
-                    dataArr = dataArr[1].split("##");
+                    dataArr = dataArr[1].split("## ");
                     data = dataArr[0].trim();
                     data = removeMd(data);
                 } catch (e) {
