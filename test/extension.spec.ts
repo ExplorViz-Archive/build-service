@@ -96,7 +96,8 @@ describe ("getExtensionLists", () => {
           incompatibleExtensions: [],
           imgSrc: defaultimgSrc,
           desc: defaultDescr, 
-          id: "explorviz-backend-extension-vr_master"
+          id: "explorviz-backend-extension-vr_master",
+          active: true
         },
         {
          name: "explorviz-backend-extension-modeleditor",
@@ -109,7 +110,8 @@ describe ("getExtensionLists", () => {
          incompatibleExtensions: [],
          imgSrc: defaultimgSrc,
          desc: defaultDescr, 
-         id: "explorviz-backend-extension-modeleditor_master"
+         id: "explorviz-backend-extension-modeleditor_master",
+         active: true
         },
         {
           name: "explorviz-backend-extension-dummy",
@@ -122,7 +124,8 @@ describe ("getExtensionLists", () => {
           incompatibleExtensions: [],
           imgSrc: defaultimgSrc,
           desc: defaultDescr, 
-          id: "explorviz-backend-extension-dummy_master"
+          id: "explorviz-backend-extension-dummy_master",
+          active: true
         }
       ],
       frontend: [
@@ -137,7 +140,8 @@ describe ("getExtensionLists", () => {
           incompatibleExtensions: [],
           imgSrc: defaultimgSrc,
           desc: defaultDescr, 
-          id: "explorviz-frontend-extension-modeleditor_master"
+          id: "explorviz-frontend-extension-modeleditor_master",
+          active: true
         }
       ]
     }
@@ -189,7 +193,8 @@ describe ("addReleaseRepositories", () => {
           incompatibleExtensions: [],
           imgSrc: defaultimgSrc,
           desc: defaultDescr, 
-          id: "explorviz-backend_master"
+          id: "explorviz-backend_master",
+          active: true
         }
       ],
       frontend: [
@@ -204,7 +209,8 @@ describe ("addReleaseRepositories", () => {
           incompatibleExtensions: [],
           imgSrc: defaultimgSrc,
           desc: defaultDescr, 
-          id: "explorviz-frontend_master"
+          id: "explorviz-frontend_master",
+          active: true
         }
       ]
     }
@@ -221,7 +227,8 @@ describe ("addReleaseRepositories", () => {
           incompatibleExtensions: [],
           imgSrc: defaultimgSrc,
           desc: defaultDescr, 
-          id: "explorviz-backend_master"
+          id: "explorviz-backend_master",
+          active: true
         }
       ],
       frontend: [
@@ -236,7 +243,8 @@ describe ("addReleaseRepositories", () => {
           incompatibleExtensions: [],
           imgSrc: defaultimgSrc,
           desc: defaultDescr, 
-          id: "explorviz-frontend_master"
+          id: "explorviz-frontend_master",
+          active: true
         },
         {
           name: "explorviz-frontend",
@@ -249,7 +257,8 @@ describe ("addReleaseRepositories", () => {
           incompatibleExtensions: [],
           imgSrc: defaultimgSrc,
           desc: defaultDescr, 
-          id: "explorviz-frontend_10.3.0"
+          id: "explorviz-frontend_10.3.0",
+          active: true
         }
       ]
     }
@@ -348,8 +357,19 @@ describe ("combineExtensionInformation", () => {
         "backend_master",
         "backend-extension-vr_master"
       ],
-      "incompatibleExtensions": []
-  } 
+      "incompatibleExtensions": [],
+      "active": true
+  }
+  const faultyExtensionJSON: ExtensionJSONObject = {
+    "imgSrc": "augmented-reality_2.svg",
+    "requiredExtensions": [
+      "frontend_master",
+      "backend_master",
+      "backend-extension-vr_master",
+    ],
+    "incompatibleExtensions": [],
+    "active": true
+  }  
   it (`Should respond with default values if not found`, async () => {
     const backend: Extension[] = [
       {
@@ -363,7 +383,8 @@ describe ("combineExtensionInformation", () => {
         incompatibleExtensions: [],
         imgSrc: defaultimgSrc,
         desc: defaultDescr, 
-        id: "backend_master"
+        id: "backend_master",
+        active: true
       }
     ]
     nock("https://api.github.com")
@@ -434,4 +455,22 @@ describe ("combineExtensionInformation", () => {
     expect(result[0].incompatibleExtensions).to.eql(extensionJSON.incompatibleExtensions);
     expect(result[0].imgSrc).to.eql(extensionJSON.imgSrc);
   });
+  it (`Should respond with custom information if found`, async () => {
+    const header = "Some stuff ## Project Description"
+    const customDesc = " Testing this feature! To be removed at some time "
+    const footer = " Second title is beautifull"
+    nock("https://api.github.com")
+      .get("/repos/ExplorViz/explorviz-backend/contents/extensions.json?ref=" + defaultBranch)
+      .reply(200, faultyExtensionJSON);
+    nock("https://api.github.com")
+      .get("/repos/ExplorViz/explorviz-backend/readme?ref=" + defaultBranch)
+      .reply(200, header + customDesc + footer);
+    const tmp = [new Extension("explorviz-backend", "master", 1, "https://github.com/ExplorViz/explorviz-backend")];
+      
+    await combineExtensionInformation(tmp)
+
+    expect(true)
+
+    });
+  
 });

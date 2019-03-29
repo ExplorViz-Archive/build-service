@@ -312,7 +312,11 @@ export function getExtensionJSON(reponame: string, branch: string): Promise<Exte
                 data += d;
             });
             resp.on("end", () => {
-                resolve(JSON.parse(data));
+                try {
+                    resolve(JSON.parse(data));
+                } catch (e) {
+                    return reject(new Error ("Could not parse extensions.json"));
+                }
             });
         });
         req.on("error", (err) => {
